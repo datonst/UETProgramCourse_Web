@@ -5,15 +5,17 @@ import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 @Entity
-@Table(name = "roles")
+@Table(name = "rolesubject")
 public class RoleSubject {
     @Id
-    @SequenceGenerator(name = "RolesSequence", sequenceName = "TM_ROLES_SEQ", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RolesSequence")
+    @SequenceGenerator(name = "RoleSubjectSequence", sequenceName = "TM_ROLES_SEQ", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RoleSubjectSequence")
     private Integer id;
 
-    @Column(name = "course_id")
-    private String courseId;
+//    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "listRoleSubject")
+//    @JoinColumn(name = "course_id")
+////    @Column(name = "course_id")
+//    Set<Course> courseId = new HashSet<>();
 
 
 
@@ -24,13 +26,28 @@ public class RoleSubject {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name="roles_prerequisite",
-            joinColumns = {@JoinColumn(name = "roles_id")},
+            name="rolesubject_prerequisite",
+            joinColumns = {@JoinColumn(name = "rolesubject_id")},
             inverseJoinColumns={@JoinColumn(name="subject_id")}
     )
     Set<Subject> prerequisiteSubject = new HashSet<>();
     @Column(length = 40, nullable = false)
     private String typeRole;
+
+
+
+    public RoleSubject() {
+
+    }
+
+    public RoleSubject(Subject subjectId, String typeRole) {
+        this.subjectId = subjectId;
+        this.typeRole = typeRole;
+    }
+
+    public RoleSubject(Integer id) {
+        this.id = id;
+    }
 
     public Integer getId() {
         return id;
@@ -40,13 +57,6 @@ public class RoleSubject {
         this.id = id;
     }
 
-    public String getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
-    }
 
     public Subject getSubjectId() {
         return subjectId;
@@ -72,10 +82,5 @@ public class RoleSubject {
         this.typeRole = typeRole;
     }
 
-    public RoleSubject(Integer id, String courseId, Subject subjectId, String typeRole) {
-        this.id = id;
-        this.courseId = courseId;
-        this.subjectId = subjectId;
-        this.typeRole = typeRole;
-    }
+
 }

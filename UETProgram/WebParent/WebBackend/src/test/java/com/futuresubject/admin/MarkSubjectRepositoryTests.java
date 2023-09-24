@@ -1,8 +1,8 @@
 package com.futuresubject.admin;
 
-import com.futuresubject.admin.student.RoleSubjectRepository;
-import com.futuresubject.common.entity.Course;
-import com.futuresubject.common.entity.RoleSubject;
+import com.futuresubject.admin.student.MarkSubjectRepository;
+import com.futuresubject.common.entity.MarkSubject;
+import com.futuresubject.common.entity.Student;
 import com.futuresubject.common.entity.Subject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,22 +12,19 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 @DataJpaTest(showSql = false)
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 @Rollback(false)
-public class RoleSubjectRepositoryTests {
+public class MarkSubjectRepositoryTests {
     @Autowired
-    private RoleSubjectRepository roleSubjectRepositoryRepo;
+    private MarkSubjectRepository markSubjectRepository;
     @Autowired
     private TestEntityManager entityManager;
     @Test
     public void testCreateFirstRoles(){
         Subject subject=entityManager.find(Subject.class,"INT2112");
-        RoleSubject roleSubject=new RoleSubject(subject,"Mandatory");
-        RoleSubject saveRole= roleSubjectRepositoryRepo.save(roleSubject);
-        assertThat(saveRole.getId()).isGreaterThan(0);
+        Student student=entityManager.find(Student.class,"22028245");
+        MarkSubject markSubject = new MarkSubject(student,subject,4.0);
+        markSubjectRepository.save(markSubject);
     }
-
-
 }

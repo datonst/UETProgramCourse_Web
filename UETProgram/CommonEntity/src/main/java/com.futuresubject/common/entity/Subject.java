@@ -14,14 +14,28 @@ public class Subject {
     @Column(nullable = false)
     private Integer credit;
 
+
+
 //    @OneToOne(fetch = FetchType.LAZY, mappedBy = "subjectId")
-//    private ScoreSubject scoreSubject;
+//    private Mark markSubject;
 //
 //
 //    @OneToOne(mappedBy = "subjectId")
 //    private RoleSubject roleSubject;
 
+    public Subject() {
 
+    }
+
+    public Subject(String subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public Subject(String subjectId, String nameSubject, Integer credit) {
+        this.subjectId = subjectId;
+        this.nameSubject = nameSubject;
+        this.credit = credit;
+    }
     public String getSubjectId() {
         return subjectId;
     }
@@ -46,9 +60,5 @@ public class Subject {
         this.credit = credit;
     }
 
-    public Subject(String subjectId, String nameSubject, Integer credit) {
-        this.subjectId = subjectId;
-        this.nameSubject = nameSubject;
-        this.credit = credit;
-    }
+
 }

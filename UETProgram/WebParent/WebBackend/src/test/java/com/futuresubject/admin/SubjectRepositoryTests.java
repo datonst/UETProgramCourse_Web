@@ -20,7 +20,13 @@ public class SubjectRepositoryTests {
     private SubjectRepository subjectRepository;
     @Test
     public void testCreateFirst(){
-        Subject subject=new Subject("INT2202","Nhập môn lập trình",3);
+        Subject subject=new Subject("INT2112","Lập trình nâng cao",4);
+        Subject saveSubject= subjectRepository.save(subject);
+        assertThat(saveSubject.getSubjectId()).isNotNull();
+    }
+    @Test
+    public void testCreateSecond(){
+        Subject subject=new Subject("MAT1321","Giải tích 1",4);
         Subject saveSubject= subjectRepository.save(subject);
         assertThat(saveSubject.getSubjectId()).isNotNull();
     }

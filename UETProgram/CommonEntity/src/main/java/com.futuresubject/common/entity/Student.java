@@ -28,7 +28,7 @@ public class Student {
     private String email;
     @Column(nullable = false, length = 64)
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "student_course",
             joinColumns = {@JoinColumn(name = "student_id")},
@@ -36,13 +36,30 @@ public class Student {
     )
     Set<Course> listCourse = new HashSet<>();
 
+
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name="student_scores",
+            name="student_mark",
             joinColumns = {@JoinColumn(name = "student_id")},
-            inverseJoinColumns={@JoinColumn(name="scores_id")}
+            inverseJoinColumns={@JoinColumn(name="mark_id")}
     )
-    Set<ScoreSubject> listScore = new HashSet<>();
+    Set<MarkSubject> listMarkSubject = new HashSet<>();
+
+    public Student() {
+    }
+
+    public Student(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public Student(String studentId, String name, String date, String classCode, String email, String password) {
+        this.studentId = studentId;
+        this.name = name;
+        this.date = date;
+        this.classCode = classCode;
+        this.email = email;
+        this.password = password;
+    }
 
     public String getStudentId() {
         return studentId;
@@ -100,20 +117,19 @@ public class Student {
         this.listCourse = listCourse;
     }
 
-    public Set<ScoreSubject> getListScore() {
-        return listScore;
+    public Set<MarkSubject> getListMarkSubject() {
+        return listMarkSubject;
     }
 
-    public void setListScore(Set<ScoreSubject> listScore) {
-        this.listScore = listScore;
+    public void setListMarkSubject(Set<MarkSubject> listMarkSubject) {
+        this.listMarkSubject = listMarkSubject;
     }
 
-    public Student(String studentId, String name, String date, String classCode, String email, String password) {
-        this.studentId = studentId;
-        this.name = name;
-        this.date = date;
-        this.classCode = classCode;
-        this.email = email;
-        this.password = password;
+    public void addCourse(Course course) {
+        this.listCourse.add(course);
+    }
+
+    public void addMarkSubject(MarkSubject markSubject) {
+        this.listMarkSubject.add(markSubject);
     }
 }

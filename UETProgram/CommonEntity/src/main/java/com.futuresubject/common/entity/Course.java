@@ -18,7 +18,7 @@ public class Course {
     private String faculty;
     @Column(nullable = false)
     private Integer totalCredits;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name="course_subject",
             joinColumns = {@JoinColumn(name = "course_id")},
@@ -28,9 +28,9 @@ public class Course {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name="course_roles",
+            name="course_rolesubject",
             joinColumns = {@JoinColumn(name = "course_id")},
-            inverseJoinColumns={@JoinColumn(name="roles_id")}
+            inverseJoinColumns={@JoinColumn(name="rolesubject_id")}
     )
     Set<RoleSubject> listRoleSubject = new HashSet<>();
 
@@ -42,6 +42,27 @@ public class Course {
     private Integer totalOfAdditional;
     private Integer totalOfGraduationInternship;
 
+    public Course() {
+
+    }
+
+    public Course(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public Course(String courseId, String name, String faculty, Integer totalCredits, Integer totalOfMandatory, Integer totalOfOptional, Integer totalOfOptionalReinforcement, Integer totalOfPhysical, Integer totalOfNationalDefense, Integer totalOfAdditional, Integer totalOfGraduationInternship) {
+        this.courseId = courseId;
+        this.name = name;
+        this.faculty = faculty;
+        this.totalCredits = totalCredits;
+        this.totalOfMandatory = totalOfMandatory;
+        this.totalOfOptional = totalOfOptional;
+        this.totalOfOptionalReinforcement = totalOfOptionalReinforcement;
+        this.totalOfPhysical = totalOfPhysical;
+        this.totalOfNationalDefense = totalOfNationalDefense;
+        this.totalOfAdditional = totalOfAdditional;
+        this.totalOfGraduationInternship = totalOfGraduationInternship;
+    }
     public String getCourseId() {
         return courseId;
     }
@@ -147,17 +168,10 @@ public class Course {
         this.totalOfGraduationInternship = totalOfGraduationInternship;
     }
 
-    public Course(String courseId, String name, String faculty, Integer totalCredits, Integer totalOfMandatory, Integer totalOfOptional, Integer totalOfOptionalReinforcement, Integer totalOfPhysical, Integer totalOfNationalDefense, Integer totalOfAdditional, Integer totalOfGraduationInternship) {
-        this.courseId = courseId;
-        this.name = name;
-        this.faculty = faculty;
-        this.totalCredits = totalCredits;
-        this.totalOfMandatory = totalOfMandatory;
-        this.totalOfOptional = totalOfOptional;
-        this.totalOfOptionalReinforcement = totalOfOptionalReinforcement;
-        this.totalOfPhysical = totalOfPhysical;
-        this.totalOfNationalDefense = totalOfNationalDefense;
-        this.totalOfAdditional = totalOfAdditional;
-        this.totalOfGraduationInternship = totalOfGraduationInternship;
+    public void addRoleSubject(RoleSubject roleSubject) {
+        this.listRoleSubject.add(roleSubject);
+    }
+    public void addSubject(Subject subject) {
+        this.listSubject.add(subject);
     }
 }
