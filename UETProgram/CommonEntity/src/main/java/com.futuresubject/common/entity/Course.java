@@ -29,11 +29,11 @@ public class Course {
     )
     Set<Subject> listSubject = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name="course_subject",
+            name="course_roles",
             joinColumns = {@JoinColumn(name = "course_id")},
-            inverseJoinColumns={@JoinColumn(name="subject_id")}
+            inverseJoinColumns={@JoinColumn(name="roles_id")}
     )
     Set<RoleSubject> listRoleSubject = new HashSet<>();
     private Integer totalOfMandatory;

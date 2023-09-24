@@ -36,14 +36,14 @@ public class Student {
     )
     Set<Course> listCourse = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "studentId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studentId")
     Set<ScoreSubject> listScore = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name="prerequisite_subject",
-            joinColumns = {@JoinColumn(name = "subject_id")},
-            inverseJoinColumns={@JoinColumn(name="prerequisite_id")}
-    )
-    Set<Subject> prerequisiteSubject = new HashSet<>();
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(
+//            name="prerequisite_subject",
+//            joinColumns = {@JoinColumn(name = "subject_id")},
+//            inverseJoinColumns={@JoinColumn(name="prerequisite_id")}
+//    )
+//    Set<Subject> prerequisiteSubject = new HashSet<>();
 }

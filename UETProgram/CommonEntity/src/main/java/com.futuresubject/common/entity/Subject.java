@@ -1,9 +1,6 @@
 package com.futuresubject.common.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "subject")
@@ -16,4 +13,52 @@ public class Subject {
     private String nameSubject;
     @Column(nullable = false)
     private Integer credit;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "subjectId")
+    private ScoreSubject scoreSubject;
+
+
+    @OneToOne(mappedBy = "subjectId")
+    private RoleSubject roleSubject;
+
+    public String getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(String subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public String getNameSubject() {
+        return nameSubject;
+    }
+
+    public void setNameSubject(String nameSubject) {
+        this.nameSubject = nameSubject;
+    }
+
+    public Integer getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Integer credit) {
+        this.credit = credit;
+    }
+
+    public Subject() {
+    }
+
+    public Subject(String subjectId, String nameSubject, Integer credit) {
+        this.subjectId = subjectId;
+        this.nameSubject = nameSubject;
+        this.credit = credit;
+    }
+
+//    public ScoreSubject getScoreSubject() {
+//        return scoreSubject;
+//    }
+//
+//    public void setScoreSubject(ScoreSubject scoreSubject) {
+//        this.scoreSubject = scoreSubject;
+//    }
 }
