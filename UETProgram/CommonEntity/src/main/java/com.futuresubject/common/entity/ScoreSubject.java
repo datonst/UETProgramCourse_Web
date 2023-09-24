@@ -15,18 +15,48 @@ public class ScoreSubject {
     @JoinColumn(name = "student_id")
     private Student studentId;
 
-//    @Column(name = "subject_id")
-
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "subject_id")
-//    @JoinTable(
-//            name="scores_subject",
-//            joinColumns = {@JoinColumn(name = "scores_id")},
-//            inverseJoinColumns={@JoinColumn(name="subject_id")}
-//    )
     private Subject subjectId;
 
     @Column(nullable = false)
     private Double score;
 
+    public Integer getScoreId() {
+        return scoreId;
+    }
+
+    public void setScoreId(Integer scoreId) {
+        this.scoreId = scoreId;
+    }
+
+    public Student getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Student studentId) {
+        this.studentId = studentId;
+    }
+
+    public Subject getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Subject subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
+    }
+
+    public ScoreSubject(Integer scoreId, Student studentId, Subject subjectId) {
+        this.scoreId = scoreId;
+        this.studentId = studentId;
+        this.subjectId = subjectId;
+    }
 }

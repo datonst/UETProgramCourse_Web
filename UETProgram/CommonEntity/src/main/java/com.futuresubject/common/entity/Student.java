@@ -36,14 +36,84 @@ public class Student {
     )
     Set<Course> listCourse = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studentId")
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name="student_scores",
+            joinColumns = {@JoinColumn(name = "student_id")},
+            inverseJoinColumns={@JoinColumn(name="scores_id")}
+    )
     Set<ScoreSubject> listScore = new HashSet<>();
 
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(
-//            name="prerequisite_subject",
-//            joinColumns = {@JoinColumn(name = "subject_id")},
-//            inverseJoinColumns={@JoinColumn(name="prerequisite_id")}
-//    )
-//    Set<Subject> prerequisiteSubject = new HashSet<>();
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getClassCode() {
+        return classCode;
+    }
+
+    public void setClassCode(String classCode) {
+        this.classCode = classCode;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Course> getListCourse() {
+        return listCourse;
+    }
+
+    public void setListCourse(Set<Course> listCourse) {
+        this.listCourse = listCourse;
+    }
+
+    public Set<ScoreSubject> getListScore() {
+        return listScore;
+    }
+
+    public void setListScore(Set<ScoreSubject> listScore) {
+        this.listScore = listScore;
+    }
+
+    public Student(String studentId, String name, String date, String classCode, String email, String password) {
+        this.studentId = studentId;
+        this.name = name;
+        this.date = date;
+        this.classCode = classCode;
+        this.email = email;
+        this.password = password;
+    }
 }

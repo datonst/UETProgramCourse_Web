@@ -17,14 +17,9 @@ public class RoleSubject {
 
 
 
-//    @OneToOne(fetch = FetchType.EAGER)
+
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "subject_id")
-//    @JoinTable(
-//            name="roles_subject",
-//            joinColumns = {@JoinColumn(name = "roles_id")},
-//            inverseJoinColumns={@JoinColumn(name="subject_id")}
-//    )
     private Subject subjectId;
 
     @OneToMany(fetch = FetchType.LAZY)
@@ -36,10 +31,6 @@ public class RoleSubject {
     Set<Subject> prerequisiteSubject = new HashSet<>();
     @Column(length = 40, nullable = false)
     private String typeRole;
-
-    public RoleSubject() {
-
-    }
 
     public Integer getId() {
         return id;
@@ -65,6 +56,14 @@ public class RoleSubject {
         this.subjectId = subjectId;
     }
 
+    public Set<Subject> getPrerequisiteSubject() {
+        return prerequisiteSubject;
+    }
+
+    public void setPrerequisiteSubject(Set<Subject> prerequisiteSubject) {
+        this.prerequisiteSubject = prerequisiteSubject;
+    }
+
     public String getTypeRole() {
         return typeRole;
     }
@@ -73,5 +72,10 @@ public class RoleSubject {
         this.typeRole = typeRole;
     }
 
-
+    public RoleSubject(Integer id, String courseId, Subject subjectId, String typeRole) {
+        this.id = id;
+        this.courseId = courseId;
+        this.subjectId = subjectId;
+        this.typeRole = typeRole;
+    }
 }
