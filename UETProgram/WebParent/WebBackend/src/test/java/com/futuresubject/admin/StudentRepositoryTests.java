@@ -1,7 +1,8 @@
 package com.futuresubject.admin;
 
-import com.futuresubject.admin.student.StudentRepository;
-import com.futuresubject.common.entity.Course;
+import com.futuresubject.admin.repository.StudentRepository;
+import com.futuresubject.common.entity.Classroom;
+import com.futuresubject.common.entity.GenderType;
 import com.futuresubject.common.entity.Student;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,14 @@ public class StudentRepositoryTests {
 
     @Test
     void testFirstStudent() {
-        Course course = entityManager.find(Course.class,"CN8");
-        Student student = new Student("22028245","Trần Văn Sơn","03/08/2004","K67-CA-CLC4","22028245@vnu.edu.vn","hello");
-        student.addCourse(course);
-        Student saveStudent = studentRepository.save(student);
-
+        Student student = new Student();
+        student.setStudentId("22028242");
+        Classroom classroom =entityManager.find(Classroom.class,"1");
+        student.setClassroom(classroom);
+        student.setAge(15);
+        student.setName("Son");
+        student.setGender(GenderType.Male);
+        student.setAddress("PhuMinh - Soc Son");
+        studentRepository.save(student);
     }
 }

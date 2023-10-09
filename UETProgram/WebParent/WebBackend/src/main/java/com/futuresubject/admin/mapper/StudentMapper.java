@@ -1,0 +1,20 @@
+package com.futuresubject.admin.mapper;
+
+import com.futuresubject.admin.dto.StudentDto;
+import com.futuresubject.common.entity.Student;
+import org.mapstruct.*;
+import org.mapstruct.factory.Mappers;
+
+import java.util.List;
+
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
+public interface StudentMapper {
+    StudentMapper INSTANCE = Mappers.getMapper(StudentMapper.class);
+    Student toEntity(StudentDto studentDto);
+
+    StudentDto toDto(Student student);
+
+    List<StudentDto> toDtoList(List<Student> studentList);
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    Student partialUpdate(StudentDto studentDto, @MappingTarget Student student);
+}
