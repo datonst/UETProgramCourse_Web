@@ -7,6 +7,7 @@ import com.futuresubject.admin.repository.StudentNotFoundException;
 import com.futuresubject.admin.repository.StudentRepository;
 import com.futuresubject.common.entity.Classroom;
 import com.futuresubject.common.entity.Student;
+import com.futuresubject.common.entity.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +23,8 @@ public class StudentService {
     @Autowired
     private ClassroomRepository classroomRepository;
 
-    public List<Student> listAll() {
-        return (List<Student>) studentRepository.findAll();
+    public List<StudentDto> listAll() {
+        return StudentMapper.INSTANCE.toDtoList((List<Student>)studentRepository.findAll());
     }
 
     public List<String> listOfStudentId() {

@@ -21,6 +21,8 @@ public class Faculty_ProgramController {
     private ProgramService programService;
 
     @GetMapping("/facultyprograms/new")
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.OK)
     public Faculty_ProgramDto createFacultyProgram() {
         Faculty_ProgramDto facultyProgramDto = new Faculty_ProgramDto();
         facultyProgramDto.setListOfFacultyName(facultyService.listOfFacultyName());

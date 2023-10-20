@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ProgramController {
     @Autowired
@@ -15,6 +17,10 @@ public class ProgramController {
     @Autowired
     private FacultyService facultyService;
 
+    @GetMapping("/programs")
+    public List<ProgramDto> getAllProgram() {
+        return programService.findAll();
+    }
     @PostMapping("/programs/new/created")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)

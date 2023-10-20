@@ -16,6 +16,13 @@ public class ClassroomController {
     @Autowired
     private ClassroomService classroomService;
 
+    @GetMapping("/classrooms")
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.OK)
+    public List<ClassroomDto> getAllClass() {
+
+        return classroomService.findAll();
+    }
 
     @PostMapping("/classrooms/new/created")
     @ExceptionHandler
@@ -25,6 +32,8 @@ public class ClassroomController {
     }
 
     @GetMapping("/classrooms/new")
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.OK)
     public ClassroomDto createClassroom() {
         return new ClassroomDto();
     }

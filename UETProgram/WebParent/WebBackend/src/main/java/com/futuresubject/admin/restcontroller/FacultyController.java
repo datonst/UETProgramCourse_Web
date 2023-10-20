@@ -8,12 +8,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class FacultyController {
     @Autowired
     private FacultyService facultyService;
+    @GetMapping("/faculties")
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.OK)
+    public List<FacultyDto> getAllFaculty() {
 
+        return facultyService.findAll();
+    }
     @GetMapping("/faculties/new")
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.OK)
     public FacultyDto createFaculty() {
         return new FacultyDto();
     }

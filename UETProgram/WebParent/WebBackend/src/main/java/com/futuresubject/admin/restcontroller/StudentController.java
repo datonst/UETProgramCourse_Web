@@ -1,16 +1,13 @@
 package com.futuresubject.admin.restcontroller;
 
 import com.futuresubject.admin.dto.StudentDto;
-import com.futuresubject.admin.dto.SubjectDto;
 import com.futuresubject.admin.repository.StudentNotFoundException;
 import com.futuresubject.admin.service.ClassroomService;
 import com.futuresubject.admin.service.StudentService;
 import com.futuresubject.common.entity.Student;
-import com.futuresubject.common.entity.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,10 +21,10 @@ public class StudentController {
     ClassroomService classroomService;
 
     @GetMapping("/students")
-    public String listStudents(Model model) {
-        List<Student> studentList = studentService.listAll();
-        model.addAttribute("studentList", studentList);
-        return "";
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.OK)
+    public List<StudentDto> listStudents(Model model) {
+        return studentService.listAll();
     }
 
     @GetMapping("/student/{mssv}")

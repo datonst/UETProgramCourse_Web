@@ -1,4 +1,4 @@
-package FutureSubject.WebFrontEnd;
+package com.futuresubject.customer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -42,7 +42,7 @@ public class AttendanceService {
                 attendance.setProgram(findprogram);
             }
         }
-//        attendanceRepository.save(attendance);
+        attendanceRepository.save(attendance);
         return attendance;
     }
 }
