@@ -29,7 +29,7 @@ public class AttendanceController {
         return attendanceDto;
     }
 
-    @PostMapping("/attendances/new/created")
+    @PostMapping("/attendances/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
     public Attendance saveAttendace(@RequestBody AttendanceDto attendanceDto) {

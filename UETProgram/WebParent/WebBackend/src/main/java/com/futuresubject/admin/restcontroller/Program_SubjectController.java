@@ -26,7 +26,7 @@ public class Program_SubjectController {
         return programSubjectDto;
     }
 
-    @PostMapping("/programsubjects/new/created")
+    @PostMapping("/programsubjects/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
     public Program_Subject saveProgramSubject(@RequestBody Program_SubjectDto programSubjectDto) {

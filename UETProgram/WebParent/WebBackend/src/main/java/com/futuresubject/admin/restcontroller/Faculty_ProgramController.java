@@ -30,7 +30,7 @@ public class Faculty_ProgramController {
         return facultyProgramDto;
     }
 
-    @PostMapping("/facultyprograms/new/created")
+    @PostMapping("/facultyprograms/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
     public Faculty_Program saveFacultyProgram(@RequestBody Faculty_ProgramDto facultyProgramDto) {

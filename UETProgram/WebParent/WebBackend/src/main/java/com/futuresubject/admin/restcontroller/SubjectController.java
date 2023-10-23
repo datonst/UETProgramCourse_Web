@@ -23,7 +23,7 @@ public class SubjectController {
         return subjectService.findAll();
     }
 
-    @PostMapping("/subjects/new/created")
+    @PostMapping("/subjects/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
     public Subject createSubject(@RequestBody SubjectDto subjectDto) {

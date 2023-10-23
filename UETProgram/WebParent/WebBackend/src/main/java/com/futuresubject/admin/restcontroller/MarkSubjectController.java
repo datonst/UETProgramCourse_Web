@@ -26,7 +26,7 @@ public class MarkSubjectController {
         return markSubjectDto;
     }
 
-    @PostMapping("/marksubjects/new/created")
+    @PostMapping("/marksubjects/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
     public String saveMarkSubject(@RequestBody MarkSubjectDto markSubjectDto) {

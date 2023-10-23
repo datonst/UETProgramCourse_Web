@@ -24,7 +24,7 @@ public class ClassroomController {
         return classroomService.findAll();
     }
 
-    @PostMapping("/classrooms/new/created")
+    @PostMapping("/classrooms/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
     public Classroom saveClassroom(@RequestBody ClassroomDto classroomDto) {

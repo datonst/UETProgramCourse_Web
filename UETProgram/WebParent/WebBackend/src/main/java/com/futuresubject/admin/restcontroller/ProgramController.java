@@ -21,7 +21,7 @@ public class ProgramController {
     public List<ProgramDto> getAllProgram() {
         return programService.findAll();
     }
-    @PostMapping("/programs/new/created")
+    @PostMapping("/programs/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
     public Program saveProgram(@RequestBody ProgramDto programDto) {

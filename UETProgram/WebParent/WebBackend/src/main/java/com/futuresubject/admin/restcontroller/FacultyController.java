@@ -27,7 +27,7 @@ public class FacultyController {
     public FacultyDto createFaculty() {
         return new FacultyDto();
     }
-    @PostMapping("/faculties/new/created")
+    @PostMapping("/faculties/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
     public Faculty saveFaculty(@RequestBody FacultyDto facultyDto) {

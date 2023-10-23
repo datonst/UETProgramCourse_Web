@@ -66,7 +66,7 @@ public class StudentController {
         return studentDto;
     }
 
-    @PostMapping("/students/new/created")
+    @PostMapping("/students/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
     public Student createSubject(@RequestBody StudentDto studentDto) {
