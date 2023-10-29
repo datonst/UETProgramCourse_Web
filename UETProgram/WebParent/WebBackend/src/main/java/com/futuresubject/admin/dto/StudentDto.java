@@ -25,6 +25,6 @@ public class StudentDto implements Serializable {
     String address;
     String phone;
     String classFullName;
-    List<GenderType> listOfGender = Arrays.asList(GenderType.values());
+    List<GenderType> listOfGender;
     List<String> listOfClassroom;
 }

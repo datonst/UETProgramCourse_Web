@@ -1,5 +1,6 @@
 package com.futuresubject.admin.restcontroller;
 
+import com.futuresubject.admin.dto.NotFoundDataExeption;
 import com.futuresubject.admin.dto.Program_SubjectDto;
 import com.futuresubject.admin.service.ProgramService;
 import com.futuresubject.admin.service.Program_SubjectService;
@@ -29,8 +30,11 @@ public class Program_SubjectController {
     @PostMapping("/programsubjects/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
-    public Program_Subject saveProgramSubject(@RequestBody Program_SubjectDto programSubjectDto) {
-         return programSubjectService.save(programSubjectDto);
-
+    public Program_Subject saveProgramSubject(@RequestBody Program_SubjectDto programSubjectDto) throws NotFoundDataExeption {
+//        if (programSubjectDto.getSubjectId() == null ||
+//        programSubjectDto.getProgramFullCode() == null) {
+//            throw new NotFoundDataExeption("Not found - program subject contain null");
+//        }
+        return programSubjectService.insert(programSubjectDto);
     }
 }

@@ -12,4 +12,9 @@ import java.util.List;
 public interface SubjectRepository extends CrudRepository<Subject, String> {
     @Query("SELECT u.subjectid FROM Subject AS u")
     public List<String> listOfSubjectId();
+
+    public Long countBySubjectid(String subjectid); // count id -- Spring Data JPA làm sẵn công đoạn Query rồi ( gọi là  Derived Count Query )
+
+
+
 }

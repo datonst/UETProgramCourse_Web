@@ -2,6 +2,7 @@ package com.futuresubject.admin.restcontroller;
 
 import com.futuresubject.admin.dto.FacultyDto;
 import com.futuresubject.admin.dto.Faculty_ProgramDto;
+import com.futuresubject.admin.dto.NotFoundDataExeption;
 import com.futuresubject.admin.service.FacultyService;
 import com.futuresubject.admin.service.Faculty_ProgramService;
 import com.futuresubject.admin.service.ProgramService;
@@ -33,7 +34,11 @@ public class Faculty_ProgramController {
     @PostMapping("/facultyprograms/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
-    public Faculty_Program saveFacultyProgram(@RequestBody Faculty_ProgramDto facultyProgramDto) {
-        return facultyProgramService.save(facultyProgramDto);
+    public Faculty_Program saveFacultyProgram(@RequestBody Faculty_ProgramDto facultyProgramDto) throws NotFoundDataExeption {
+//        if (facultyProgramDto.getProgramFullCode() == null
+//        || facultyProgramDto.getFacultyName() == null) {
+//            throw new NotFoundDataExeption("Not found - contain Null");
+//        }
+        return facultyProgramService.insert(facultyProgramDto);
     }
 }

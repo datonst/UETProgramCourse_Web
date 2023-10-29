@@ -13,6 +13,8 @@ public interface SubjectMapper {
 
     Subject toEntity(SubjectDto subjectDto);
 
+
+    @Mapping(target = "prerequisiteSubjectId",expression="java(subject.getPrerequisiteSubjectId())")
     SubjectDto toDto(Subject subject);
     List<SubjectDto> toDtoList(List<Subject> subjectList);
 

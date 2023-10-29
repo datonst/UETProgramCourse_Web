@@ -11,6 +11,8 @@ public interface AttendanceMapper {
 
     Attendance toEntity(AttendanceDto attendanceDto);
 
+    @Mapping(target = "studentId",source="student.studentId")
+    @Mapping(target = "programFullCode",expression="java(attendance.getProgram().getProgramFullCode())")
     AttendanceDto toDto(Attendance attendance);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Attendance partialUpdate(AttendanceDto attendanceDto, @MappingTarget Attendance attendance);

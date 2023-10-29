@@ -23,7 +23,7 @@ import java.util.Objects;
         property = "studentId")
 public class Student extends Person {
     @Id
-    @Column(name = "student_id")
+    @Column(name = "student_id",nullable = false)
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String studentId;
     //    @Column(length = 40, nullable = false, unique = true)
@@ -32,10 +32,13 @@ public class Student extends Person {
 //    private String date;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "classroomid")
+    @JoinColumn(name = "classroomid",nullable = false)
     @ToString.Exclude
     private Classroom classroom;
 
+    public String getClassFullName() {
+        return this.classroom.getClassFullName();
+    }
     @Override
     public String getName() {
         return super.getName();

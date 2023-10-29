@@ -12,6 +12,7 @@ public interface ProgramMapper {
     ProgramMapper INSTANCE = Mappers.getMapper(ProgramMapper.class);
     Program toEntity(ProgramDto programDto);
 
+    @Mapping(target = "facultyName",source="faculty.facultyName")
     ProgramDto toDto(Program program);
 
     List<ProgramDto> toDtoList(List<Program> programList);

@@ -23,6 +23,7 @@ public class ProgramDto implements Serializable {
     String programCode;
     String programName;
     String period;
+    Double duration;
     ProgramType programType;
     String facultyName;
     Integer totalCredits;
@@ -33,6 +34,6 @@ public class ProgramDto implements Serializable {
     Integer totalOfNationalDefense;
     Integer totalOfAdditional;
     Integer totalOfGraduationInternship;
-    List<ProgramType> programTypeList = Arrays.asList(ProgramType.values());
+    List<ProgramType> programTypeList;
     List<String> listOfFacultyName;
 }

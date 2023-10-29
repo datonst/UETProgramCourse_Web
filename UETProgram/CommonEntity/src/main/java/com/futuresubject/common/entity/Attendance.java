@@ -25,13 +25,13 @@ public class Attendance {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "studentid")
+    @JoinColumn(name = "studentid",nullable = false)
     @ToString.Exclude
     @JsonIgnore
     private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "programid")
+    @JoinColumn(name = "programid",nullable = false)
     @ToString.Exclude
     @JsonIgnore
     private Program program;

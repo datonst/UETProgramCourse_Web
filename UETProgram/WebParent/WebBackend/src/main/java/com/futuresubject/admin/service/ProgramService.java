@@ -1,17 +1,23 @@
 package com.futuresubject.admin.service;
 
-import com.futuresubject.admin.dto.ProgramDto;
+import com.futuresubject.admin.dto.*;
 import com.futuresubject.admin.mapper.ProgramMapper;
+import com.futuresubject.admin.mapper.StudentMapper;
+import com.futuresubject.admin.mapper.SubjectMapper;
 import com.futuresubject.admin.repository.FacultyRepository;
 import com.futuresubject.admin.repository.ProgramRepository;
+import com.futuresubject.admin.repository.StudentNotFoundException;
 import com.futuresubject.common.entity.Faculty;
 import com.futuresubject.common.entity.Program;
+import com.futuresubject.common.entity.Student;
+import com.futuresubject.common.entity.Subject;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -26,16 +32,31 @@ public class ProgramService {
         return ProgramMapper.INSTANCE.toDtoList((List<Program>) programRepository.findAll());
     }
 
-    public Program save(ProgramDto programDto) {
+    public ProgramDto get(String programFullCode) throws NotFoundDataExeption {
+        try {
+            Program program = programRepository.findByProgramCodeAndAndPeriod(programFullCode);
+            ProgramDto programDto = ProgramMapper.INSTANCE.toDto(program);
+            return programDto;
+        } catch (NoSuchElementException ex){
+            throw new NotFoundDataExeption("Could not find any program with full code " + programFullCode);
+        }
+    }
+
+    public void deleteByProgramFullCode(String programFullCode) {
+        programRepository.deleteByProgramFullCode(programFullCode);
+    }
+
+    public Program insert(ProgramDto programDto) {
         Program program = ProgramMapper.INSTANCE.toEntity(programDto);
         String facultyName = programDto.getFacultyName();
-        if (facultyName!=null) {
-            if (!facultyName.isEmpty()) {
-                System.out.println("print");
-                Faculty faculty = facultyRepository.findByFacultyName(facultyName);
-                program.setFaculty(faculty);
-            }
+        String programFullCode = programDto.getProgramCode()
+                + "-" +programDto.getPeriod();
+        Integer id = programRepository.findId(programFullCode);
+        if(id!=null){
+            program.setId(id);
         }
+        Faculty faculty = facultyRepository.findByFacultyName(facultyName);
+        program.setFaculty(faculty);
         return programRepository.save(program);
     }
 
@@ -44,5 +65,24 @@ public class ProgramService {
     }
     public List<String> listOfProgramFullCode() {
         return programRepository.listOfProgramFullCode();
+    }
+    public boolean isExist(ProgramDto programDto) {
+        String programFullCode = programDto.getProgramCode() + "-"
+                + programDto.getPeriod();
+        return programRepository.findId(programFullCode) != null;
+    }
+
+    public Program updateFromDto(ProgramDto programDto) {
+        Program program = ProgramMapper.INSTANCE.toEntity(programDto);
+        String facultyName = programDto.getFacultyName();
+        String programFullCode = programDto.getProgramCode()
+                + "-" +programDto.getPeriod();
+        Integer id = programRepository.findId(programFullCode);
+        if(id!=null){
+            program.setId(id);
+        }
+        Faculty faculty = facultyRepository.findByFacultyName(facultyName);
+        program.setFaculty(faculty);
+        return programRepository.save(program);
     }
 }

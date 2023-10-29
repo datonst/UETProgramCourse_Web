@@ -20,11 +20,14 @@ public class Classroom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
+    @Column(nullable = false)
     private String cohort;
-    @Column
+    @Column(nullable = false)
     private String nameClass;
 
+    public String getClassFullName() {
+        return this.cohort + "-" + this.nameClass;
+    }
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;

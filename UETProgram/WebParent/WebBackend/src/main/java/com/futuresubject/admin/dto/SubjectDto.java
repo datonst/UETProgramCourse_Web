@@ -23,12 +23,13 @@ public class SubjectDto implements Serializable {
     String subjectid;
     String subjectName;
     Integer credit;
-    List<String> prerequisiteSubjectId = new ArrayList<>();
+    List<String> prerequisiteSubjectId;
     RoleType roleType;
-    List<RoleType> listRoleType = Arrays.asList(RoleType.values());
+    List<RoleType> listRoleType ;
     List<String> listOfSubjectId;
 
     public void addPrerequisite(String id) {
+
         this.prerequisiteSubjectId.add(id);
     }
 

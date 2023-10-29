@@ -18,4 +18,7 @@ public interface Program_SubjectRepository extends CrudRepository<Program_Subjec
             "WHERE concat(u.program.programCode,'-',u.program.period) =?2 " +
             "AND u.subject NOT IN (SELECT a.subject from MarkSubject AS a WHERE a.student.studentId= ?1 AND a.subject IS NOT NULL)")
     List<Subject> findSubjectUnfinished(String studentId, String programFullCode);
+    @Query("SELECT u.id FROM Program_Subject AS u " +
+            " WHERE u.subject.subjectid = ?1 AND concat(u.program.programCode,'-',u.program.period) = ?2")
+    Integer findId(String subjectid, String programFullCode);
 }

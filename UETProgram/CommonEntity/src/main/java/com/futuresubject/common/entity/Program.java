@@ -35,6 +35,9 @@ public class Program {
     @Column(length = 40, nullable = false)
     private String period;
 
+    @Column(length = 40, nullable = false)
+    private Double duration;
+
     @Column
     @Enumerated(EnumType.STRING)
     @ToString.Exclude
@@ -95,6 +98,9 @@ public class Program {
 //        this.listSubject.add(subject);
 //    }
 
+    public String getProgramFullCode() {
+        return this.programCode + "-" + this.period;
+    }
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;

@@ -1,5 +1,6 @@
 package com.futuresubject.admin.service;
 
+import com.futuresubject.admin.dto.Faculty_ProgramDto;
 import com.futuresubject.admin.dto.Program_SubjectDto;
 import com.futuresubject.admin.mapper.Program_SubjectMapper;
 import com.futuresubject.admin.repository.ProgramRepository;
@@ -21,23 +22,22 @@ public class Program_SubjectService {
     ProgramRepository programRepository;
     @Autowired
     SubjectRepository subjectRepository;
-    public Program_Subject save(Program_SubjectDto programSubjectDto) {
+    public Program_Subject insert(Program_SubjectDto programSubjectDto) {
         Program_Subject programSubject = Program_SubjectMapper
                 .INSTANCE.toEntity(programSubjectDto);
         String programFullCode = programSubjectDto.getProgramFullCode();
-        if (programFullCode!=null) {
-            if (!programFullCode.isEmpty()) {
-                Program program = programRepository.findByProgramCodeAndAndPeriod(programFullCode);
-                programSubject.setProgram(program);
-            }
-        }
+        Program program = programRepository.findByProgramCodeAndAndPeriod(programFullCode);
+        programSubject.setProgram(program);
         String subjectId = programSubjectDto.getSubjectId();
-        if (subjectId!=null) {
-            if (!subjectId.isEmpty()) {
-                Optional<Subject> findSubject = subjectRepository.findById(subjectId);
-                findSubject.ifPresent(programSubject::setSubject);
-            }
+        programSubject.setSubject(subjectRepository.findById(subjectId).get());
+        Integer id = programSubjectRepository.findId(subjectId,programFullCode);
+        if (id!=null) {
+            programSubject.setId(id);
         }
          return programSubjectRepository.save(programSubject);
+    }
+    public boolean isExist(Program_SubjectDto programSubjectDto) {
+        return programSubjectRepository.findId(programSubjectDto.getSubjectId()
+                ,programSubjectDto.getProgramFullCode()) != null;
     }
 }

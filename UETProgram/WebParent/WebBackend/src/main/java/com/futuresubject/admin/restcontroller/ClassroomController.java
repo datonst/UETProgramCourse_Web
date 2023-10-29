@@ -1,9 +1,12 @@
 package com.futuresubject.admin.restcontroller;
 
 import com.futuresubject.admin.dto.ClassroomDto;
+import com.futuresubject.admin.dto.MarkSubjectDto;
+import com.futuresubject.admin.dto.NotFoundDataExeption;
 import com.futuresubject.admin.dto.SubjectDto;
 import com.futuresubject.admin.service.ClassroomService;
 import com.futuresubject.common.entity.Classroom;
+import com.futuresubject.common.entity.MarkSubject;
 import com.futuresubject.common.entity.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,8 +30,11 @@ public class ClassroomController {
     @PostMapping("/classrooms/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
-    public Classroom saveClassroom(@RequestBody ClassroomDto classroomDto) {
-        return classroomService.save(classroomDto);
+    public Classroom saveClassroom(@RequestBody ClassroomDto classroomDto) throws NotFoundDataExeption {
+//        if (classroomDto.getCohort()==null || classroomDto.getNameClass() ==null) {
+//            throw new NotFoundDataExeption("Not found - classroom is null");
+//        }
+        return classroomService.insert(classroomDto);
     }
 
     @GetMapping("/classrooms/new")
@@ -37,4 +43,7 @@ public class ClassroomController {
     public ClassroomDto createClassroom() {
         return new ClassroomDto();
     }
+
+
+
 }

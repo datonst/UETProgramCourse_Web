@@ -22,7 +22,8 @@ public class Faculty {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Integer id;
-    @Column
+
+    @Column(nullable = false,unique = true)
     private String facultyName;
     @Column
     private String address;

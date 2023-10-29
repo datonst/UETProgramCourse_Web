@@ -22,13 +22,13 @@ public class Program_Subject {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "program_id")
+    @JoinColumn(name = "program_id",nullable = false)
     @ToString.Exclude
     @JsonIgnore
     private Program program;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subject_id")
+    @JoinColumn(name = "subject_id",nullable = false)
     @ToString.Exclude
     @JsonIgnore
     private Subject subject;

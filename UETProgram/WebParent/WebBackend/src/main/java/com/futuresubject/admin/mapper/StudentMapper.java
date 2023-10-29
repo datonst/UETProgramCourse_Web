@@ -12,6 +12,7 @@ public interface StudentMapper {
     StudentMapper INSTANCE = Mappers.getMapper(StudentMapper.class);
     Student toEntity(StudentDto studentDto);
 
+    @Mapping(target = "classFullName",expression="java(student.getClassFullName())")
     StudentDto toDto(Student student);
 
     List<StudentDto> toDtoList(List<Student> studentList);

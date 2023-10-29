@@ -2,6 +2,7 @@ package com.futuresubject.admin.repository;
 
 import com.futuresubject.common.entity.Faculty;
 import com.futuresubject.common.entity.Program;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -16,4 +17,10 @@ public interface FacultyRepository extends CrudRepository<Faculty, Integer> {
     @Query("SELECT u  FROM Faculty AS u WHERE u.facultyName = ?1 ")
     Faculty findByFacultyName(String facultyName);
 
+    @Modifying
+    @Query("DELETE FROM Faculty AS u WHERE u.facultyName = ?1 ")
+    void deleteByFacultyName(String facultyName);
+
+    @Query("SELECT u.id  FROM Faculty AS u WHERE u.facultyName = ?1")
+    public Integer findId(String facultyName);
 }

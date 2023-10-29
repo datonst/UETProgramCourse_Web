@@ -11,4 +11,6 @@ import java.util.List;
 public interface StudentRepository extends CrudRepository<Student, String> {
     @Query("SELECT u.studentId FROM Student AS u")
     public List<String> listOfStudentId();
+
+    Long countByStudentId(String studentid);
 }

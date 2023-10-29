@@ -1,5 +1,6 @@
 package com.futuresubject.admin.service;
 
+import com.futuresubject.admin.dto.AttendanceDto;
 import com.futuresubject.admin.dto.Faculty_ProgramDto;
 import com.futuresubject.admin.mapper.Faculty_ProgramMapper;
 import com.futuresubject.admin.repository.FacultyRepository;
@@ -22,23 +23,22 @@ public class Faculty_ProgramService {
     @Autowired
     FacultyRepository facultyRepository;
 
-    public Faculty_Program save(Faculty_ProgramDto facultyProgramDto) {
+    public Faculty_Program insert(Faculty_ProgramDto facultyProgramDto) {
         Faculty_Program facultyProgram = Faculty_ProgramMapper.INSTANCE.toEntity(facultyProgramDto);
         String facultyName = facultyProgramDto.getFacultyName();
-        if (facultyName!=null) {
-            if (!facultyName.isEmpty()) {
-                Faculty faculty = facultyRepository.findByFacultyName(facultyName);
-                facultyProgram.setFaculty(faculty);
-            }
-        }
         String programFullCode = facultyProgramDto.getProgramFullCode();
-        if (programFullCode!=null) {
-            if (!programFullCode.isEmpty()) {
-                Program program = programRepository.findByProgramCodeAndAndPeriod(programFullCode);
-                facultyProgram.setProgram(program);
-            }
+        Faculty faculty = facultyRepository.findByFacultyName(facultyName);
+        facultyProgram.setFaculty(faculty);
+        Program program = programRepository.findByProgramCodeAndAndPeriod(programFullCode);
+        facultyProgram.setProgram(program);
+        Integer id = facultyProgramRepository.findId(facultyName,programFullCode);
+        if (id!=null) {
+            facultyProgram.setId(id);
         }
         return facultyProgramRepository.save(facultyProgram);
     }
-
+    public boolean isExist(Faculty_ProgramDto facultyProgramDto) {
+        return facultyProgramRepository.findId(facultyProgramDto.getFacultyName()
+                ,facultyProgramDto.getProgramFullCode()) != null;
+    }
 }
