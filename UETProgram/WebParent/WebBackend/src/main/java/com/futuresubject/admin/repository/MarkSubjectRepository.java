@@ -3,9 +3,10 @@ package com.futuresubject.admin.repository;
 
 import com.futuresubject.admin.dto.search.MarkDto;
 import com.futuresubject.admin.dto.search.SearchMark;
+import com.futuresubject.admin.dto.search.SubjectInfoDto;
 import com.futuresubject.common.entity.MarkSubject;
 
-import com.futuresubject.common.entity.RoleType;
+import com.futuresubject.common.entity.Enum.RoleType;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -47,6 +48,23 @@ public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integ
     Double sumMark(String studentId, Integer programId);
 
 
+    @Query(value = "SELECT " +
+            "new com.futuresubject.admin.dto.search.SubjectInfoDto" +
+            "(u.subject.subjectName,u.subject.credit,u.subject.roleType,u.mark)" +
+            " FROM MarkSubject AS u " +
+            " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
+            " WHERE u.student.studentId = ?1 AND concat(t.program.programCode,'-',t.program.period) = ?2 ",nativeQuery = false)
+    List<SubjectInfoDto> getALlMarkByStudentAndProgram(String studentId, String programFullCode);
+
+    @Query(value = "SELECT " +
+            "new com.futuresubject.admin.dto.search.SubjectInfoDto" +
+            "(u.subject.subjectName,u.subject.credit,u.subject.roleType,u.mark)" +
+            " FROM MarkSubject AS u " +
+            " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
+            " WHERE u.student.studentId = ?1 " +
+            " AND concat(t.program.programCode,'-',t.program.period) = ?2 " +
+            " AND u.subject.roleType = ?3 ",nativeQuery = false)
+    List<SubjectInfoDto> getALlMarkByRoleType(String mssv, String programFullCode, RoleType roleType);
 
 
     // Phiên bản thứ 1 - non-native
@@ -87,4 +105,6 @@ public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integ
             " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
             " WHERE u.student.studentId = ?1 AND t.program.id = ?2 AND u.subject.roleType =  ?3" )
     List<MarkDto> getMarkByRole(String studentId, Integer programId, RoleType roleType);
+
+
 }

@@ -1,13 +1,11 @@
 package com.futuresubject.admin.dto;
 
-import com.futuresubject.common.entity.RoleType;
+import com.futuresubject.common.entity.Enum.RoleType;
 import com.futuresubject.common.entity.Subject;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,7 +23,7 @@ public class SubjectDto implements Serializable {
     Integer credit;
     List<String> prerequisiteSubjectId;
     RoleType roleType;
-    List<RoleType> listRoleType ;
+    List<RoleType> listRoleType;
     List<String> listOfSubjectId;
 
     public void addPrerequisite(String id) {

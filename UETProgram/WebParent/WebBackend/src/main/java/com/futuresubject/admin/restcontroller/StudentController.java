@@ -2,13 +2,11 @@ package com.futuresubject.admin.restcontroller;
 
 import com.futuresubject.admin.dto.NotFoundDataExeption;
 import com.futuresubject.admin.dto.StudentDto;
-import com.futuresubject.admin.dto.SubjectDto;
 import com.futuresubject.admin.repository.StudentNotFoundException;
 import com.futuresubject.admin.service.ClassroomService;
 import com.futuresubject.admin.service.StudentService;
-import com.futuresubject.common.entity.GenderType;
+import com.futuresubject.common.entity.Enum.GenderType;
 import com.futuresubject.common.entity.Student;
-import com.futuresubject.common.entity.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -60,7 +58,7 @@ public class StudentController {
 
     @DeleteMapping("/students/delete/{subjectid}")
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEditStudent(@PathVariable(name = "subjectid") String studentid) {
         try {
             studentService.deleteByStudentid(studentid);

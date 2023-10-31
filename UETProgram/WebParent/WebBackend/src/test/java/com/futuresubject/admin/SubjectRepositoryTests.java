@@ -4,16 +4,14 @@ package com.futuresubject.admin;
 import com.futuresubject.admin.dto.SubjectDto;
 import com.futuresubject.admin.mapper.SubjectMapper;
 import com.futuresubject.admin.repository.SubjectRepository;
+import com.futuresubject.common.entity.Enum.RoleType;
 import com.futuresubject.common.entity.Subject;
-import com.futuresubject.common.entity.RoleType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
-
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

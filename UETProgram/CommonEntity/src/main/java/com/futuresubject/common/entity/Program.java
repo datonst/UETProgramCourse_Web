@@ -1,13 +1,12 @@
 package com.futuresubject.common.entity;
 
 import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.futuresubject.common.entity.Enum.ProgramType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.extern.jackson.Jacksonized;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;

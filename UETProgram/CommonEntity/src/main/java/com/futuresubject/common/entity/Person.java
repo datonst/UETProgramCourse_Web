@@ -1,9 +1,8 @@
 package com.futuresubject.common.entity;
 
+import com.futuresubject.common.entity.Enum.GenderType;
 import jakarta.persistence.*;
 import lombok.*;
-
-import javax.persistence.Entity;
 
 @NoArgsConstructor
 @Getter

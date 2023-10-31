@@ -1,20 +1,16 @@
-package com.futuresubject.admin.dto;
+package com.futuresubject.admin.dto.search;
 
-import com.futuresubject.common.entity.RoleType;
+import com.futuresubject.common.entity.Enum.RoleType;
 import com.futuresubject.common.entity.Subject;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * DTO for {@link Subject}
  */
 @Getter
-@AllArgsConstructor
 @Setter
 @Jacksonized
 @Builder
@@ -24,4 +20,11 @@ public class SubjectInfoDto implements Serializable {
     Integer credit;
     RoleType roleType;
     Double mark;
+
+    public SubjectInfoDto(String subjectName, Integer credit, RoleType roleType, Double mark) {
+        this.subjectName = subjectName;
+        this.credit = credit;
+        this.roleType = roleType;
+        this.mark = mark;
+    }
 }

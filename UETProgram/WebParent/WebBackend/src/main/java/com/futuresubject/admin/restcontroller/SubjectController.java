@@ -3,7 +3,7 @@ package com.futuresubject.admin.restcontroller;
 import com.futuresubject.admin.dto.SubjectDto;
 import com.futuresubject.admin.dto.NotFoundDataExeption;
 import com.futuresubject.admin.service.SubjectService;
-import com.futuresubject.common.entity.RoleType;
+import com.futuresubject.common.entity.Enum.RoleType;
 import com.futuresubject.common.entity.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -65,11 +65,10 @@ public class SubjectController {
         }
     }
 
-    @PutMapping("/subjects/edit/{subjectid}")
+    @PutMapping("/subjects/edit/save")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
-    public void putEditSubject(@PathVariable(name = "subjectid") String subjectid,
-                                     @RequestBody SubjectDto subjectDto) {
+    public void putEditSubject(@RequestBody SubjectDto subjectDto) {
         subjectService.updateFromDto(subjectDto);
     }
 
