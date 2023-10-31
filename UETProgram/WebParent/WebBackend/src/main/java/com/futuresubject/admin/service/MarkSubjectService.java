@@ -2,23 +2,23 @@ package com.futuresubject.admin.service;
 
 import com.futuresubject.admin.dto.MarkSubjectDto;
 import com.futuresubject.admin.dto.NotFoundDataExeption;
-import com.futuresubject.admin.dto.ProgramDto;
-import com.futuresubject.admin.dto.SubjectDto;
+import com.futuresubject.admin.dto.search.MarkDto;
+import com.futuresubject.admin.dto.search.SearchMark;
 import com.futuresubject.admin.mapper.MarkSubjectMapper;
-import com.futuresubject.admin.mapper.ProgramMapper;
 import com.futuresubject.admin.repository.MarkSubjectRepository;
+import com.futuresubject.admin.repository.ProgramRepository;
 import com.futuresubject.admin.repository.StudentRepository;
 import com.futuresubject.admin.repository.SubjectRepository;
 import com.futuresubject.common.entity.MarkSubject;
 import com.futuresubject.common.entity.Program;
-import com.futuresubject.common.entity.Student;
-import com.futuresubject.common.entity.Subject;
+import com.futuresubject.common.entity.RoleType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -29,6 +29,8 @@ public class MarkSubjectService {
     private StudentRepository studentRepository;
     @Autowired
     private SubjectRepository subjectRepository;
+    @Autowired
+    private ProgramRepository programRepository;
 
     public MarkSubject insert(MarkSubjectDto markSubjectDto) throws NotFoundDataExeption {
         String studentId = markSubjectDto.getStudentId();
@@ -83,4 +85,37 @@ public class MarkSubjectService {
         markSubjectRepository.updateMark(studentId,subjectId,mark);
     }
 
+    public Double sumMark(String studentId, String programFullCode) {
+        Integer programId = programRepository.findId(programFullCode);
+        return markSubjectRepository.sumMark(studentId,programId);
+    }
+
+    public void sumMarkOfStudentList() {
+//        List<SearchMark> t = markSubjectRepository.val();
+//        for (SearchMark x : t) {
+//            System.out.println(x.getStudentId() + " : " + x.getProgramName() + "- "+ x.getSumMark());
+//        }
+
+
+
+
+
+        Program program = programRepository.findByProgramCodeAndAndPeriod("cn8-2019");
+        List<MarkDto> markDtos = markSubjectRepository.getMarkByRole("22028245",program.getId(), RoleType.MANDATORY);
+        markDtos.sort(Comparator.comparing(MarkDto::getMark).reversed());
+        for (MarkDto markDto : markDtos) {
+            System.out.println(markDto.getMark() + " has : " + markDto.getCredit());
+        }
+
+
+
+//        List<Object[]> t = (List<Object[]>) markSubjectRepository.val();
+//        for (Object[] x : t) {
+//            System.out.println((String)x[0] + ":" + (String) x[1] + " - " + (Double) x[2]);
+//        }
+
+
+
+
+    }
 }

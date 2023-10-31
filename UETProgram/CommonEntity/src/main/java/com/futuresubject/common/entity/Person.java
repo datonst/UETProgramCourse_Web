@@ -13,7 +13,6 @@ import javax.persistence.Entity;
 public class Person {
     private String name;
     private Integer age;
-
     @Enumerated(EnumType.STRING)
     private GenderType gender;
     private String address;

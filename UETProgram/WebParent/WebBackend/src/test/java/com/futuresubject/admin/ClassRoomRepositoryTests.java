@@ -1,7 +1,7 @@
 package com.futuresubject.admin;
 
 import com.futuresubject.admin.repository.ClassroomRepository;
-import com.futuresubject.admin.repository.MarkSubjectRepository;
+import com.futuresubject.admin.service.MarkSubjectService;
 import com.futuresubject.common.entity.Classroom;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,8 @@ public class ClassRoomRepositoryTests {
     private ClassroomRepository classroomRepository;
     @Autowired
     private TestEntityManager entityManager;
+    @Autowired
+    private MarkSubjectService markSubjectService;
 
     @Test
     public void testClassroomFirst() {
@@ -26,4 +28,5 @@ public class ClassRoomRepositoryTests {
         classroom.setCohort("K67");
         classroomRepository.save(classroom);
     }
+
 }

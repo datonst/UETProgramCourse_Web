@@ -50,7 +50,10 @@ public class MarkSubjectController {
         String[] arrOfStr = element.split("&", 2);
         String studentId = arrOfStr[0];
         String subjectId = arrOfStr[1];
-        return markSubjectService.get(studentId,subjectId);
+        MarkSubjectDto markSubjectDto =  markSubjectService.get(studentId,subjectId);
+        markSubjectDto.setListOfStudentId(studentService.listOfStudentId());
+        markSubjectDto.setListOfSubjectId(subjectService.listOfSubjectId());
+        return markSubjectDto;
     }
     @PutMapping("/marksubjects/edit/save")
     @ExceptionHandler
@@ -65,7 +68,7 @@ public class MarkSubjectController {
 
     @DeleteMapping("/marksubjects/delete/{element}")
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEditStudent(@PathVariable(name = "element") String element) {
         String[] arrOfStr = element.split("&", 2);
         String studentid = arrOfStr[0];

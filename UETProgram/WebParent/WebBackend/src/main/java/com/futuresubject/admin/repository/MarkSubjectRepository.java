@@ -1,8 +1,11 @@
 package com.futuresubject.admin.repository;
 
+
+import com.futuresubject.admin.dto.search.MarkDto;
+import com.futuresubject.admin.dto.search.SearchMark;
 import com.futuresubject.common.entity.MarkSubject;
-import com.futuresubject.common.entity.Program;
-import com.futuresubject.common.entity.Student;
+
+import com.futuresubject.common.entity.RoleType;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -13,6 +16,7 @@ import java.util.List;
 
 @Repository
 public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integer> {
+
     @Query("SELECT u  FROM MarkSubject AS u " +
             "INNER JOIN Program AS c ON concat(c.programCode,'-',c.period) =?2" +
             " WHERE u.student.studentId =?1")
@@ -35,4 +39,52 @@ public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integ
     @Query("UPDATE MarkSubject AS u SET u.mark = ?3 " +
             " WHERE u.student.studentId = ?1 AND u.subject.subjectid = ?2")
     void updateMark(String studentId, String subjectId, Double mark);
+
+
+    @Query("SELECT sum (u.mark * u.subject.credit) FROM MarkSubject AS u " +
+            " INNER JOIN Program_Subject AS t ON t.program.id = ?2 " +
+            " WHERE   u.student.studentId = ?1 AND t.subject = u.subject")
+    Double sumMark(String studentId, Integer programId);
+
+
+
+
+    // Phiên bản thứ 1 - non-native
+    @Query(value = "SELECT new com.futuresubject.admin.dto.search.SearchMark(u.student.studentId,t.program.programName,sum(u.mark)) FROM MarkSubject AS u " +
+          " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
+            " GROUP BY u.student.studentId,t.program.programName",nativeQuery = false)
+    List<SearchMark> val();
+
+    // Phiên bản thứ 2: non-native
+
+//    @Query(value = "SELECT u.student.studentId AS studentId,t.program.programName AS programName,sum(u.mark) AS sumMark FROM MarkSubject AS u " +
+//          " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
+//            " GROUP BY u.student.studentId,t.program.programName",nativeQuery = false)
+//    List<Object[]> val();    --> chú ý: cần ép kiểu khi dùng
+
+
+    // Phiên bản thứ 3: native
+//    @Query(value = "SELECT u.student_id AS studentId,t.program_id AS programId,sum(u.mark) AS sumMark FROM marksubject AS u " +
+//          " INNER JOIN program_subject AS t ON u.subject_id = t.subject_id " +
+//            " GROUP BY u.student_id,t.program_id",nativeQuery = true)
+//    List<SearchMas> val();
+
+
+
+
+
+
+
+
+//    @Query("SELECT sum(u.mark)/count(*) FROM MarkSubject AS u " +
+//            " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
+//            " WHERE u.student.studentId = ?1 AND t.program.id = ?2 AND u.subject.roleType= ?3" +
+//            " GROUP BY u.student.studentId ")
+//    Double getAverageMarkObey(String studentId,String programId,RoleType roleType);
+
+
+    @Query("SELECT new com.futuresubject.admin.dto.search.MarkDto(u.mark,u.subject.credit)  FROM MarkSubject AS u " +
+            " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
+            " WHERE u.student.studentId = ?1 AND t.program.id = ?2 AND u.subject.roleType =  ?3" )
+    List<MarkDto> getMarkByRole(String studentId, Integer programId, RoleType roleType);
 }

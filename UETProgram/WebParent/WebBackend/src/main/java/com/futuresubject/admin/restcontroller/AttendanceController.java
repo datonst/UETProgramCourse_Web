@@ -50,7 +50,10 @@ public class AttendanceController {
         String[] arrOfStr = element.split("&", 2);
         String subjectId = arrOfStr[0];
         String programFullCode = arrOfStr[1];
-        return attendanceService.get(subjectId,programFullCode);
+        AttendanceDto attendanceDto = attendanceService.get(subjectId,programFullCode);
+        attendanceDto.setListOfProgramFullCode(programService.listOfProgramFullCode());
+        attendanceDto.setListOfStudentId(studentService.listOfStudentId());
+        return attendanceDto;
     }
     @PutMapping("/attendances/edit/save")
     @ExceptionHandler

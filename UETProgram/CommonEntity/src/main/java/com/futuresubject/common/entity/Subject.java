@@ -36,7 +36,7 @@ public class Subject {
 //    @Column(length = 40, nullable = false, unique = true)
     private String subjectid;
 
-    @Column(length = 40, nullable = false)
+    @Column(length = 100, nullable = false)
     private String subjectName;
 
     @Column(nullable = false)
