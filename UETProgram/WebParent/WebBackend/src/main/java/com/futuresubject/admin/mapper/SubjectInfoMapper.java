@@ -1,6 +1,6 @@
 package com.futuresubject.admin.mapper;
 
-import com.futuresubject.admin.dto.SubjectInfoDto;
+import com.futuresubject.admin.dto.search.SubjectInfoDto;
 import com.futuresubject.common.entity.Subject;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;

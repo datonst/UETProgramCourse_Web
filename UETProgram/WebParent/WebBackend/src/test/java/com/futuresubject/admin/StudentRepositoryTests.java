@@ -2,7 +2,7 @@ package com.futuresubject.admin;
 
 import com.futuresubject.admin.repository.StudentRepository;
 import com.futuresubject.common.entity.Classroom;
-import com.futuresubject.common.entity.GenderType;
+import com.futuresubject.common.entity.Enum.GenderType;
 import com.futuresubject.common.entity.Student;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

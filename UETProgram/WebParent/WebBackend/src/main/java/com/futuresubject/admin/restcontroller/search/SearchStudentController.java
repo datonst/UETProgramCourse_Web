@@ -1,10 +1,11 @@
 package com.futuresubject.admin.restcontroller.search;
 
 import com.futuresubject.admin.dto.StudentInfoDto;
-import com.futuresubject.admin.dto.SubjectInfoDto;
+import com.futuresubject.admin.dto.search.SubjectInfoDto;
 import com.futuresubject.admin.repository.StudentNotFoundException;
 import com.futuresubject.admin.service.MarkSubjectService;
-import com.futuresubject.admin.service.StudentInfoService;
+import com.futuresubject.admin.service.search.StudentInfoService;
+import com.futuresubject.common.entity.Enum.RoleType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -40,14 +41,16 @@ public class SearchStudentController {
     @ResponseStatus(HttpStatus.OK)
     public List<SubjectInfoDto> searchFinishedSubject(@PathVariable(name="mssv") String mssv,
                                                       @PathVariable(name="programFullCode") String programFullCode,
-                                                      @RequestParam(value = "status",required = false) String status) {
+                                                      @RequestParam(value = "status",required = false) String status,
+                                                      @RequestParam(value = "roleType",required = false) RoleType roleType) {
         if ("finished".equals(status)) {
-            return studentInfoService.getFinishedSubject(mssv, programFullCode);
+            return studentInfoService.getFinishedSubject(mssv, programFullCode, roleType);
         } else if ("unfinished".equals(status)) {
             return studentInfoService.getUnfinishedSubject(mssv, programFullCode);
         } else {
             return studentInfoService.getAllSubject(mssv, programFullCode);
         }
+
     }
 
 
@@ -60,4 +63,6 @@ public class SearchStudentController {
     public void ses() {
         markSubjectService.sumMarkOfStudentList();
     }
+
+
 }

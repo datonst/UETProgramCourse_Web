@@ -1,15 +1,12 @@
-package com.futuresubject.admin.service;
+package com.futuresubject.admin.service.search;
 
-import com.futuresubject.admin.dto.StudentDto;
 import com.futuresubject.admin.dto.StudentInfoDto;
-import com.futuresubject.admin.dto.SubjectInfoDto;
+import com.futuresubject.admin.dto.search.SubjectInfoDto;
 import com.futuresubject.admin.mapper.StudentInfoMapper;
 import com.futuresubject.admin.mapper.SubjectInfoMapper;
 import com.futuresubject.admin.repository.*;
-import com.futuresubject.common.entity.MarkSubject;
-import com.futuresubject.common.entity.Program;
-import com.futuresubject.common.entity.Student;
-import com.futuresubject.common.entity.Subject;
+import com.futuresubject.common.entity.*;
+import com.futuresubject.common.entity.Enum.RoleType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,15 +48,13 @@ public class StudentInfoService {
             throw new StudentNotFoundException("Could not find any user with mssv " + mssv);
         }
     }
-    public List<SubjectInfoDto> getFinishedSubject(String mssv, String programFullCode) {
-        List<SubjectInfoDto> subjectInfoDtoList = new ArrayList<>();
-        List<MarkSubject> markSubjectList = markSubjectRepository.findMarkList(mssv,programFullCode);
-        for (MarkSubject markSubject : markSubjectList) {
-            SubjectInfoDto subjectInfoDto = SubjectInfoMapper.INSTANCE.toDto(markSubject.getSubject());
-            subjectInfoDto.setMark(markSubject.getMark());
-            subjectInfoDtoList.add(subjectInfoDto);
+    public List<SubjectInfoDto> getFinishedSubject(String mssv, String programFullCode, RoleType roleType) {
+        if (roleType == null) {
+            return markSubjectRepository.getALlMarkByStudentAndProgram(mssv,programFullCode);
+
+        } else {
+            return markSubjectRepository.getALlMarkByRoleType(mssv,programFullCode, roleType);
         }
-        return subjectInfoDtoList;
     }
 
     public List<SubjectInfoDto> getUnfinishedSubject(String mssv, String programFullCode) {

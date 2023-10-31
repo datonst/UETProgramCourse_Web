@@ -1,13 +1,10 @@
 package com.futuresubject.admin.dto;
 
-import com.futuresubject.common.entity.Faculty;
-import com.futuresubject.common.entity.ProgramType;
-import jakarta.persistence.Column;
+import com.futuresubject.common.entity.Enum.ProgramType;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 
 /**

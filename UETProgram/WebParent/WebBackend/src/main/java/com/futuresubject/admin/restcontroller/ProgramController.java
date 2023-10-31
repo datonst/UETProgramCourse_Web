@@ -1,13 +1,10 @@
 package com.futuresubject.admin.restcontroller;
-import com.futuresubject.admin.dto.ClassroomDto;
-import com.futuresubject.admin.dto.MarkSubjectDto;
 import com.futuresubject.admin.dto.NotFoundDataExeption;
 import com.futuresubject.admin.dto.ProgramDto;
 import com.futuresubject.admin.service.FacultyService;
 import com.futuresubject.admin.service.ProgramService;
-import com.futuresubject.common.entity.MarkSubject;
 import com.futuresubject.common.entity.Program;
-import com.futuresubject.common.entity.ProgramType;
+import com.futuresubject.common.entity.Enum.ProgramType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

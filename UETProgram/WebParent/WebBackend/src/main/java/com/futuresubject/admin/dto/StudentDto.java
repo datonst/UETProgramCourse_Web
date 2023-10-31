@@ -1,11 +1,10 @@
 package com.futuresubject.admin.dto;
 
-import com.futuresubject.common.entity.GenderType;
+import com.futuresubject.common.entity.Enum.GenderType;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 
 /**

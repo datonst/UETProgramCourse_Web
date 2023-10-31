@@ -3,7 +3,7 @@ package com.futuresubject.admin.restcontroller;
 import com.futuresubject.admin.dto.SubjectDto;
 import com.futuresubject.admin.dto.NotFoundDataExeption;
 import com.futuresubject.admin.service.SubjectService;
-import com.futuresubject.common.entity.RoleType;
+import com.futuresubject.common.entity.Enum.RoleType;
 import com.futuresubject.common.entity.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
