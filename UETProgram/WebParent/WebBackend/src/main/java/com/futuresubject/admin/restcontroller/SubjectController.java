@@ -65,11 +65,10 @@ public class SubjectController {
         }
     }
 
-    @PutMapping("/subjects/edit/{subjectid}")
+    @PutMapping("/subjects/edit/save")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
-    public void putEditSubject(@PathVariable(name = "subjectid") String subjectid,
-                                     @RequestBody SubjectDto subjectDto) {
+    public void putEditSubject(@RequestBody SubjectDto subjectDto) {
         subjectService.updateFromDto(subjectDto);
     }
 
