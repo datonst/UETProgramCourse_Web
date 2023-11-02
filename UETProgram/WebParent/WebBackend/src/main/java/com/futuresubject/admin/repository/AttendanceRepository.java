@@ -1,6 +1,8 @@
 package com.futuresubject.admin.repository;
 
 import com.futuresubject.common.entity.Attendance;
+
+import com.futuresubject.common.entity.Enum.LevelLanguage;
 import com.futuresubject.common.entity.Program;
 import com.futuresubject.common.entity.Student;
 import com.futuresubject.common.entity.Subject;
@@ -10,6 +12,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface AttendanceRepository  extends CrudRepository<Attendance, Integer> {
@@ -25,4 +28,7 @@ public interface AttendanceRepository  extends CrudRepository<Attendance, Intege
     @Modifying
     @Query("DELETE FROM Attendance AS u WHERE u.student.studentId = ?1 AND concat(u.program.programCode,'-',u.program.period) = ?2")
     void deleteAttendanceByStudentIdAndProgramId(String subjectId, String programFullCode);
+
+    @Query("SELECT u.program.levelLanguage  FROM Attendance AS u WHERE u.student.studentId = ?1")
+    Set<LevelLanguage> listOfLevelLanguage(String studentId);
 }

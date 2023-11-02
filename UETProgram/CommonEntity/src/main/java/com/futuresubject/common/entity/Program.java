@@ -1,6 +1,8 @@
 package com.futuresubject.common.entity;
 
 import com.fasterxml.jackson.annotation.*;
+
+import com.futuresubject.common.entity.Enum.LevelLanguage;
 import com.futuresubject.common.entity.Enum.ProgramType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -49,6 +51,11 @@ public class Program {
     @JsonIgnore
     private Faculty faculty;
 
+    @Column
+    @Enumerated(EnumType.STRING)
+    @ToString.Exclude
+    private LevelLanguage levelLanguage;
+
     @Column(nullable = false)
     private Integer totalCredits;
 //    @ManyToMany(fetch = FetchType.LAZY)
@@ -76,6 +83,8 @@ public class Program {
     private Integer totalOfNationalDefense;
     private Integer totalOfAdditional;
     private Integer totalOfGraduationInternship;
+
+
 
     public Program(String courseCode, String courseName, Faculty faculty, Integer totalCredits, Integer totalOfMandatory, Integer totalOfOptional, Integer totalOfOptionalReinforcement, Integer totalOfPhysical, Integer totalOfNationalDefense, Integer totalOfAdditional, Integer totalOfGraduationInternship) {
         this.programCode = courseCode;

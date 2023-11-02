@@ -1,5 +1,7 @@
 package com.futuresubject.admin.dto;
 
+
+import com.futuresubject.common.entity.Enum.LevelLanguage;
 import com.futuresubject.common.entity.Enum.ProgramType;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
@@ -23,6 +25,7 @@ public class ProgramDto implements Serializable {
     Double duration;
     ProgramType programType;
     String facultyName;
+    LevelLanguage levelLanguage;
     Integer totalCredits;
     Integer totalOfMandatory;
     Integer totalOfOptional;
@@ -33,4 +36,5 @@ public class ProgramDto implements Serializable {
     Integer totalOfGraduationInternship;
     List<ProgramType> programTypeList;
     List<String> listOfFacultyName;
+    List<LevelLanguage> levelLanguageList;
 }

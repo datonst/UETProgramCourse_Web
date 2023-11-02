@@ -1,6 +1,9 @@
 package com.futuresubject.admin.restcontroller.search;
 
 import com.futuresubject.admin.dto.StudentInfoDto;
+import com.futuresubject.admin.dto.search.AverageMark;
+import com.futuresubject.admin.dto.search.DownGrade;
+import com.futuresubject.admin.dto.search.EnoughCertificate;
 import com.futuresubject.admin.dto.search.SubjectInfoDto;
 import com.futuresubject.admin.repository.StudentNotFoundException;
 import com.futuresubject.admin.service.MarkSubjectService;
@@ -36,7 +39,7 @@ public class SearchStudentController {
         return studentInfoService.getStudent(mssv);
     }
 
-    @GetMapping("/searchid/{mssv}/{programFullCode}")
+    @GetMapping("/searchSubject/{mssv}/{programFullCode}")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
     public List<SubjectInfoDto> searchFinishedSubject(@PathVariable(name="mssv") String mssv,
@@ -44,25 +47,55 @@ public class SearchStudentController {
                                                       @RequestParam(value = "status",required = false) String status,
                                                       @RequestParam(value = "roleType",required = false) RoleType roleType) {
         if ("finished".equals(status)) {
-            return studentInfoService.getFinishedSubject(mssv, programFullCode, roleType);
+            List<SubjectInfoDto> dtos = studentInfoService.getFinishedSubject(mssv, programFullCode, roleType);
+            return dtos;
         } else if ("unfinished".equals(status)) {
-            return studentInfoService.getUnfinishedSubject(mssv, programFullCode);
+            return studentInfoService.getUnfinishedSubject(mssv, programFullCode,roleType);
         } else {
             return studentInfoService.getAllSubject(mssv, programFullCode);
         }
-
     }
 
 
-    //Phần này để TEST
-    @GetMapping("/sea")
-    public void se() {
-        System.out.println(markSubjectService.sumMark("22028245","cn8-2019"));
-    }
-    @GetMapping("/seaw/s")
-    public void ses() {
-        markSubjectService.sumMarkOfStudentList();
+//    //Phần này để TEST
+//    @GetMapping("/sea")
+//    public void se() {
+//        System.out.println(markSubjectService.sumMark("22028245","cn8-2019"));
+//    }
+//    @GetMapping("/seaw/s")
+//    public void ses() {
+//        markSubjectService.sumMarkOfStudentList();
+//    }
+
+    @GetMapping("/getAverageMark/{mssv}/{programFullCode}")
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.OK)
+    public AverageMark getAverageMarkByRoleType(@PathVariable(name="mssv") String mssv,
+                                                @PathVariable(name="programFullCode") String programFullCode,
+                                                @RequestParam(value = "roleType",required = false) RoleType roleType) {
+            AverageMark averageMark = new AverageMark();
+            List<SubjectInfoDto> dtos = studentInfoService.getFinishedSubject(mssv, programFullCode, roleType);
+            averageMark.setAverageMark(studentInfoService.getMaxAverageMark(dtos,programFullCode,roleType));
+            return averageMark;
     }
 
+    @GetMapping("/downgraded/{mssv}/{programFullCode}")
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.OK)
+    public DownGrade getDownGraded(@PathVariable(name="mssv") String mssv,
+                                @PathVariable(name="programFullCode") String programFullCode) {
+        DownGrade downGrade = new DownGrade();
+        downGrade.setDownGrade(studentInfoService.downGraded(mssv, programFullCode));
+        return downGrade;
+    }
 
+    @GetMapping("/enoughCert/{mssv}/{programFullCode}")
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.OK)
+    public EnoughCertificate enoughCert(@PathVariable(name="mssv") String mssv,
+                                        @PathVariable(name="programFullCode") String programFullCode) {
+        EnoughCertificate enoughCertificate = new EnoughCertificate();
+        enoughCertificate.setEnoughCert(studentInfoService.enoughCertificate(mssv, programFullCode));
+        return enoughCertificate;
+    }
 }

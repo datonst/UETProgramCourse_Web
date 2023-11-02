@@ -66,7 +66,6 @@ public class Subject {
     public void addPrerequisite(Subject subject) {
         this.prerequisiteSubject.add(subject);
         subject.getReferenceList().add(this);
-
     }
 
     public void removePrerequisite(Subject subject) {

@@ -1,5 +1,7 @@
 package com.futuresubject.admin.repository;
 
+
+import com.futuresubject.common.entity.Enum.LevelLanguage;
 import com.futuresubject.common.entity.MarkSubject;
 import com.futuresubject.common.entity.Program;
 import org.springframework.data.jpa.repository.Modifying;
@@ -22,4 +24,7 @@ public interface ProgramRepository extends CrudRepository<Program, Integer> {
     void deleteByProgramFullCode(String programFullCode);
     @Query("SELECT u.id  FROM Program AS u WHERE concat(u.programCode,'-',u.period) = ?1 ")
     Integer findId(String ProgramFullCode);
+
+    @Query("SELECT u.levelLanguage  FROM Program AS u WHERE concat(u.programCode,'-',u.period) = ?1 ")
+    LevelLanguage findLevelLanguage(String ProgramFullCode);
 }

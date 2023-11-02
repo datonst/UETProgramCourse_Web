@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class MarkSubjectController {
+
     @Autowired
     MarkSubjectService markSubjectService;
+
     @Autowired
     StudentService studentService;
+
     @Autowired
     SubjectService subjectService;
 
@@ -42,6 +45,7 @@ public class MarkSubjectController {
 //        }
         return markSubjectService.insert(markSubjectDto);
     }
+
     @GetMapping("/marksubjects/edit/{element}")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
@@ -55,6 +59,7 @@ public class MarkSubjectController {
         markSubjectDto.setListOfSubjectId(subjectService.listOfSubjectId());
         return markSubjectDto;
     }
+
     @PutMapping("/marksubjects/edit/save")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
@@ -75,4 +80,5 @@ public class MarkSubjectController {
         String subjectid = arrOfStr[1];
         markSubjectService.deleteMark(studentid,subjectid);
     }
+
 }

@@ -4,9 +4,8 @@ package com.futuresubject.admin.repository;
 import com.futuresubject.admin.dto.search.MarkDto;
 import com.futuresubject.admin.dto.search.SearchMark;
 import com.futuresubject.admin.dto.search.SubjectInfoDto;
-import com.futuresubject.common.entity.MarkSubject;
-
 import com.futuresubject.common.entity.Enum.RoleType;
+import com.futuresubject.common.entity.MarkSubject;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -31,6 +30,7 @@ public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integ
     @Query("SELECT u FROM MarkSubject AS u " +
             " WHERE u.student.studentId = ?1 AND u.subject.subjectid = ?2")
     MarkSubject findMarkSubject(String studentId, String subjectId);
+
     @Query("SELECT u.id FROM MarkSubject AS u " +
             " WHERE u.student.studentId = ?1 AND u.subject.subjectid = ?2")
     Integer findId(String studentId, String subjectId);
@@ -53,7 +53,7 @@ public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integ
             "(u.subject.subjectName,u.subject.credit,u.subject.roleType,u.mark)" +
             " FROM MarkSubject AS u " +
             " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
-            " WHERE u.student.studentId = ?1 AND concat(t.program.programCode,'-',t.program.period) = ?2 ",nativeQuery = false)
+            " WHERE u.student.studentId = ?1 AND concat(t.program.programCode,'-',t.program.period) = ?2 ", nativeQuery = false)
     List<SubjectInfoDto> getALlMarkByStudentAndProgram(String studentId, String programFullCode);
 
     @Query(value = "SELECT " +
@@ -63,14 +63,14 @@ public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integ
             " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
             " WHERE u.student.studentId = ?1 " +
             " AND concat(t.program.programCode,'-',t.program.period) = ?2 " +
-            " AND u.subject.roleType = ?3 ",nativeQuery = false)
+            " AND u.subject.roleType = ?3 ", nativeQuery = false)
     List<SubjectInfoDto> getALlMarkByRoleType(String mssv, String programFullCode, RoleType roleType);
 
 
     // Phiên bản thứ 1 - non-native
     @Query(value = "SELECT new com.futuresubject.admin.dto.search.SearchMark(u.student.studentId,t.program.programName,sum(u.mark)) FROM MarkSubject AS u " +
-          " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
-            " GROUP BY u.student.studentId,t.program.programName",nativeQuery = false)
+            " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
+            " GROUP BY u.student.studentId,t.program.programName", nativeQuery = false)
     List<SearchMark> val();
 
     // Phiên bản thứ 2: non-native
@@ -88,12 +88,6 @@ public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integ
 //    List<SearchMas> val();
 
 
-
-
-
-
-
-
 //    @Query("SELECT sum(u.mark)/count(*) FROM MarkSubject AS u " +
 //            " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
 //            " WHERE u.student.studentId = ?1 AND t.program.id = ?2 AND u.subject.roleType= ?3" +
@@ -103,7 +97,7 @@ public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integ
 
     @Query("SELECT new com.futuresubject.admin.dto.search.MarkDto(u.mark,u.subject.credit)  FROM MarkSubject AS u " +
             " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
-            " WHERE u.student.studentId = ?1 AND t.program.id = ?2 AND u.subject.roleType =  ?3" )
+            " WHERE u.student.studentId = ?1 AND t.program.id = ?2 AND u.subject.roleType =  ?3")
     List<MarkDto> getMarkByRole(String studentId, Integer programId, RoleType roleType);
 
 

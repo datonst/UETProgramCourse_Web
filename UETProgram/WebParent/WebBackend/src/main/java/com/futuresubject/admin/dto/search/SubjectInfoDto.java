@@ -20,7 +20,6 @@ public class SubjectInfoDto implements Serializable {
     Integer credit;
     RoleType roleType;
     Double mark;
-
     public SubjectInfoDto(String subjectName, Integer credit, RoleType roleType, Double mark) {
         this.subjectName = subjectName;
         this.credit = credit;

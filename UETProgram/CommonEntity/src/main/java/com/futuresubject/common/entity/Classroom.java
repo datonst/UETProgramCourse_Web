@@ -22,6 +22,8 @@ public class Classroom {
 
     @Column(nullable = false)
     private String cohort;
+
+
     @Column(nullable = false)
     private String nameClass;
 

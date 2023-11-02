@@ -33,7 +33,7 @@ public class Student extends Person {
 //    private String date;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "classroomid",nullable = false)
+    @JoinColumn(name = "classroomid")
     @ToString.Exclude
     private Classroom classroom;
 

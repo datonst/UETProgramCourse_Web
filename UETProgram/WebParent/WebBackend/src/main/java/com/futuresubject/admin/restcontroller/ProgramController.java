@@ -3,6 +3,8 @@ import com.futuresubject.admin.dto.NotFoundDataExeption;
 import com.futuresubject.admin.dto.ProgramDto;
 import com.futuresubject.admin.service.FacultyService;
 import com.futuresubject.admin.service.ProgramService;
+
+import com.futuresubject.common.entity.Enum.LevelLanguage;
 import com.futuresubject.common.entity.Program;
 import com.futuresubject.common.entity.Enum.ProgramType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,7 @@ public class ProgramController {
         ProgramDto programDto = new ProgramDto();
         programDto.setListOfFacultyName(facultyService.listOfFacultyName());
         programDto.setProgramTypeList(Arrays.asList(ProgramType.values()));
+        programDto.setLevelLanguageList(Arrays.asList(LevelLanguage.values()));
         return programDto;
     }
 
@@ -57,6 +60,7 @@ public class ProgramController {
         ProgramDto programDto = programService.get(programFullName);
         programDto.setListOfFacultyName(facultyService.listOfFacultyName());
         programDto.setProgramTypeList(Arrays.asList(ProgramType.values()));
+        programDto.setLevelLanguageList(Arrays.asList(LevelLanguage.values()));
         return programDto;
     }
     @PutMapping("/programs/edit/{programFullName}")
