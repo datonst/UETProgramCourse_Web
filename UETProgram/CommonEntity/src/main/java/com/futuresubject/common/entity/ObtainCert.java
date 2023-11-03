@@ -11,6 +11,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -43,8 +44,8 @@ public class ObtainCert {
     private LevelLanguage levelLanguage;
 
     @Column
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="MM-yyyy", timezone="Asia/Saigon")
-    private Date submissionDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="MM-yyyy", timezone="Asia/Bangkok")
+    private LocalDate submissionDate;
 
     @Override
     public final boolean equals(Object object) {

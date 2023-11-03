@@ -15,6 +15,7 @@ public enum RoleType {
         Integer number =null;
         switch (roleType) {
             case MANDATORY:
+                System.out.println("MANDATORY HEAR ........");
                 number = program.getTotalOfMandatory();
                 break;
             case OPTIONAL:

@@ -1,13 +1,14 @@
 package com.futuresubject.admin.service.search;
 
 import com.futuresubject.admin.dto.StudentInfoDto;
+import com.futuresubject.admin.dto.search.EnoughCredit;
 import com.futuresubject.admin.dto.search.SubjectInfoDto;
 import com.futuresubject.admin.mapper.StudentInfoMapper;
 import com.futuresubject.admin.mapper.SubjectInfoMapper;
 import com.futuresubject.admin.repository.*;
+import com.futuresubject.common.entity.Abstract.ConvertMark;
 import com.futuresubject.common.entity.Enum.LevelLanguage;
 import com.futuresubject.common.entity.Enum.RoleType;
-import com.futuresubject.common.entity.Abstract.ConvertMark;
 import com.futuresubject.common.entity.Program;
 import com.futuresubject.common.entity.Student;
 import com.futuresubject.common.entity.Subject;
@@ -16,7 +17,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.SerializationUtils;
 
-import java.util.*;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,7 +82,7 @@ public class StudentInfoService {
     public List<SubjectInfoDto> getUnfinishedSubject(String mssv, String programFullCode, RoleType roleType) {
         List<SubjectInfoDto> subjectInfoDtoList = new ArrayList<>();
         if (roleType != null) {
-            List<Subject> SubjectList = programSubjectRepository.findAllSubjectUnfinishedByRoleType(mssv, programFullCode,roleType);
+            List<Subject> SubjectList = programSubjectRepository.findAllSubjectUnfinishedByRoleType(mssv, programFullCode, roleType);
             for (Subject subject : SubjectList) {
                 SubjectInfoDto subjectInfoDto = SubjectInfoMapper.INSTANCE.toDto(subject);
                 subjectInfoDtoList.add(subjectInfoDto);
@@ -89,18 +97,17 @@ public class StudentInfoService {
         return subjectInfoDtoList;
     }
 
-    public Double getMaxAverageMark(List<SubjectInfoDto> dtos, String programFullCode, RoleType roleType) {
-        int number = Integer.MAX_VALUE;
+    public Double getMaxAverageMark(List<SubjectInfoDto> dtos, Program program, RoleType roleType) {
+        int numberMax = Integer.MAX_VALUE;
         if (roleType != null) {
-            Program program = programRepository.findByProgramCodeAndAndPeriod(programFullCode);
-            number = RoleType.getTotalCredit(program,roleType);
+            numberMax = RoleType.getTotalCredit(program, roleType);
         }
         List<SubjectInfoDto> values = dtos.stream().map(SerializationUtils::clone).collect(Collectors.toList());
         values.sort(Comparator.comparing(SubjectInfoDto::getMark).reversed());
         double sumMark = 0;
         int totalCredit = 0;
         for (SubjectInfoDto subjectInfoDto : values) {
-            if (totalCredit >= number) {
+            if (totalCredit >= numberMax) {
                 break;
             } else {
                 sumMark += (ConvertMark.MarkToGPA(subjectInfoDto.getMark())
@@ -108,7 +115,9 @@ public class StudentInfoService {
                 totalCredit += subjectInfoDto.getCredit();
             }
         }
-        return totalCredit == 0 ? totalCredit : sumMark / totalCredit;
+        Double result =sumMark / totalCredit;
+        result = ((double) Math.round(result*100))/100;
+        return totalCredit == 0 ? totalCredit :result ;
     }
 
 
@@ -116,23 +125,19 @@ public class StudentInfoService {
         List<SubjectInfoDto> dtos = getFinishedSubject(mssv, programFullCode, null);
         double countCredit = 0;
         for (SubjectInfoDto subjectInfoDto : dtos) {
-            if (Double.compare(subjectInfoDto.getMark(),4.0d) <0 ){
-                countCredit +=subjectInfoDto.getCredit();
+            if (Double.compare(subjectInfoDto.getMark(), 4.0d) < 0) {
+                countCredit += subjectInfoDto.getCredit();
             }
         }
         Program program = programRepository.findByProgramCodeAndAndPeriod(programFullCode);
-        if (Double.compare(countCredit/program.getTotalCredits(),0.05d)>0) {
-            return true;
-        }
-        return false;
+        return Double.compare(countCredit / program.getTotalCredits(), 0.05d) > 0;
     }
 
-    public boolean enoughCertificate(String studentId,String programFullCode) {
+    public boolean enoughCertificate(String studentId, Program program) {
         List<LevelLanguage> levelLanguageList =
                 obtainCertRepository.findObtainCertByStudentId(studentId);
-
-        LevelLanguage levelLanguage = programRepository.findLevelLanguage(programFullCode);
-        String neededLevel =levelLanguage.toString();
+        LevelLanguage levelLanguage = program.getLevelLanguage();
+        String neededLevel = levelLanguage.toString();
         String[] neededOfStr = neededLevel.split("_", 2);
         boolean compare = false;
         for (LevelLanguage level : levelLanguageList) {
@@ -148,5 +153,47 @@ public class StudentInfoService {
             }
         }
         return compare;
+    }
+
+    public Period dateDiff(String studentId, String programFullCode) {
+        LocalDate attendanceDate = attendanceRepository.findAttendanceDate(studentId, programFullCode);
+        ZoneId zoneBangkok = ZoneId.of("Asia/Bangkok");
+        ZonedDateTime now = ZonedDateTime.now();
+        LocalDate nowDate = now.toLocalDate();
+        Period period = Period.between(attendanceDate, nowDate);
+        return period;
+    }
+
+
+    public Program getProgram(String programFullCode) {
+        Program program = programRepository.findByProgramCodeAndAndPeriod(programFullCode);
+        return program;
+    }
+    public EnoughCredit numberStudiedCredit(List<SubjectInfoDto> dtos, Program program,RoleType roleType) {
+        EnoughCredit enoughCredit = new EnoughCredit();
+        int numberMax = Integer.MAX_VALUE;
+        if (roleType != null) {
+            numberMax = RoleType.getTotalCredit(program, roleType);
+        } else {
+            numberMax = program.getTotalCredits();
+        }
+        List<SubjectInfoDto> values = new ArrayList<>();
+        for (SubjectInfoDto s : dtos) {
+            if ( roleType ==null || s.getRoleType() == roleType) {
+                values.add(s);
+            }
+        }
+        values.sort(Comparator.comparing(SubjectInfoDto::getMark).reversed());
+        int totalCredit = 0;
+        for (SubjectInfoDto subjectInfoDto : values) {
+            if (totalCredit >= numberMax) {
+                enoughCredit.setEnough(true);
+                break;
+            } else {
+                totalCredit += subjectInfoDto.getCredit();
+            }
+        }
+        enoughCredit.setContent((totalCredit)+ "/" + numberMax);
+        return enoughCredit;
     }
 }

@@ -11,6 +11,7 @@ import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -37,12 +38,12 @@ public class Attendance {
     private Program program;
 
     @Column(name ="start_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="MM-yyyy", timezone="Asia/Saigon")
-    private Date startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="MM-yyyy", timezone="Asia/Bangkok")
+    private LocalDate startDate;
 
     @Column(name ="end_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="MM-yyyy", timezone="Asia/Saigon")
-    private Date endDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="MM-yyyy", timezone="Asia/Bangkok")
+    private LocalDate endDate;
 
     @Override
     public final boolean equals(Object o) {

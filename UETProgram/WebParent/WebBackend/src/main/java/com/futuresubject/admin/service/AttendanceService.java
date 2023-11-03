@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -32,6 +33,17 @@ public class AttendanceService {
     @Autowired
     private ProgramRepository programRepository;
 
+    public List<AttendanceDto> findAllAttendance() {
+        List<Attendance> attendanceList = attendanceRepository.listAttendance();
+        List<AttendanceDto> attendanceDtoList = new ArrayList<>();
+        for (Attendance attendance : attendanceList) {
+            AttendanceDto attendanceDto =
+                    AttendanceMapper.INSTANCE.toDto(attendance);
+
+            attendanceDtoList.add(attendanceDto);
+        }
+        return attendanceDtoList;
+    }
 
     public Attendance insert(AttendanceDto attendanceDto) {
         Attendance attendance = AttendanceMapper.INSTANCE.toEntity(attendanceDto);

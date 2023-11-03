@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 public class AttendanceController {
@@ -42,7 +44,12 @@ public class AttendanceController {
 //        }
         return attendanceService.insert(attendanceDto);
     }
-
+    @GetMapping("/attendances")
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.OK)
+    public List<AttendanceDto> attendacesList() throws NotFoundDataExeption {
+        return attendanceService.findAllAttendance();
+    }
     @GetMapping("/attendances/edit/{element}")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)

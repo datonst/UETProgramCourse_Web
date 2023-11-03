@@ -8,8 +8,6 @@ import org.mapstruct.factory.Mappers;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface MarkSubjectMapper {
     MarkSubjectMapper INSTANCE = Mappers.getMapper(MarkSubjectMapper.class);
-
-
     MarkSubject toEntity(MarkSubjectDto markSubjectDto);
 
 

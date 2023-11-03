@@ -1,6 +1,7 @@
 package com.futuresubject.admin.repository;
 
 
+import com.futuresubject.admin.dto.MarkSubjectDto;
 import com.futuresubject.admin.dto.search.MarkDto;
 import com.futuresubject.admin.dto.search.SearchMark;
 import com.futuresubject.admin.dto.search.SubjectInfoDto;
@@ -16,6 +17,9 @@ import java.util.List;
 
 @Repository
 public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integer> {
+
+    @Query("SELECT u FROM MarkSubject  AS u")
+    List<MarkSubject> getAllMarkSubject();
 
     @Query("SELECT u  FROM MarkSubject AS u " +
             "INNER JOIN Program AS c ON concat(c.programCode,'-',c.period) =?2" +

@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class MarkSubjectController {
 
@@ -24,6 +27,14 @@ public class MarkSubjectController {
     @Autowired
     SubjectService subjectService;
 
+
+    @GetMapping("/marksubjects")
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.OK)
+    public List<MarkSubjectDto> getAllMarkSubject() {
+        return markSubjectService.getAllMarkSubject();
+    }
+
     @GetMapping("/marksubjects/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
@@ -33,6 +44,7 @@ public class MarkSubjectController {
         markSubjectDto.setListOfSubjectId(subjectService.listOfSubjectId());
         return markSubjectDto;
     }
+
 
     @PostMapping("/marksubjects/new")
     @ExceptionHandler

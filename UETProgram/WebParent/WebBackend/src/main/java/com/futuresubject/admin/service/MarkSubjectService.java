@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -31,6 +32,17 @@ public class MarkSubjectService {
     @Autowired
     private ProgramRepository programRepository;
 
+    public List<MarkSubjectDto> getAllMarkSubject() {
+        List<MarkSubject> markSubjectList = markSubjectRepository
+                .getAllMarkSubject();
+        List<MarkSubjectDto> markSubjectDtoList = new ArrayList<>();
+        for (MarkSubject markSubject : markSubjectList) {
+            MarkSubjectDto dto =  MarkSubjectMapper.INSTANCE
+                    .toDto(markSubject);
+            markSubjectDtoList.add(dto);
+        }
+        return markSubjectDtoList;
+    }
     public MarkSubject insert(MarkSubjectDto markSubjectDto) throws NotFoundDataExeption {
         String studentId = markSubjectDto.getStudentId();
         String subjectId = markSubjectDto.getSubjectId();

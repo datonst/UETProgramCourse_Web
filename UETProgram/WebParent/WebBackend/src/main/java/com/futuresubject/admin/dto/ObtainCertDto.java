@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -23,8 +24,8 @@ public class ObtainCertDto implements Serializable {
     String studentId;
     CertificateType certificateType;
     LevelLanguage levelLanguage;
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="MM-yyyy", timezone="Asia/Saigon")
-    Date submissionDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="MM-yyyy", timezone="Asia/Bangkok")
+    LocalDate submissionDate;
     List<CertificateType> certificateTypeList;
     List<LevelLanguage> levelLanguageList;
 }

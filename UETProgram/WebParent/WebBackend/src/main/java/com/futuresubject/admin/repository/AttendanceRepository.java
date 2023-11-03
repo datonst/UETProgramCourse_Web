@@ -11,11 +11,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 @Repository
 public interface AttendanceRepository  extends CrudRepository<Attendance, Integer> {
+
+    @Query("SELECT u  FROM Attendance AS u")
+    List<Attendance> listAttendance();
     @Query("SELECT u.program  FROM Attendance AS u WHERE u.student = ?1")
     List<Program> listOfProgram(Student student);
 
@@ -31,4 +36,7 @@ public interface AttendanceRepository  extends CrudRepository<Attendance, Intege
 
     @Query("SELECT u.program.levelLanguage  FROM Attendance AS u WHERE u.student.studentId = ?1")
     Set<LevelLanguage> listOfLevelLanguage(String studentId);
+
+    @Query("SELECT u.startDate  FROM Attendance AS u WHERE u.student.studentId = ?1 AND concat(u.program.programCode,'-',u.program.period) = ?2")
+    LocalDate findAttendanceDate(String subjectId, String programFullCode);
 }
