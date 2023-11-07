@@ -24,8 +24,8 @@ public class ObtainCertDto implements Serializable {
     String studentId;
     CertificateType certificateType;
     LevelLanguage levelLanguage;
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="MM-yyyy", timezone="Asia/Bangkok")
-    LocalDate submissionDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="dd-MM-yyyy", timezone="Asia/Bangkok")
+    String submissionDate;
     List<CertificateType> certificateTypeList;
     List<LevelLanguage> levelLanguageList;
 }

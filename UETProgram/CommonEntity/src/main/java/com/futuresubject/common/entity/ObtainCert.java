@@ -44,7 +44,6 @@ public class ObtainCert {
     private LevelLanguage levelLanguage;
 
     @Column
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="MM-yyyy", timezone="Asia/Bangkok")
     private LocalDate submissionDate;
 
     @Override

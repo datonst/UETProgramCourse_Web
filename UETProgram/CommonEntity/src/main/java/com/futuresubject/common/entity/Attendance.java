@@ -2,7 +2,7 @@ package com.futuresubject.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -38,12 +37,11 @@ public class Attendance {
     private Program program;
 
     @Column(name ="start_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="MM-yyyy", timezone="Asia/Bangkok")
     private LocalDate startDate;
 
     @Column(name ="end_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="MM-yyyy", timezone="Asia/Bangkok")
     private LocalDate endDate;
+
 
     @Override
     public final boolean equals(Object o) {

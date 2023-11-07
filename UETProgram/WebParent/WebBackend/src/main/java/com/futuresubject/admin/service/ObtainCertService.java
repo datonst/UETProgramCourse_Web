@@ -7,6 +7,7 @@ import com.futuresubject.admin.repository.ObtainCertRepository;
 import com.futuresubject.admin.repository.ProgramRepository;
 import com.futuresubject.admin.repository.StudentRepository;
 
+import com.futuresubject.common.entity.Enum.CertificateType;
 import com.futuresubject.common.entity.Enum.LevelLanguage;
 import com.futuresubject.common.entity.Faculty;
 import com.futuresubject.common.entity.ObtainCert;
@@ -31,8 +32,8 @@ public class ObtainCertService {
     private StudentRepository studentRepository;
 
 
-    public ObtainCertDto getByStudentIdAndLevelLanguage(String studentId, LevelLanguage levelLanguage) {
-        ObtainCert obtainCert = obtainCertRepository.findByStudentIdAndLevelLanguage(studentId,levelLanguage);
+    public ObtainCertDto getByStudentIdAndLevelLanguage(String studentId, CertificateType certificateType) {
+        ObtainCert obtainCert = obtainCertRepository.findByStudentIdAndLevelLanguage(studentId,certificateType);
         return ObtainCertMapper.INSTANCE.toDto(obtainCert);
     }
     public List<ObtainCertDto> findAllObtainCert() {
@@ -55,8 +56,8 @@ public class ObtainCertService {
     }
 
 
-    public void deleteByStudentIdAndLevel(String studentId, LevelLanguage levelLanguage) {
-        Integer id = obtainCertRepository.findId(studentId,levelLanguage);
+    public void deleteByStudentIdAndLevel(String studentId, CertificateType certificateType) {
+        Integer id = obtainCertRepository.findId(studentId,certificateType);
         obtainCertRepository.deleteById(id);
 //        obtainCertRepository.deleteByStudentIdAndLevel(studentId,levelLanguage);
     }
@@ -66,7 +67,7 @@ public class ObtainCertService {
     public ObtainCert insert(ObtainCertDto obtainCertDto) {
         ObtainCert obtainCert = ObtainCertMapper.INSTANCE.toEntity(obtainCertDto);
         obtainCert.setStudent(studentRepository.findById(obtainCertDto.getStudentId()).get());
-        Integer id = obtainCertRepository.findId(obtainCertDto.getStudentId(),obtainCertDto.getLevelLanguage());
+        Integer id = obtainCertRepository.findId(obtainCertDto.getStudentId(),obtainCertDto.getCertificateType());
         if (id!=null) {
             obtainCert.setId(id);
         }
@@ -76,7 +77,7 @@ public class ObtainCertService {
     public void updateFromDto(ObtainCertDto obtainCertDto) {
         ObtainCert obtainCert = ObtainCertMapper.INSTANCE.toEntity(obtainCertDto);
         obtainCert.setStudent(studentRepository.findById(obtainCertDto.getStudentId()).get());
-        Integer id = obtainCertRepository.findId(obtainCertDto.getStudentId(),obtainCertDto.getLevelLanguage());
+        Integer id = obtainCertRepository.findId(obtainCertDto.getStudentId(),obtainCertDto.getCertificateType());
         if (id!=null) {
             obtainCert.setId(id);
         }

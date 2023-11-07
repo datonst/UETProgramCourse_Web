@@ -10,7 +10,9 @@ import com.futuresubject.common.entity.Enum.CertificateType;
 import com.futuresubject.common.entity.Enum.LevelLanguage;
 import com.futuresubject.common.entity.Faculty;
 import com.futuresubject.common.entity.ObtainCert;
+import com.futuresubject.common.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,14 +23,14 @@ import java.util.List;
 public class ObtainCertController {
     @Autowired
     private ObtainCertService obtainCertService;
-    @GetMapping("/obtainCert")
+    @GetMapping("/obtaincerts")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
     public List<ObtainCertDto> getAllFaculty() {
 
         return obtainCertService.findAllObtainCert();
     }
-    @GetMapping("/obtainCert/new")
+    @GetMapping("/obtaincerts/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
     public ObtainCertDto createFaculty() {
@@ -38,7 +40,7 @@ public class ObtainCertController {
         return obtainCertDto;
     }
 
-    @PostMapping("/obtainCert/new")
+    @PostMapping("/obtaincerts/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
     public ObtainCert saveFaculty(@RequestBody ObtainCertDto obtainCertDto) throws NotFoundDataExeption {
@@ -48,30 +50,39 @@ public class ObtainCertController {
 
         return obtainCertService.insert(obtainCertDto);
     }
+    @GetMapping("/obtaincerts/search")
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.OK)
+    public  List<ObtainCertDto> editObtainCerts(@Param("studentid")String studentid){
+        List<ObtainCertDto> obtainCertDto = obtainCertService.getByStudentId(studentid);
+        return  obtainCertDto;
+    }
 
-    @GetMapping("/obtainCert/edit/{studentid}/{levelLanguage}")
+    @GetMapping("/obtaincerts/edit/{studentid}/{type}")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
     public ObtainCertDto editObtainCert(@PathVariable(name = "studentid") String studentId,
-                            @PathVariable(name = "levelLanguage") LevelLanguage levelLanguage){
-        ObtainCertDto obtainCertDto = obtainCertService.getByStudentIdAndLevelLanguage(studentId,levelLanguage);
+                            @PathVariable(name = "type") CertificateType certificateType){
+        ObtainCertDto obtainCertDto = obtainCertService.getByStudentIdAndLevelLanguage(studentId,certificateType);
         obtainCertDto.setLevelLanguageList(Arrays.asList(LevelLanguage.values()));
         obtainCertDto.setCertificateTypeList(Arrays.asList(CertificateType.values()));
         return obtainCertDto;
     }
 
-    @PutMapping("/obtainCert/edit/save")
+    @PutMapping("/obtaincerts/edit/save")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void putEditObtainCert(@RequestBody ObtainCertDto obtainCertDto) {
         obtainCertService.updateFromDto(obtainCertDto);
     }
 
-    @DeleteMapping("/obtainCert/delete/{studentid}/{levelLanguage}")
+    @DeleteMapping("/obtaincerts/delete/{element}")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void saveFaculty(@PathVariable(name = "studentid") String studentId,
-                                  @PathVariable(name = "levelLanguage") LevelLanguage levelLanguage){
-        obtainCertService.deleteByStudentIdAndLevel(studentId,levelLanguage);
+    public void saveFaculty(@PathVariable(name = "element") String element){
+        String[] arrOfStr = element.split("&", 2);
+        String studentid = arrOfStr[0];
+        CertificateType certificateType = CertificateType.valueOf(arrOfStr[1]);
+        obtainCertService.deleteByStudentIdAndLevel(studentid,certificateType);
     }
 }

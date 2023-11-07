@@ -15,7 +15,7 @@ public interface StudentMapper {
     @Mapping(target = "classFullName",expression="java(student.getClassFullName())")
     StudentDto toDto(Student student);
 
-    List<StudentDto> toDtoList(List<Student> studentList);
+
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Student partialUpdate(StudentDto studentDto, @MappingTarget Student student);
 }

@@ -9,6 +9,7 @@ import com.futuresubject.admin.service.StudentService;
 import com.futuresubject.common.entity.Attendance;
 import com.futuresubject.common.entity.MarkSubject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,11 +38,14 @@ public class AttendanceController {
     @PostMapping("/attendances/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
-    public Attendance saveAttendace(@RequestBody AttendanceDto attendanceDto) throws NotFoundDataExeption {
-//        if (attendanceDto.getStudentId() == null
-//                || attendanceDto.getProgramFullCode()==null) {
-//            throw new NotFoundDataExeption("Not found - attendance is null");
-//        }
+    public Attendance createAttendance(@RequestBody
+                                           AttendanceDto attendanceDto) throws NotFoundDataExeption {
+
+        if (attendanceDto.getStudentId() == null
+                || attendanceDto.getProgramFullCode()==null) {
+            throw new NotFoundDataExeption("Not found - attendance is null");
+        }
+        System.out.println("asdfasfsaf");
         return attendanceService.insert(attendanceDto);
     }
     @GetMapping("/attendances")

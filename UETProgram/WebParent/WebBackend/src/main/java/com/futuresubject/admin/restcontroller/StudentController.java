@@ -26,7 +26,7 @@ public class StudentController {
     @GetMapping("/students")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
-    public List<StudentDto> listStudents(Model model) {
+    public List<StudentDto> listStudents() {
         return studentService.listAll();
     }
 

@@ -39,7 +39,6 @@ public class AttendanceService {
         for (Attendance attendance : attendanceList) {
             AttendanceDto attendanceDto =
                     AttendanceMapper.INSTANCE.toDto(attendance);
-
             attendanceDtoList.add(attendanceDto);
         }
         return attendanceDtoList;

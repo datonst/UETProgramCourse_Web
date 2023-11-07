@@ -1,6 +1,7 @@
 package com.futuresubject.admin.repository;
 
 
+import com.futuresubject.common.entity.Enum.CertificateType;
 import com.futuresubject.common.entity.Enum.LevelLanguage;
 import com.futuresubject.common.entity.MarkSubject;
 import com.futuresubject.common.entity.ObtainCert;
@@ -20,11 +21,11 @@ public interface ObtainCertRepository extends CrudRepository<ObtainCert, Integer
     @Query("SELECT u FROM ObtainCert AS u WHERE u.student.studentId = ?1 ")
     List<ObtainCert> findByStudentId(String studentId);
 
-    @Query("SELECT u  FROM ObtainCert AS u WHERE u.student.studentId = ?1 AND u.levelLanguage = ?2")
-    ObtainCert findByStudentIdAndLevelLanguage(String studentId,LevelLanguage levelLanguage);
+    @Query("SELECT u  FROM ObtainCert AS u WHERE u.student.studentId = ?1 AND u.certificateType = ?2")
+    ObtainCert findByStudentIdAndLevelLanguage(String studentId, CertificateType certificateType);
 
-    @Query("SELECT u.id  FROM ObtainCert AS u WHERE u.student.studentId = ?1 AND u.levelLanguage = ?2")
-    Integer findId(String studentId,LevelLanguage levelLanguage);
+    @Query("SELECT u.id  FROM ObtainCert AS u WHERE u.student.studentId = ?1 AND u.certificateType = ?2")
+    Integer findId(String studentId,CertificateType certificateType);
 
     @Query("SELECT u.levelLanguage FROM ObtainCert AS u WHERE u.student.studentId = ?1 ")
     List<LevelLanguage> findObtainCertByStudentId(String studentId);

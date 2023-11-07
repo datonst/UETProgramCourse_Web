@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -26,7 +27,12 @@ public class StudentService {
     private ClassroomRepository classroomRepository;
 
     public List<StudentDto> listAll() {
-        return StudentMapper.INSTANCE.toDtoList((List<Student>)studentRepository.findAll());
+        List<StudentDto> studentDtos = new ArrayList<>();
+        List<Student> studentList = (List<Student>) studentRepository.findAll();
+        for (Student s : studentList) {
+            studentDtos.add(StudentMapper.INSTANCE.toDto(s));
+        }
+        return studentDtos;
     }
 
     public List<String> listOfStudentId() {

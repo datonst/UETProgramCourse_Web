@@ -12,6 +12,7 @@ import java.util.List;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ObtainCertMapper {
     ObtainCertMapper INSTANCE = Mappers.getMapper(ObtainCertMapper.class);
+
     ObtainCert toEntity(ObtainCertDto obtainCertDto);
 
     @Mapping(target = "studentId",source="student.studentId")
