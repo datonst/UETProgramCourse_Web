@@ -51,7 +51,11 @@ public class ClassroomService {
 
 
     public void deleteClassFullName(String classFullName) throws NotFoundDataExeption {
-        classroomRepository.deleteByCohortAndAndNameClass(classFullName);
+        Integer id = classroomRepository.findId(classFullName);
+        if (id!=null && id !=0) {
+            classroomRepository.deleteById(id);
+        }
+
     }
     public boolean isExist(ClassroomDto classroomDto) {
         String classFullName = classroomDto.getNameClass() + "-" + classroomDto.getCohort();

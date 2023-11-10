@@ -11,7 +11,9 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 
 @Entity
@@ -55,6 +57,20 @@ public class Program {
     @Enumerated(EnumType.STRING)
     @ToString.Exclude
     private LevelLanguage levelLanguage;
+
+    @OneToMany(mappedBy = "program",orphanRemoval = true)
+    @ToString.Exclude
+    private Set<Attendance> attendances = new HashSet<>(); // danh sách các attendances của program
+
+    @OneToMany(mappedBy = "program",orphanRemoval = true)
+    @ToString.Exclude
+    private Set<Faculty_Program> facultyPrograms = new HashSet<>(); // danh sách các facultyPrograms của program
+
+    @OneToMany(mappedBy = "program",orphanRemoval = true)
+    @ToString.Exclude
+    private Set<Program_Subject> programSubjects = new HashSet<>(); // danh sách các programSubjects của program
+
+
 
     @Column(nullable = false)
     private Integer totalCredits;

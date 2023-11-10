@@ -33,6 +33,8 @@ public class Program_Subject {
     @JsonIgnore
     private Subject subject;
 
+
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;

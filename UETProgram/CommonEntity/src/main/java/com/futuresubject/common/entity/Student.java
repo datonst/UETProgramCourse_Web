@@ -10,7 +10,9 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 
 @Entity
@@ -36,6 +38,21 @@ public class Student extends Person {
     @JoinColumn(name = "classroomid")
     @ToString.Exclude
     private Classroom classroom;
+
+
+    @OneToMany(mappedBy = "student",orphanRemoval = true)
+    @ToString.Exclude
+    private Set<ObtainCert> obtainCerts = new HashSet<>(); // danh sách các obtaincerts của student
+
+    @OneToMany(mappedBy = "student",orphanRemoval = true)
+    @ToString.Exclude
+    private Set<Attendance> attendances = new HashSet<>(); // danh sách các attendances của student
+
+    @OneToMany(mappedBy = "student",orphanRemoval = true)
+    @ToString.Exclude
+    private Set<MarkSubject> markSubjects = new HashSet<>(); // danh sách các markSubjects của student
+
+
 
     public String getClassFullName() {
         return this.classroom.getClassFullName();

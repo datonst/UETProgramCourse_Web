@@ -45,5 +45,11 @@ public class ClassroomController {
     }
 
 
+    @DeleteMapping("/classrooms/delete/{element}")
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteClassrooms(@PathVariable(name = "element") String element) throws NotFoundDataExeption {
+        classroomService.deleteClassFullName(element);
+    }
 
 }

@@ -58,7 +58,9 @@ public class ObtainCertService {
 
     public void deleteByStudentIdAndLevel(String studentId, CertificateType certificateType) {
         Integer id = obtainCertRepository.findId(studentId,certificateType);
-        obtainCertRepository.deleteById(id);
+        if (id!=null && id!=0) {
+            obtainCertRepository.deleteById(id);
+        }
 //        obtainCertRepository.deleteByStudentIdAndLevel(studentId,levelLanguage);
     }
 

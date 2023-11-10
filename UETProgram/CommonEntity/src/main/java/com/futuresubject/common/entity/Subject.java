@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @ToString
 public class Subject {
 
-//    @SequenceGenerator(name = "courseSequence", sequenceName = "TM_course_SEQ", allocationSize = 1, initialValue = 1)
+    //    @SequenceGenerator(name = "courseSequence", sequenceName = "TM_course_SEQ", allocationSize = 1, initialValue = 1)
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "courseSequence")
 //    private Integer id;
     @Id
@@ -55,33 +55,52 @@ public class Subject {
     @ToString.Exclude
     private Set<Subject> referenceList = new HashSet<>(); // danh sách các subject mà có học phần tiên quyết là subject này
 
+    @OneToMany(mappedBy = "subject",orphanRemoval = true)
+    @ToString.Exclude
+    private Set<MarkSubject> markSubjects = new HashSet<>(); // danh sách các markSubjects của subject
 
     @Column(length = 100, nullable = false)
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
+    @OneToMany(mappedBy = "subject",orphanRemoval = true)
+    @ToString.Exclude
+    private Set<Program_Subject> programSubjects = new HashSet<>(); // danh sách các programSubjects của subject
+
     public Subject() {
     }
 
     public void addPrerequisite(Subject subject) {
+        if (subject!=null) {
+            subject.getReferenceList().add(this);
+        }
         this.prerequisiteSubject.add(subject);
-        subject.getReferenceList().add(this);
     }
 
-    public void removePrerequisite(Subject subject) {
-        this.prerequisiteSubject.remove(subject);
-        subject.getReferenceList().remove(this);
+    public void removeReference(Subject subject) {
+        if (subject!=null) { // thực ra nó luôn khác null :))
+            subject.getPrerequisiteSubject().remove(this);
+        }
     }
+
+
+
+    public void removePrerequisite(Subject subject) {
+        if (subject!=null) {
+            subject.getReferenceList().remove(this);
+        }
+    }
+
 
     @PreRemove // tự động callback và gọi hàm này nếu xoá entity
     public void removeReferenceList() {
         if (referenceList!=null) {
-            for (Subject subject : referenceList) { // remove all non-owner
-                subject.getPrerequisiteSubject().remove(this);
+            for (Subject subject : referenceList) { // remove all non-owner ( xoá this. khỏi danh sách prerequisite của other subject)
+                removeReference(subject);
             }
         }
         if (prerequisiteSubject!=null) {
-            for (Subject subject : prerequisiteSubject) {  // remove all owner
+            for (Subject subject : prerequisiteSubject) {  // remove all owner  ( xoá this.prerequisite và reference của other subject)
                 removePrerequisite(subject);
             }
         }

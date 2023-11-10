@@ -76,10 +76,6 @@ public class SubjectController {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEditSubject(@PathVariable(name = "subjectid") String subjectid) {
-        try {
             subjectService.deleteBySubjectid(subjectid);
-        } catch (NotFoundDataExeption e) {
-            throw new RuntimeException(e);
-        }
     }
 }

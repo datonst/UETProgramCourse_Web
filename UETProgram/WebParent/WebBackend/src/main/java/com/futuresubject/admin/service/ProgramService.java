@@ -43,7 +43,10 @@ public class ProgramService {
     }
 
     public void deleteByProgramFullCode(String programFullCode) {
-        programRepository.deleteByProgramFullCode(programFullCode);
+        Integer id = programRepository.findId(programFullCode);
+        if (id!=null && id != 0) {
+            programRepository.deleteById(id);
+        }
     }
 
     public Program insert(ProgramDto programDto) {

@@ -9,6 +9,7 @@ import com.futuresubject.common.entity.Subject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,14 +64,10 @@ public class SubjectService {
         }
         return subjectRepository.save(subject);
     }
-
-    public void deleteBySubjectid(String subjectid) throws NotFoundDataExeption {
-        Long countById=subjectRepository.countBySubjectid(subjectid);// can use findById ==Null
-        if(countById==null || countById==0){
-
-            throw new NotFoundDataExeption("Could not find any user with ID " +subjectid );
-        }
-        subjectRepository.deleteById(subjectid);
+    @Modifying
+    public void deleteBySubjectid(String subjectid) {
+        Subject subject = subjectRepository.findById(subjectid).get();
+        subjectRepository.delete(subject);
     }
 
     public boolean isExist(SubjectDto subjectDto) {

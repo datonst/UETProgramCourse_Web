@@ -23,9 +23,7 @@ import java.util.List;
 public class AttendanceDto implements Serializable {
     String studentId;
     String programFullCode;
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="dd-MM-yyyy", timezone="Asia/Bangkok")
     LocalDate startDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="dd-MM-yyyy", timezone="Asia/Bangkok")
     LocalDate endDate;
     List<String> listOfStudentId;
     List<String> listOfProgramFullCode;

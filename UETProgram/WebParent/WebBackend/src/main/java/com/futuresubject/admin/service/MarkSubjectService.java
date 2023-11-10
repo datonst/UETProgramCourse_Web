@@ -83,10 +83,10 @@ public class MarkSubjectService {
         }
     }
     public void deleteMark(String studentId, String subjectId) {
-        if (studentId==null || subjectId==null) {
-            return;
+        Integer id = markSubjectRepository.findId(studentId,subjectId);
+        if (id!=null && id!=0) {
+            markSubjectRepository.deleteById(id);
         }
-        markSubjectRepository.deleteMark(studentId,subjectId);
     }
 
     public void updateMark(String studentId, String subjectId, Double mark) throws NotFoundDataExeption {
