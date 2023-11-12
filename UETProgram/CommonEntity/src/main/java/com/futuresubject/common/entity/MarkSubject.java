@@ -45,11 +45,6 @@ public class MarkSubject {
         this.mark = mark;
     }
 
-//    @PreRemove
-//    public void removeAll() {
-//        student = null;
-//        subject = null;
-//    }
     public static class CourseNotFoundException extends Throwable {
         public CourseNotFoundException(String message) {
             super(message);

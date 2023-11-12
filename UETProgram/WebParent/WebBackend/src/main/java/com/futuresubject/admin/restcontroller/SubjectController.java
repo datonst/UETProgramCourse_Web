@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class SubjectController {
     @Autowired
     SubjectService subjectService;

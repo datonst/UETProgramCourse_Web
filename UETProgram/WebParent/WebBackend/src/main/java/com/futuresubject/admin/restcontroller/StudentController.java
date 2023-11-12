@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class StudentController {
     @Autowired
     StudentService studentService;

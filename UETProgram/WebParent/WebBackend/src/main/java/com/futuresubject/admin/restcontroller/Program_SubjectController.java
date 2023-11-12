@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 public class Program_SubjectController {
     @Autowired
     private Program_SubjectService programSubjectService;

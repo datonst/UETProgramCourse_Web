@@ -17,6 +17,7 @@ import java.time.Period;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class SearchStudentController {
     @Autowired
     StudentInfoService studentInfoService;
@@ -128,7 +129,6 @@ public class SearchStudentController {
         EnoughCredit totalGraduationInternship = studentInfoService
                 .numberStudiedCredit(dtos,program,RoleType.GRADUATIONINTERSHIP);
         boolean okGPA =true;
-
         Double averageMark =studentInfoService.getMaxAverageMark(dtos,program,null);
         graduatedCondition.setEnoughCert(enoughCert);
         graduatedCondition.setConditionDuration(periodTimeStudied);
@@ -166,6 +166,7 @@ public class SearchStudentController {
         } else {
             graduatedCondition.setGraduation(false);
         }
+        System.out.println("mâfasfasfasdfafasfasf");
         return graduatedCondition;
     }
 

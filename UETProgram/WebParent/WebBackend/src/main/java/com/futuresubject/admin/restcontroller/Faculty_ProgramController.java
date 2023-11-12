@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 public class Faculty_ProgramController {
     @Autowired
     private Faculty_ProgramService facultyProgramService;

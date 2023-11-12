@@ -17,6 +17,7 @@ import java.util.List;
 
 
 @RestController
+@CrossOrigin
 public class AttendanceController {
     @Autowired
     private AttendanceService attendanceService;
