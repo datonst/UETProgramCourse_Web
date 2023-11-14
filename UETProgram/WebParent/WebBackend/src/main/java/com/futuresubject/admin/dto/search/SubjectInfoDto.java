@@ -26,4 +26,10 @@ public class SubjectInfoDto implements Serializable {
         this.roleType = roleType;
         this.mark = mark;
     }
+
+    public SubjectInfoDto(String subjectName, Integer credit, RoleType roleType) {
+        this.subjectName = subjectName;
+        this.credit = credit;
+        this.roleType = roleType;
+    }
 }

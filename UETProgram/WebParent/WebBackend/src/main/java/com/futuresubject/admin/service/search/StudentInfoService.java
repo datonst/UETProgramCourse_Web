@@ -47,12 +47,7 @@ public class StudentInfoService {
 
 
     public List<SubjectInfoDto> getAllSubject(String mssv, String programFullCode) {
-        List<SubjectInfoDto> subjectInfoDtoList = new ArrayList<>();
-        List<Subject> SubjectList = programSubjectRepository.findAllSubject(programFullCode);
-        for (Subject subject : SubjectList) {
-            SubjectInfoDto subjectInfoDto = SubjectInfoMapper.INSTANCE.toDto(subject);
-            subjectInfoDtoList.add(subjectInfoDto);
-        }
+        List<SubjectInfoDto> subjectInfoDtoList = programSubjectRepository.findAllSubject(programFullCode);
         return subjectInfoDtoList;
     }
 
@@ -80,19 +75,11 @@ public class StudentInfoService {
     }
 
     public List<SubjectInfoDto> getUnfinishedSubject(String mssv, String programFullCode, RoleType roleType) {
-        List<SubjectInfoDto> subjectInfoDtoList = new ArrayList<>();
+        List<SubjectInfoDto> subjectInfoDtoList = null;
         if (roleType != null) {
-            List<Subject> SubjectList = programSubjectRepository.findAllSubjectUnfinishedByRoleType(mssv, programFullCode, roleType);
-            for (Subject subject : SubjectList) {
-                SubjectInfoDto subjectInfoDto = SubjectInfoMapper.INSTANCE.toDto(subject);
-                subjectInfoDtoList.add(subjectInfoDto);
-            }
+            subjectInfoDtoList = programSubjectRepository.findAllSubjectUnfinishedByRoleType(mssv, programFullCode, roleType);
         } else {
-            List<Subject> SubjectList = programSubjectRepository.findAllSubjectUnfinished(mssv, programFullCode);
-            for (Subject subject : SubjectList) {
-                SubjectInfoDto subjectInfoDto = SubjectInfoMapper.INSTANCE.toDto(subject);
-                subjectInfoDtoList.add(subjectInfoDto);
-            }
+            subjectInfoDtoList = programSubjectRepository.findAllSubjectUnfinished(mssv, programFullCode);
         }
         return subjectInfoDtoList;
     }

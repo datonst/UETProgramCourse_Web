@@ -20,7 +20,7 @@ public class Program_SubjectDto implements Serializable {
     String programFullCode;
     String subjectId;
     RoleType roleType;
-    List<RoleType> listRoleType;
     List<String> listOfProgramFullCode;
     List<String> listOfSubjectId;
+    List<RoleType> listRoleType;
 }
