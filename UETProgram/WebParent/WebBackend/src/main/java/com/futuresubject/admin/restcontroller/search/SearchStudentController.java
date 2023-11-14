@@ -2,18 +2,23 @@ package com.futuresubject.admin.restcontroller.search;
 
 import com.futuresubject.admin.dto.StudentInfoDto;
 import com.futuresubject.admin.dto.search.*;
+import com.futuresubject.admin.exporter.ExcelExporter;
 import com.futuresubject.admin.repository.StudentNotFoundException;
 import com.futuresubject.admin.service.MarkSubjectService;
 import com.futuresubject.admin.service.search.StudentInfoService;
 import com.futuresubject.common.entity.Enum.ProgramType;
 import com.futuresubject.common.entity.Enum.RoleType;
 import com.futuresubject.common.entity.Program;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -47,26 +52,116 @@ public class SearchStudentController {
                                                       @PathVariable(name="programFullCode") String programFullCode,
                                                       @RequestParam(value = "status",required = false) String status,
                                                       @RequestParam(value = "roleType",required = false) RoleType roleType) {
+        List<SubjectInfoDto> dtos = null;
         if ("finished".equals(status)) {
-            List<SubjectInfoDto> dtos = studentInfoService.getFinishedSubject(mssv, programFullCode, roleType);
-            return dtos;
+             dtos= studentInfoService.getFinishedSubject(mssv, programFullCode, roleType);
         } else if ("unfinished".equals(status)) {
-            return studentInfoService.getUnfinishedSubject(mssv, programFullCode,roleType);
+            dtos= studentInfoService.getUnfinishedSubject(mssv, programFullCode,roleType);
         } else {
-            return studentInfoService.getAllSubject(mssv, programFullCode);
+            dtos = studentInfoService.getAllSubject(mssv, programFullCode);
         }
+        return dtos;
     }
 
+//    @GetMapping("export/excel/searchSubject/{mssv}/{programFullCode}")
+//    @ExceptionHandler
+//    @ResponseStatus(HttpStatus.OK)
+//    public void exportExcel(@PathVariable(name="mssv") String mssv,
+//                            @PathVariable(name="programFullCode") String programFullCode,
+//                            @RequestParam(value = "status",required = false) String status,
+//                            @RequestParam(value = "roleType",required = false) RoleType roleType,
+//                            HttpServletResponse httpServletResponse) throws IOException {
+//        List<SubjectInfoDto> dtos = null;
+//        if ("finished".equals(status)) {
+//            dtos= studentInfoService.getFinishedSubject(mssv, programFullCode, roleType);
+//        } else if ("unfinished".equals(status)) {
+//            dtos= studentInfoService.getUnfinishedSubject(mssv, programFullCode,roleType);
+//        } else {
+//            dtos = studentInfoService.getAllSubject(mssv, programFullCode);
+//        }
+//
+//        ExcelExporter exporter = new ExcelExporter();
+//        List<String> headers = new ArrayList<>();
+//        headers.add("STT");
+//        headers.add("SubjectName");
+//        headers.add("Credit");
+//        headers.add("RoleType");
+//        headers.add("Mark");
+//        List<List<String>> listObject = new ArrayList<>();
+//        int stt=1;
+//        for (SubjectInfoDto s : dtos) {
+//            List<String> gt = new ArrayList<>();
+//            stt+=1;
+//            gt.add(String.valueOf(stt));
+//            if (s.getSubjectName()!=null) {
+//                gt.add(s.getSubjectName());
+//            } else {
+//                gt.add("");
+//            }
+//            if (s.getCredit()!=null) {
+//                gt.add(String.valueOf(s.getCredit()));
+//            } else {
+//                gt.add("");
+//            }
+//            if (s.getRoleType()!=null) {
+//                gt.add(String.valueOf(s.getRoleType()));
+//            } else {
+//                gt.add("");
+//            }
+//            if (s.getMark()!=null) {
+//                gt.add(String.valueOf(s.getMark()));
+//            } else {
+//                gt.add("");
+//            }
+//            listObject.add(gt);
+//        }
+//        exporter.export("search",headers,listObject, httpServletResponse);
+//    }
 
-//    //Phần này để TEST
-//    @GetMapping("/sea")
-//    public void se() {
-//        System.out.println(markSubjectService.sumMark("22028245","cn8-2019"));
+//    @GetMapping("/runvalue")
+//    @ExceptionHandler
+//    @ResponseStatus(HttpStatus.OK)
+//    public void value(HttpServletRequest request, HttpServletResponse httpServletResponse) throws IOException {
+//        System.out.println("sadfdsfadfdfadfasf");
+//        ExcelExporter exporter = new ExcelExporter();
+//        List<String> headers = new ArrayList<>();
+//        headers.add("STT");
+//        headers.add("SubjectName");
+//        headers.add("Credit");
+//        headers.add("RoleType");
+//        headers.add("Mark");
+//        List<List<String>> listObject = new ArrayList<>();
+//        int stt=1;
+//        List<SubjectInfoDto> dtos = studentInfoService.getFinishedSubject("22028245", "CN8-2019", null);
+//        for (SubjectInfoDto s : dtos) {
+//            List<String> gt = new ArrayList<>();
+//            stt+=1;
+//            gt.add(String.valueOf(stt));
+//            if (s.getSubjectName()!=null) {
+//                gt.add(s.getSubjectName());
+//            } else {
+//                gt.add("");
+//            }
+//            if (s.getCredit()!=null) {
+//                gt.add(String.valueOf(s.getCredit()));
+//            } else {
+//                gt.add("");
+//            }
+//            if (s.getRoleType()!=null) {
+//                gt.add(String.valueOf(s.getRoleType()));
+//            } else {
+//                gt.add("");
+//            }
+//            if (s.getMark()!=null) {
+//                gt.add(String.valueOf(s.getMark()));
+//            } else {
+//                gt.add("");
+//            }
+//            listObject.add(gt);
+//        }
+//        exporter.export("search",headers,listObject, httpServletResponse);
 //    }
-//    @GetMapping("/seaw/s")
-//    public void ses() {
-//        markSubjectService.sumMarkOfStudentList();
-//    }
+
 
     @GetMapping("/getAverageMark/{mssv}/{programFullCode}")
     @ExceptionHandler
