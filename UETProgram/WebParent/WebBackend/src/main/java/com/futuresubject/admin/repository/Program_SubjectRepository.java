@@ -23,7 +23,7 @@ public interface Program_SubjectRepository extends CrudRepository<Program_Subjec
     List<Subject> findAllSubjectUnfinished( String studentId, String programFullCode);
 
     @Query("SELECT u.subject  FROM Program_Subject AS u " +
-            " WHERE concat(u.program.programCode,'-',u.program.period) =?2 AND u.subject.roleType = ?3 " +
+            " WHERE concat(u.program.programCode,'-',u.program.period) =?2 AND u.roleType = ?3 " +
             " AND u.subject NOT IN (SELECT a.subject from MarkSubject AS a WHERE a.student.studentId= ?1 AND a.subject IS NOT NULL)")
     List<Subject> findAllSubjectUnfinishedByRoleType(String studentId, String programFullCode, RoleType roleType);
 

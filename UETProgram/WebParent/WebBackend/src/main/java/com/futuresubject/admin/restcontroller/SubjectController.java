@@ -31,7 +31,6 @@ public class SubjectController {
     public SubjectDto subjectsDto() {
         SubjectDto subjectDto = new SubjectDto();
         subjectDto.setListOfSubjectId(subjectService.listOfSubjectId());
-        subjectDto.setListRoleType(Arrays.asList(RoleType.values()));
         if (subjectDto.getPrerequisiteSubjectId()==null) {
             subjectDto.setPrerequisiteSubjectId(new ArrayList<>());
         }
@@ -56,7 +55,6 @@ public class SubjectController {
         try {
             SubjectDto subjectDto = subjectService.get(subjectid);
             subjectDto.setListOfSubjectId(subjectService.listOfSubjectId());
-            subjectDto.setListRoleType(Arrays.asList(RoleType.values()));
             if (subjectDto.getPrerequisiteSubjectId()==null) {
                 subjectDto.setPrerequisiteSubjectId(new ArrayList<>());
             }

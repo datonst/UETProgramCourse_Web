@@ -1,6 +1,7 @@
 package com.futuresubject.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.futuresubject.common.entity.Enum.RoleType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +34,9 @@ public class Program_Subject {
     @JsonIgnore
     private Subject subject;
 
-
+    @Column(length = 100, nullable = false)
+    @Enumerated(EnumType.STRING)
+    private RoleType roleType;
 
     @Override
     public final boolean equals(Object o) {

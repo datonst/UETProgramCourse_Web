@@ -22,8 +22,6 @@ public class SubjectDto implements Serializable {
     String subjectName;
     Integer credit;
     List<String> prerequisiteSubjectId;
-    RoleType roleType;
-    List<RoleType> listRoleType;
     List<String> listOfSubjectId;
 
     public void addPrerequisite(String id) {

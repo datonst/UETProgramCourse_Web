@@ -59,9 +59,6 @@ public class Subject {
     @ToString.Exclude
     private Set<MarkSubject> markSubjects = new HashSet<>(); // danh sách các markSubjects của subject
 
-    @Column(length = 100, nullable = false)
-    @Enumerated(EnumType.STRING)
-    private RoleType roleType;
 
     @OneToMany(mappedBy = "subject",orphanRemoval = true)
     @ToString.Exclude

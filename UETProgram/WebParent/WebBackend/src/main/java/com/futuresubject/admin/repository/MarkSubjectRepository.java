@@ -54,7 +54,7 @@ public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integ
 
     @Query(value = "SELECT " +
             "new com.futuresubject.admin.dto.search.SubjectInfoDto" +
-            "(u.subject.subjectName,u.subject.credit,u.subject.roleType,u.mark)" +
+            "(u.subject.subjectName,u.subject.credit,t.roleType,u.mark)" +
             " FROM MarkSubject AS u " +
             " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
             " WHERE u.student.studentId = ?1 AND concat(t.program.programCode,'-',t.program.period) = ?2 ", nativeQuery = false)
@@ -62,12 +62,12 @@ public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integ
 
     @Query(value = "SELECT " +
             "new com.futuresubject.admin.dto.search.SubjectInfoDto" +
-            "(u.subject.subjectName,u.subject.credit,u.subject.roleType,u.mark)" +
+            "(u.subject.subjectName,u.subject.credit,t.roleType,u.mark)" +
             " FROM MarkSubject AS u " +
             " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
             " WHERE u.student.studentId = ?1 " +
             " AND concat(t.program.programCode,'-',t.program.period) = ?2 " +
-            " AND u.subject.roleType = ?3 ", nativeQuery = false)
+            " AND t.roleType = ?3 ", nativeQuery = false)
     List<SubjectInfoDto> getALlMarkByRoleType(String mssv, String programFullCode, RoleType roleType);
 
 
@@ -101,7 +101,7 @@ public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integ
 
     @Query("SELECT new com.futuresubject.admin.dto.search.MarkDto(u.mark,u.subject.credit)  FROM MarkSubject AS u " +
             " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
-            " WHERE u.student.studentId = ?1 AND t.program.id = ?2 AND u.subject.roleType =  ?3")
+            " WHERE u.student.studentId = ?1 AND t.program.id = ?2 AND t.roleType =  ?3")
     List<MarkDto> getMarkByRole(String studentId, Integer programId, RoleType roleType);
 
 

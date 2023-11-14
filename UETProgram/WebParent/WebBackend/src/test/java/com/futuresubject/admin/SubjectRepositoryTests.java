@@ -30,7 +30,7 @@ public class SubjectRepositoryTests {
         subject.setSubjectName("Lập trình nâng cao");
         subject.setSubjectid("INT2203");
         subject.setCredit(10);
-        subject.setRoleType(RoleType.MANDATORY);
+
         subjectRepository.save(subject);
     }
     @Test
@@ -39,7 +39,7 @@ public class SubjectRepositoryTests {
         subjectDto.setSubjectName("Công nghệ máy tính");
         subjectDto.setSubjectid("INT2501");
         subjectDto.setCredit(4);
-        subjectDto.setRoleType(RoleType.OPTIONAL);
+
         Subject subject = SubjectMapper.INSTANCE.toEntity(subjectDto);
         subjectRepository.save(subject);
     }
