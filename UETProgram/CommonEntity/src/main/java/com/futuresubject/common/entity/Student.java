@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -63,8 +64,8 @@ public class Student extends Person {
     }
 
     @Override
-    public Integer getAge() {
-        return super.getAge();
+    public LocalDate getDateOfBirth() {
+        return super.getDateOfBirth();
     }
 
     @Override
@@ -88,8 +89,8 @@ public class Student extends Person {
     }
 
     @Override
-    public void setAge(Integer age) {
-        super.setAge(age);
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        super.setDateOfBirth(dateOfBirth);
     }
 
     @Override

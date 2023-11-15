@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ import java.util.List;
 public class StudentDto implements Serializable {
     String studentId;
     String name;
-    Integer age;
+    LocalDate dateOfBirth;
     String gender;
     String address;
     String phone;
