@@ -34,7 +34,7 @@ public class SearchStudentController {
     @GetMapping("/search")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
-    public String listStudents(Model model) {
+    public String listStudents() {
         return "";
     }
 
@@ -206,6 +206,7 @@ public class SearchStudentController {
                 + period.getYears() + suffixYear
                 + period.getMonths() + suffixMonth
                 + period.getDays() + suffixDay;
+        System.out.println("SUCESS");
         List<SubjectInfoDto> dtos = studentInfoService.getFinishedSubject(mssv, programFullCode, null);
         EnoughCredit totalCredit = studentInfoService
                 .numberStudiedCredit(dtos,program,null);

@@ -124,6 +124,9 @@ public class StudentInfoService {
         List<LevelLanguage> levelLanguageList =
                 obtainCertRepository.findObtainCertByStudentId(studentId);
         LevelLanguage levelLanguage = program.getLevelLanguage();
+        if (levelLanguage==null) {
+            return true;
+        }
         String neededLevel = levelLanguage.toString();
         String[] neededOfStr = neededLevel.split("_", 2);
         boolean compare = false;
@@ -139,6 +142,7 @@ public class StudentInfoService {
                 }
             }
         }
+        System.out.println("HELLO");
         return compare;
     }
 
