@@ -46,9 +46,14 @@ public class StudentInfoService {
     private ObtainCertRepository obtainCertRepository;
 
 
-    public List<SubjectInfoDto> getAllSubject(String mssv, String programFullCode) {
-        List<SubjectInfoDto> subjectInfoDtoList = programSubjectRepository.findAllSubject(programFullCode);
+    public List<SubjectInfoDto> getAllSubject(String mssv, String programFullCode,RoleType roleType) {
+        if (roleType == null) {
+            List<SubjectInfoDto> subjectInfoDtoList = programSubjectRepository.findAllSubject(programFullCode);
+            return subjectInfoDtoList;
+        }
+        List<SubjectInfoDto> subjectInfoDtoList = programSubjectRepository.findAllSubjectByRoleType(programFullCode,roleType);
         return subjectInfoDtoList;
+
     }
 
     public StudentInfoDto getStudent(String mssv) throws StudentNotFoundException {
@@ -94,6 +99,9 @@ public class StudentInfoService {
         double sumMark = 0;
         int totalCredit = 0;
         for (SubjectInfoDto subjectInfoDto : values) {
+            if (subjectInfoDto.getRoleType() == RoleType.NATIONALDEFENCE || subjectInfoDto.getRoleType() == RoleType.PHYSICAL) {
+                continue;
+            }
             if (totalCredit >= numberMax) {
                 break;
             } else {
@@ -170,7 +178,12 @@ public class StudentInfoService {
         }
         List<SubjectInfoDto> values = new ArrayList<>();
         for (SubjectInfoDto s : dtos) {
-            if ( roleType ==null || s.getRoleType() == roleType) {
+            if (roleType == null) {
+                if (s.getRoleType() != RoleType.PHYSICAL && s.getRoleType()  != RoleType.NATIONALDEFENCE){
+                    values.add(s);
+                }
+            }
+            else if (  s.getRoleType() == roleType) {
                 values.add(s);
             }
         }

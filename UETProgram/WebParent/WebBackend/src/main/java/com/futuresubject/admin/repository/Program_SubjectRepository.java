@@ -38,5 +38,9 @@ public interface Program_SubjectRepository extends CrudRepository<Program_Subjec
             " WHERE u.subject.subjectid = ?1 AND concat(u.program.programCode,'-',u.program.period) = ?2")
     Integer findId(String subjectid, String programFullCode);
 
-
+    @Query("SELECT " +
+            "new com.futuresubject.admin.dto.search.SubjectInfoDto" +
+            "(u.subject.subjectName,u.subject.credit,u.roleType) FROM Program_Subject AS u " +
+            " WHERE concat(u.program.programCode,'-',u.program.period) =?1 AND u.roleType = ?2")
+    List<SubjectInfoDto> findAllSubjectByRoleType(String programFullCode, RoleType roleType);
 }

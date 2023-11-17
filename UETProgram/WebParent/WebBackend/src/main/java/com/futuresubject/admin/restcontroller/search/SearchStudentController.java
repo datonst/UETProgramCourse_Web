@@ -58,7 +58,7 @@ public class SearchStudentController {
         } else if ("unfinished".equals(status)) {
             dtos= studentInfoService.getUnfinishedSubject(mssv, programFullCode,roleType);
         } else {
-            dtos = studentInfoService.getAllSubject(mssv, programFullCode);
+            dtos = studentInfoService.getAllSubject(mssv, programFullCode,roleType);
         }
         return dtos;
     }
