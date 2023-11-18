@@ -5,6 +5,7 @@ import com.futuresubject.common.entity.Enum.RoleType;
 import com.futuresubject.common.entity.Program;
 import com.futuresubject.common.entity.Program_Subject;
 import com.futuresubject.common.entity.Subject;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface Program_SubjectRepository extends CrudRepository<Program_Subject, Integer> {
+public interface Program_SubjectRepository extends JpaRepository<Program_Subject, Integer> {
     @Query("SELECT " +
             "new com.futuresubject.admin.dto.search.SubjectInfoDto" +
             "(u.subject.subjectName,u.subject.credit,u.roleType) FROM Program_Subject AS u " +

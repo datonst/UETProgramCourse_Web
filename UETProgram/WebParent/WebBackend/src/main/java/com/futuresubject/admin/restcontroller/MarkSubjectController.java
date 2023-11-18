@@ -9,6 +9,8 @@ import com.futuresubject.admin.service.SubjectService;
 import com.futuresubject.common.entity.MarkSubject;
 import com.futuresubject.common.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +34,12 @@ public class MarkSubjectController {
     @GetMapping("/marksubjects")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
-    public List<MarkSubjectDto> getAllMarkSubject() {
-        return markSubjectService.getAllMarkSubject();
+    public List<MarkSubjectDto> getAllMarkSubject(
+            @RequestParam(value = "page", defaultValue = "0")  int page
+            , @RequestParam(value = "size", defaultValue = "20") int size
+    ) {
+        Pageable pagination = PageRequest.of(page, size);
+        return markSubjectService.getAllMarkSubject(pagination);
     }
 
     @GetMapping("/marksubjects/new")
@@ -46,6 +52,13 @@ public class MarkSubjectController {
         return markSubjectDto;
     }
 
+    @GetMapping("/marksubjects/search/{studentId}")
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.OK)
+    public List<MarkSubjectDto> getAllMarkByStudentId(
+            @PathVariable("studentId") String studentId) {
+        return markSubjectService.findMarkSubjectByStudentId(studentId);
+    }
 
     @PostMapping("/marksubjects/new")
     @ExceptionHandler

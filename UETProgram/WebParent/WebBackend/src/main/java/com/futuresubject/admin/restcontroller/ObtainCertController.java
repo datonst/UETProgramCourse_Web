@@ -12,6 +12,8 @@ import com.futuresubject.common.entity.Faculty;
 import com.futuresubject.common.entity.ObtainCert;
 import com.futuresubject.common.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +29,12 @@ public class ObtainCertController {
     @GetMapping("/obtaincerts")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
-    public List<ObtainCertDto> getAllFaculty() {
-
-        return obtainCertService.findAllObtainCert();
+    public List<ObtainCertDto> getAllFaculty(
+            @RequestParam(value = "page", defaultValue = "0")  int page
+            , @RequestParam(value = "size", defaultValue = "20") int size
+    ) {
+        Pageable pagination = PageRequest.of(page, size);
+        return obtainCertService.findAllObtainCert(pagination);
     }
     @GetMapping("/obtaincerts/new")
     @ExceptionHandler

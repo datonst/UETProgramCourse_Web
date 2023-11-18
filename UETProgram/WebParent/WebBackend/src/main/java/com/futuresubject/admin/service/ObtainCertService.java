@@ -2,22 +2,19 @@ package com.futuresubject.admin.service;
 
 import com.futuresubject.admin.dto.ObtainCertDto;
 import com.futuresubject.admin.mapper.ObtainCertMapper;
-import com.futuresubject.admin.repository.AttendanceRepository;
 import com.futuresubject.admin.repository.ObtainCertRepository;
 import com.futuresubject.admin.repository.ProgramRepository;
 import com.futuresubject.admin.repository.StudentRepository;
 
 import com.futuresubject.common.entity.Enum.CertificateType;
-import com.futuresubject.common.entity.Enum.LevelLanguage;
-import com.futuresubject.common.entity.Faculty;
 import com.futuresubject.common.entity.ObtainCert;
-import com.futuresubject.common.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ObtainCertService {
@@ -36,9 +33,9 @@ public class ObtainCertService {
         ObtainCert obtainCert = obtainCertRepository.findByStudentIdAndLevelLanguage(studentId,certificateType);
         return ObtainCertMapper.INSTANCE.toDto(obtainCert);
     }
-    public List<ObtainCertDto> findAllObtainCert() {
+    public List<ObtainCertDto> findAllObtainCert(Pageable pagination) {
         List<ObtainCertDto> obtainCertDtos = new ArrayList<>();
-        List<ObtainCert> obtainCerts = obtainCertRepository.listObtainCert();
+        Page<ObtainCert> obtainCerts = obtainCertRepository.findAll(pagination);
         for (ObtainCert o : obtainCerts) {
             obtainCertDtos.add(ObtainCertMapper.INSTANCE.toDto(o));
         }

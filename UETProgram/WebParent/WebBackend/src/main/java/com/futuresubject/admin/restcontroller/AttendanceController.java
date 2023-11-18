@@ -9,6 +9,8 @@ import com.futuresubject.admin.service.StudentService;
 import com.futuresubject.common.entity.Attendance;
 import com.futuresubject.common.entity.MarkSubject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -52,8 +54,12 @@ public class AttendanceController {
     @GetMapping("/attendances")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
-    public List<AttendanceDto> attendacesList() throws NotFoundDataExeption {
-        return attendanceService.findAllAttendance();
+    public List<AttendanceDto> attendacesList(
+            @RequestParam(value = "page", defaultValue = "0")  int page
+            , @RequestParam(value = "size", defaultValue = "20") int size
+    ) throws NotFoundDataExeption {
+        Pageable pagination = PageRequest.of(page, size);
+        return attendanceService.findAllAttendance(pagination);
     }
     @GetMapping("/attendances/edit/{element}")
     @ExceptionHandler

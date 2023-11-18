@@ -11,6 +11,8 @@ import com.futuresubject.common.entity.Classroom;
 import com.futuresubject.common.entity.Student;
 import com.futuresubject.common.entity.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,9 +28,9 @@ public class StudentService {
     @Autowired
     private ClassroomRepository classroomRepository;
 
-    public List<StudentDto> listAll() {
+    public List<StudentDto> listAll(Pageable pagination) {
         List<StudentDto> studentDtos = new ArrayList<>();
-        List<Student> studentList = (List<Student>) studentRepository.findAll();
+        Page<Student> studentList = studentRepository.findAll(pagination);
         for (Student s : studentList) {
             studentDtos.add(StudentMapper.INSTANCE.toDto(s));
         }

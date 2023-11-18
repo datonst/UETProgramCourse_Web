@@ -12,6 +12,8 @@ import com.futuresubject.common.entity.Enum.RoleType;
 import com.futuresubject.common.entity.MarkSubject;
 import com.futuresubject.common.entity.Program;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,9 +34,9 @@ public class MarkSubjectService {
     @Autowired
     private ProgramRepository programRepository;
 
-    public List<MarkSubjectDto> getAllMarkSubject() {
-        List<MarkSubject> markSubjectList = markSubjectRepository
-                .getAllMarkSubject();
+    public List<MarkSubjectDto> getAllMarkSubject(Pageable pagination) {
+        Page<MarkSubject> markSubjectList = markSubjectRepository
+                .findAll(pagination);
         List<MarkSubjectDto> markSubjectDtoList = new ArrayList<>();
         for (MarkSubject markSubject : markSubjectList) {
             MarkSubjectDto dto =  MarkSubjectMapper.INSTANCE
@@ -128,5 +130,14 @@ public class MarkSubjectService {
 
 
 
+    }
+
+    public List<MarkSubjectDto> findMarkSubjectByStudentId(String studentId) {
+        List<MarkSubject> markSubjectList = markSubjectRepository.findMarkSubjectByStudentId(studentId);
+        List<MarkSubjectDto> markSubjectDtoList = new ArrayList<>();
+        for (MarkSubject m : markSubjectList) {
+            markSubjectDtoList.add(MarkSubjectMapper.INSTANCE.toDto(m));
+        }
+        return markSubjectDtoList;
     }
 }

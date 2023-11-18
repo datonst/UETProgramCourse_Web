@@ -8,6 +8,8 @@ import com.futuresubject.admin.service.StudentService;
 import com.futuresubject.common.entity.Enum.GenderType;
 import com.futuresubject.common.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -27,8 +29,12 @@ public class StudentController {
     @GetMapping("/students")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
-    public List<StudentDto> listStudents() {
-        return studentService.listAll();
+    public List<StudentDto> listStudents(
+            @RequestParam(value = "page", defaultValue = "0")  int page
+            , @RequestParam(value = "size", defaultValue = "20") int size
+    ) {
+        Pageable pagination = PageRequest.of(page, size);
+        return studentService.listAll(pagination);
     }
 
     @GetMapping("/students/edit/{mssv}")

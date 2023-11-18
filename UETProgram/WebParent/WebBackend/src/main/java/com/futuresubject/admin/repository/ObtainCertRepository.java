@@ -5,6 +5,7 @@ import com.futuresubject.common.entity.Enum.CertificateType;
 import com.futuresubject.common.entity.Enum.LevelLanguage;
 import com.futuresubject.common.entity.MarkSubject;
 import com.futuresubject.common.entity.ObtainCert;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface ObtainCertRepository extends CrudRepository<ObtainCert, Integer> {
+public interface ObtainCertRepository extends JpaRepository<ObtainCert, Integer> {
     @Query("SELECT u FROM ObtainCert AS u")
     List<ObtainCert> listObtainCert();
 

@@ -6,6 +6,7 @@ import com.futuresubject.common.entity.Enum.LevelLanguage;
 import com.futuresubject.common.entity.Program;
 import com.futuresubject.common.entity.Student;
 import com.futuresubject.common.entity.Subject;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface AttendanceRepository  extends CrudRepository<Attendance, Integer> {
+public interface AttendanceRepository  extends JpaRepository<Attendance, Integer> {
 
     @Query("SELECT u  FROM Attendance AS u")
     List<Attendance> listAttendance();

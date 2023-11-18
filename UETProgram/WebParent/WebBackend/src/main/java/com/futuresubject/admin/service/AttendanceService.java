@@ -13,6 +13,8 @@ import com.futuresubject.common.entity.Classroom;
 import com.futuresubject.common.entity.Program;
 import com.futuresubject.common.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,8 +35,8 @@ public class AttendanceService {
     @Autowired
     private ProgramRepository programRepository;
 
-    public List<AttendanceDto> findAllAttendance() {
-        List<Attendance> attendanceList = attendanceRepository.listAttendance();
+    public List<AttendanceDto> findAllAttendance(Pageable pagination) {
+        Page<Attendance> attendanceList = attendanceRepository.findAll(pagination);
         List<AttendanceDto> attendanceDtoList = new ArrayList<>();
         for (Attendance attendance : attendanceList) {
             AttendanceDto attendanceDto =

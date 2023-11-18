@@ -12,6 +12,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceContext;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -21,11 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integer> {
+public interface MarkSubjectRepository extends JpaRepository<MarkSubject, Integer> {
     @PersistenceContext(unitName = "persistenceUnit")
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.futuersubject.admin");;
-    @Query("SELECT u FROM MarkSubject  AS u")
-    List<MarkSubject> getAllMarkSubject();
+//    @Query("SELECT u FROM MarkSubject  AS u")
+//    List<MarkSubject> getAllMarkSubject();
 
     @Query("SELECT u  FROM MarkSubject AS u " +
             "INNER JOIN Program AS c ON concat(c.programCode,'-',c.period) =?2" +
@@ -130,6 +131,9 @@ public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integ
             " AND t.roleType = ?3  ORDER BY (u.mark) DESC ", nativeQuery = false)
     List<SubjectInfoDto> getSubjectInfoByRoleOrder(String mssv, String programFullCode, RoleType roleType);
 
-
+    @Query(value = "SELECT u " +
+            " FROM MarkSubject AS u " +
+            " WHERE u.student.studentId = ?1 ", nativeQuery = false)
+    List<MarkSubject> findMarkSubjectByStudentId(String studentId);
 
 }

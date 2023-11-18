@@ -2,6 +2,7 @@ package com.futuresubject.admin.repository;
 
 import com.futuresubject.common.entity.Classroom;
 import com.futuresubject.common.entity.Program;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ClassroomRepository extends CrudRepository<Classroom, Integer> {
+public interface ClassroomRepository extends JpaRepository<Classroom, Integer> {
     @Query("SELECT concat(u.cohort,'-',u.nameClass)  FROM Classroom AS u")
     List<String> listOfClassroom();
 

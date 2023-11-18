@@ -10,7 +10,6 @@ public interface MarkSubjectMapper {
     MarkSubjectMapper INSTANCE = Mappers.getMapper(MarkSubjectMapper.class);
     MarkSubject toEntity(MarkSubjectDto markSubjectDto);
 
-
     @Mapping(target = "studentId",source="student.studentId")
     @Mapping(target = "subjectId",source="subject.subjectid")
     MarkSubjectDto toDto(MarkSubject markSubject);

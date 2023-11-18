@@ -4,6 +4,7 @@ package com.futuresubject.admin.repository;
 import com.futuresubject.common.entity.Enum.LevelLanguage;
 import com.futuresubject.common.entity.MarkSubject;
 import com.futuresubject.common.entity.Program;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProgramRepository extends CrudRepository<Program, Integer> {
+public interface ProgramRepository extends JpaRepository<Program, Integer> {
     @Query("SELECT concat(u.programCode,'-',u.period)  FROM Program AS u")
     List<String> listOfProgramFullCode();
 
