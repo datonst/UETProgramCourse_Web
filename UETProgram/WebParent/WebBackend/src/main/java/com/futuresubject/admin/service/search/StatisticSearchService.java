@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,13 +29,10 @@ public class StatisticSearchService {
     @Autowired
     private ObtainCertRepository obtainCertRepository;
     public List<String> searchStudentIdList(String cohort, String programFullCode) {
-        if (programFullCode == null) {
-            return studentRepository.countByCohort(cohort);
-        } else {
-            return studentRepository.countByCohortAndProgram(cohort, programFullCode);
-        }
+        return studentRepository.countByCohortAndProgram(cohort, programFullCode);
     }
     public String getProgramFullCode(String programCode,String cohort) {
+
         int c = Integer.parseInt(cohort.substring(1)) + 1955;
         int period=0;
         if (programCode.equals("CN12")) {
@@ -59,5 +57,6 @@ public class StatisticSearchService {
         }
         return programCode+ "-" +period;
     }
+
 
 }

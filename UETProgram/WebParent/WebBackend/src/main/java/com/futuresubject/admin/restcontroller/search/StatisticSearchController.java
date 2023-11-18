@@ -1,5 +1,6 @@
 package com.futuresubject.admin.restcontroller.search;
 
+import com.futuresubject.admin.dto.search.AverageMark;
 import com.futuresubject.admin.dto.search.EnoughCredit;
 import com.futuresubject.admin.dto.search.SubjectInfoDto;
 import com.futuresubject.admin.service.search.StatisticSearchService;
@@ -28,45 +29,42 @@ public class StatisticSearchController {
     @ResponseStatus(HttpStatus.OK)
     public Map<String,Map<String,Integer>> statisticGraduation(@Param("cohort") String cohort) {
         System.out.println("safafasfa");
-        List<String> studentIdList = statisticSearchService
-                .searchStudentIdList(cohort,null);
         Map<String,Map<String,Integer>> result=  new LinkedHashMap<>();
         Map<String,Integer> totalStudentByProgramLists=  new LinkedHashMap<>();
         Map<String,Integer> graduatedStudentByProgramLists=  new LinkedHashMap<>();
-        int total =0;
+        int total_graduation =0;
+        int total=0;
         for (int i=1;i<=16;i++) {
             String programCode = "CN"+i;
             System.out.println(programCode);
             String programFullCode = statisticSearchService.getProgramFullCode(programCode,cohort);
             if (programFullCode.equals("-1")) {
+                System.out.println(programCode);
                 continue;
             }
+            System.out.println("-----------------------------------------------------------------");
             List<String> searchStudentIdList = statisticSearchService.searchStudentIdList(cohort,programFullCode);
             totalStudentByProgramLists.put(programFullCode, searchStudentIdList.size());
             int dem=0;
-            System.out.println("FINISHED");
             for (String mssv : searchStudentIdList) {
                 Program program = studentInfoService.getProgram(programFullCode);
                 boolean enoughCert = studentInfoService.enoughCertificate(mssv, program);
-                List<SubjectInfoDto> dtos = studentInfoService.getFinishedSubject(mssv, programFullCode, null);
-                EnoughCredit totalCredit = studentInfoService
-                        .numberStudiedCredit(dtos,program,null);
+                List<SubjectInfoDto> dtos = studentInfoService.getFinishedSubjectOrder(mssv, programFullCode, null);
                 boolean okGPA =true;
-                Double averageMark =studentInfoService.getMaxAverageMark(dtos,program,null);
-                if (Double.compare(averageMark,2.0) <0) {
+                AverageMark averageMark =studentInfoService.getMaxAverageMark(dtos,program,null);
+                if (Double.compare(averageMark.getAverageMark(),2.0) <0) {
                     okGPA = false;
                 }
-                if (enoughCert && totalCredit.isEnough() && okGPA) {
+                if (enoughCert && program.getTotalCredits().equals(averageMark.getTotalCredit()) && okGPA) {
                     dem+=1;
                 }
             }
             graduatedStudentByProgramLists.put(programFullCode,dem);
-            total+=dem;
+            total_graduation+=dem;
+            total+=searchStudentIdList.size();
         }
-
-
-        totalStudentByProgramLists.put("All",studentIdList.size());
-        graduatedStudentByProgramLists.put("All",total);
+        totalStudentByProgramLists.put("All",total);
+        graduatedStudentByProgramLists.put("All",total_graduation);
         result.put("total",totalStudentByProgramLists);
         result.put("graduated",graduatedStudentByProgramLists);
         return result;

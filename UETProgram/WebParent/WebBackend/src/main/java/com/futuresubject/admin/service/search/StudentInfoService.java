@@ -1,6 +1,7 @@
 package com.futuresubject.admin.service.search;
 
 import com.futuresubject.admin.dto.StudentInfoDto;
+import com.futuresubject.admin.dto.search.AverageMark;
 import com.futuresubject.admin.dto.search.EnoughCredit;
 import com.futuresubject.admin.dto.search.SubjectInfoDto;
 import com.futuresubject.admin.mapper.StudentInfoMapper;
@@ -72,10 +73,10 @@ public class StudentInfoService {
 
     public List<SubjectInfoDto> getFinishedSubject(String mssv, String programFullCode, RoleType roleType) {
         if (roleType == null) {
-            return markSubjectRepository.getALlMarkByStudentAndProgram(mssv, programFullCode);
+            return markSubjectRepository.getSubjectInfoAll(mssv, programFullCode);
 
         } else {
-            return markSubjectRepository.getALlMarkByRoleType(mssv, programFullCode, roleType);
+            return markSubjectRepository.getSubjectInfoByRoleType(mssv, programFullCode, roleType);
         }
     }
 
@@ -89,30 +90,60 @@ public class StudentInfoService {
         return subjectInfoDtoList;
     }
 
-    public Double getMaxAverageMark(List<SubjectInfoDto> dtos, Program program, RoleType roleType) {
-        int numberMax = Integer.MAX_VALUE;
+    public AverageMark getMaxAverageMark(List<SubjectInfoDto> dtos, Program program, RoleType roleType) {
+        int numberMax = program.getTotalCredits();
         if (roleType != null) {
             numberMax = RoleType.getTotalCredit(program, roleType);
         }
-        List<SubjectInfoDto> values = dtos.stream().map(SerializationUtils::clone).collect(Collectors.toList());
-        values.sort(Comparator.comparing(SubjectInfoDto::getMark).reversed());
+//        List<SubjectInfoDto> values = dtos.stream().map(SerializationUtils::clone).collect(Collectors.toList());
+        List<SubjectInfoDto> values = dtos;
         double sumMark = 0;
         int totalCredit = 0;
+        int numberMandatoryMax=0;
+        int numberOptionalMax=0;
+        int numberOptionalReinforcementMax=0;
+        int numberAdditionalMax=0;
+        int numberGraduationMax=0;
         for (SubjectInfoDto subjectInfoDto : values) {
-            if (subjectInfoDto.getRoleType() == RoleType.NATIONALDEFENCE || subjectInfoDto.getRoleType() == RoleType.PHYSICAL) {
-                continue;
-            }
             if (totalCredit >= numberMax) {
                 break;
-            } else {
+            }
+            else if (subjectInfoDto.getRoleType() == RoleType.MANDATORY && numberMandatoryMax < program.getTotalOfMandatory()) {
                 sumMark += (ConvertMark.MarkToGPA(subjectInfoDto.getMark())
                         * subjectInfoDto.getCredit());
                 totalCredit += subjectInfoDto.getCredit();
+                numberMandatoryMax+= subjectInfoDto.getCredit();
+//                System.out.println(subjectInfoDto.getSubjectName()+" - " + subjectInfoDto.getMark() +  "-" + subjectInfoDto.getRoleType());
+            } else if (subjectInfoDto.getRoleType() == RoleType.OPTIONAL && numberOptionalMax < program.getTotalOfOptional()) {
+                sumMark += (ConvertMark.MarkToGPA(subjectInfoDto.getMark())
+                        * subjectInfoDto.getCredit());
+                totalCredit += subjectInfoDto.getCredit();
+                numberOptionalMax+= subjectInfoDto.getCredit();
+            }else if (subjectInfoDto.getRoleType() == RoleType.ADDITIONAL && numberAdditionalMax < program.getTotalOfAdditional()) {
+                sumMark += (ConvertMark.MarkToGPA(subjectInfoDto.getMark())
+                        * subjectInfoDto.getCredit());
+                totalCredit += subjectInfoDto.getCredit();
+                numberAdditionalMax+= subjectInfoDto.getCredit();
+            }else if (subjectInfoDto.getRoleType() == RoleType.OPTIONALREINFORCEMENT && numberOptionalReinforcementMax < program.getTotalOfOptionalReinforcement()) {
+                sumMark += (ConvertMark.MarkToGPA(subjectInfoDto.getMark())
+                        * subjectInfoDto.getCredit());
+                totalCredit += subjectInfoDto.getCredit();
+                numberOptionalReinforcementMax+= subjectInfoDto.getCredit();
+//                System.out.println(subjectInfoDto.getSubjectName()+" - " + subjectInfoDto.getMark() +  "-" + subjectInfoDto.getRoleType());
+            }else if (subjectInfoDto.getRoleType() == RoleType.GRADUATIONINTERSHIP && numberGraduationMax < program.getTotalOfGraduationInternship()) {
+                sumMark += (ConvertMark.MarkToGPA(subjectInfoDto.getMark())
+                        * subjectInfoDto.getCredit());
+                totalCredit += subjectInfoDto.getCredit();
+                numberGraduationMax += subjectInfoDto.getCredit();
             }
         }
+
         Double result =sumMark / totalCredit;
         result = ((double) Math.round(result*100))/100;
-        return totalCredit == 0 ? totalCredit :result ;
+        AverageMark average = new AverageMark();
+        average.setAverageMark(totalCredit == 0 ? totalCredit :result);
+        average.setTotalCredit(totalCredit);
+        return average;
     }
 
 
@@ -150,9 +181,10 @@ public class StudentInfoService {
                 }
             }
         }
-        System.out.println("HELLO");
         return compare;
     }
+
+
 
     public Period dateDiff(String studentId, String programFullCode) {
         LocalDate attendanceDate = attendanceRepository.findAttendanceDate(studentId, programFullCode);
@@ -199,5 +231,14 @@ public class StudentInfoService {
         }
         enoughCredit.setContent((totalCredit)+ "/" + numberMax);
         return enoughCredit;
+    }
+
+    public List<SubjectInfoDto> getFinishedSubjectOrder(String mssv, String programFullCode, RoleType roleType) {
+        if (roleType == null) {
+            return markSubjectRepository.getSubjectInfoAllOrder(mssv, programFullCode);
+
+        } else {
+            return markSubjectRepository.getSubjectInfoByRoleOrder(mssv, programFullCode, roleType);
+        }
     }
 }

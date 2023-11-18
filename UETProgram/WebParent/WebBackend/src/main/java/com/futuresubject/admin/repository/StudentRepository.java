@@ -18,7 +18,10 @@ public interface StudentRepository extends CrudRepository<Student, String> {
     List<String> countByCohort(String cohort);
 
     @Query("SELECT u.studentId FROM Student AS u " +
-            "INNER JOIN Attendance AS a ON u.classroom.cohort = ?1 " +
-            "WHERE concat(a.program.programCode,'-',a.program.period) = ?2")
+            "INNER JOIN Attendance AS a ON u.studentId = a.student.studentId " +
+            "WHERE u.classroom.cohort = ?1 AND concat(a.program.programCode,'-',a.program.period) = ?2")
     List<String> countByCohortAndProgram(String cohort, String programFullCode);
+
+
+
 }

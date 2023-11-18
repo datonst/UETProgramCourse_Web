@@ -7,6 +7,11 @@ import com.futuresubject.admin.dto.search.SearchMark;
 import com.futuresubject.admin.dto.search.SubjectInfoDto;
 import com.futuresubject.common.entity.Enum.RoleType;
 import com.futuresubject.common.entity.MarkSubject;
+import com.futuresubject.common.entity.Program;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -17,7 +22,8 @@ import java.util.List;
 
 @Repository
 public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integer> {
-
+    @PersistenceContext(unitName = "persistenceUnit")
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.futuersubject.admin");;
     @Query("SELECT u FROM MarkSubject  AS u")
     List<MarkSubject> getAllMarkSubject();
 
@@ -58,7 +64,8 @@ public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integ
             " FROM MarkSubject AS u " +
             " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
             " WHERE u.student.studentId = ?1 AND concat(t.program.programCode,'-',t.program.period) = ?2 ", nativeQuery = false)
-    List<SubjectInfoDto> getALlMarkByStudentAndProgram(String studentId, String programFullCode);
+    List<SubjectInfoDto> getSubjectInfoAll(String studentId, String programFullCode);
+
 
     @Query(value = "SELECT " +
             "new com.futuresubject.admin.dto.search.SubjectInfoDto" +
@@ -68,7 +75,7 @@ public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integ
             " WHERE u.student.studentId = ?1 " +
             " AND concat(t.program.programCode,'-',t.program.period) = ?2 " +
             " AND t.roleType = ?3 ", nativeQuery = false)
-    List<SubjectInfoDto> getALlMarkByRoleType(String mssv, String programFullCode, RoleType roleType);
+    List<SubjectInfoDto> getSubjectInfoByRoleType(String mssv, String programFullCode, RoleType roleType);
 
 
     // Phiên bản thứ 1 - non-native
@@ -103,6 +110,26 @@ public interface MarkSubjectRepository extends CrudRepository<MarkSubject, Integ
             " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
             " WHERE u.student.studentId = ?1 AND t.program.id = ?2 AND t.roleType =  ?3")
     List<MarkDto> getMarkByRole(String studentId, Integer programId, RoleType roleType);
+
+
+    @Query(value = "SELECT " +
+            "new com.futuresubject.admin.dto.search.SubjectInfoDto" +
+            "(u.subject.subjectName,u.subject.credit,t.roleType,u.mark)" +
+            " FROM MarkSubject AS u " +
+            " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
+            " WHERE u.student.studentId = ?1 AND concat(t.program.programCode,'-',t.program.period) = ?2  " +
+            " ORDER BY (u.mark) DESC " , nativeQuery = false)
+    List<SubjectInfoDto> getSubjectInfoAllOrder(String mssv,String programFullCode);
+
+    @Query(value = "SELECT " +
+            "new com.futuresubject.admin.dto.search.SubjectInfoDto" +
+            "(u.subject.subjectName,u.subject.credit,t.roleType,u.mark)" +
+            " FROM MarkSubject AS u " +
+            " INNER JOIN Program_Subject AS t ON u.subject.subjectid = t.subject.subjectid " +
+            " WHERE u.student.studentId = ?1  AND concat(t.program.programCode,'-',t.program.period) = ?2  " +
+            " AND t.roleType = ?3  ORDER BY (u.mark) DESC ", nativeQuery = false)
+    List<SubjectInfoDto> getSubjectInfoByRoleOrder(String mssv, String programFullCode, RoleType roleType);
+
 
 
 }

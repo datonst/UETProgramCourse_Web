@@ -11,4 +11,5 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class AverageMark implements Serializable {
     Double averageMark;
+    Integer totalCredit;
 }

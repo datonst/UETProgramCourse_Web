@@ -170,9 +170,12 @@ public class SearchStudentController {
                                                 @PathVariable(name="programFullCode") String programFullCode,
                                                 @RequestParam(value = "roleType",required = false) RoleType roleType) {
             AverageMark averageMark = new AverageMark();
-            List<SubjectInfoDto> dtos = studentInfoService.getFinishedSubject(mssv, programFullCode, roleType);
+            List<SubjectInfoDto> dtos = studentInfoService.getFinishedSubjectOrder(mssv, programFullCode, roleType);
             Program program = studentInfoService.getProgram(programFullCode);
-            averageMark.setAverageMark(studentInfoService.getMaxAverageMark(dtos,program,roleType));
+            averageMark.setAverageMark(
+                    studentInfoService
+                            .getMaxAverageMark(dtos,program,roleType)
+                            .getAverageMark());
             return averageMark;
     }
 
@@ -206,10 +209,7 @@ public class SearchStudentController {
                 + period.getYears() + suffixYear
                 + period.getMonths() + suffixMonth
                 + period.getDays() + suffixDay;
-        System.out.println("SUCESS");
-        List<SubjectInfoDto> dtos = studentInfoService.getFinishedSubject(mssv, programFullCode, null);
-        EnoughCredit totalCredit = studentInfoService
-                .numberStudiedCredit(dtos,program,null);
+        List<SubjectInfoDto> dtos = studentInfoService.getFinishedSubjectOrder(mssv, programFullCode, null);
         EnoughCredit totalMandatory = studentInfoService
                 .numberStudiedCredit(dtos,program,RoleType.MANDATORY);
         EnoughCredit totalOptional = studentInfoService
@@ -225,10 +225,11 @@ public class SearchStudentController {
         EnoughCredit totalGraduationInternship = studentInfoService
                 .numberStudiedCredit(dtos,program,RoleType.GRADUATIONINTERSHIP);
         boolean okGPA =true;
-        Double averageMark =studentInfoService.getMaxAverageMark(dtos,program,null);
+        AverageMark averageMark =studentInfoService.getMaxAverageMark(dtos,program,null);
         graduatedCondition.setEnoughCert(enoughCert);
         graduatedCondition.setConditionDuration(periodTimeStudied);
-        graduatedCondition.setNumberCredit(totalCredit.getContent());
+        graduatedCondition.setNumberCredit(String.valueOf(averageMark.getTotalCredit())
+                + "/" + program.getTotalCredits());
         graduatedCondition.setCompletedMandatory(totalMandatory.getContent());
         graduatedCondition.setCompletedOptional(totalOptional.getContent());
         graduatedCondition.setCompletedOptionalReinforcement(totalOptionalReinforcement.getContent());
@@ -236,20 +237,20 @@ public class SearchStudentController {
         graduatedCondition.setCompletedNationalDefense(totalNationalDefense.getContent());
         graduatedCondition.setCompletedAdditional(totalAddition.getContent());
         graduatedCondition.setCompletedGraduationInternship(totalGraduationInternship.getContent());
-        if (Double.compare(averageMark,2.0) <0) {
+        if (Double.compare(averageMark.getAverageMark(),2.0) <0) {
             okGPA = false;
-            graduatedCondition.setGpaCondition("GPA: " + averageMark + " - "  +
+            graduatedCondition.setGpaCondition("GPA: " + averageMark.getAverageMark() + " - "  +
                     "Không đủ điểm nhận bằng tốt nghiệp vì GPA < 2.0");
-        } else if (Double.compare(averageMark,2.5) < 0 &&
+        } else if (Double.compare(averageMark.getAverageMark(),2.5) < 0 &&
                 ( program.getProgramType() == ProgramType.InternationalProgram
                         || program.getProgramType() ==ProgramType.HonorsProgram) ) {
-            graduatedCondition.setGpaCondition("GPA: " + averageMark +" - " +
+            graduatedCondition.setGpaCondition("GPA: " + averageMark.getAverageMark() +" - " +
                     "Chỉ nhận được bằng tốt nghiệp hệ đào tạo chuẩn vì GPA < 2.5");
         } else {
-            graduatedCondition.setGpaCondition("GPA: " + averageMark +" - " +
+            graduatedCondition.setGpaCondition("GPA: " + averageMark.getAverageMark() +" - " +
                     "Đủ điều kiện");
         }
-        if (enoughCert && totalCredit.isEnough()
+        if (enoughCert && program.getTotalCredits().equals(averageMark.getTotalCredit())
                 && totalMandatory.isEnough()
                 && totalOptional.isEnough()
                 && totalOptionalReinforcement.isEnough()
