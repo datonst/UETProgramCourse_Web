@@ -51,6 +51,13 @@ public class MarkSubject {
         }
     }
 
+
+    @PreRemove
+    public void removeEverything(){
+        this.student = null;
+        this.subject = null;
+    }
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;

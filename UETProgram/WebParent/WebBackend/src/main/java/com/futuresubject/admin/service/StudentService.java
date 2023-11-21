@@ -58,11 +58,8 @@ public class StudentService {
     }
 
     public void deleteByStudentid(String studentid) throws NotFoundDataExeption {
-        Long countById=studentRepository.countByStudentId(studentid);// can use findById ==Null
-        if(countById==null || countById==0){
-            throw new NotFoundDataExeption("Could not find any user with ID " +studentid );
-        }
-        studentRepository.deleteById(studentid);
+        Student student= studentRepository.findById(studentid).get();
+        studentRepository.delete(student);
     }
 
     public void updateFromDto(StudentDto studentDto) {
