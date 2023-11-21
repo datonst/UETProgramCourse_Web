@@ -20,7 +20,7 @@ import java.util.List;
 public class StudentDto implements Serializable {
     String studentId;
     String name;
-    LocalDate dateOfBirth;
+    String dateOfBirth;
     String gender;
     String address;
     String phone;
