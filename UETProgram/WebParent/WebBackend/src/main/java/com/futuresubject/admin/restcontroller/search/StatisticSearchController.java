@@ -12,10 +12,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class StatisticSearchController {
@@ -27,11 +24,10 @@ public class StatisticSearchController {
     @GetMapping("/statistic/graduation")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
-    public Map<String,Map<String,Integer>> statisticGraduation(@Param("cohort") String cohort) {
+    public List<Map<String,String>> statisticGraduation(@Param("cohort") String cohort) {
         System.out.println("safafasfa");
-        Map<String,Map<String,Integer>> result=  new LinkedHashMap<>();
-        Map<String,Integer> totalStudentByProgramLists=  new LinkedHashMap<>();
-        Map<String,Integer> graduatedStudentByProgramLists=  new LinkedHashMap<>();
+        List<Map<String,String>> result=  new ArrayList<>();
+        Map<String,String> programStatistic= null;
         int total_graduation =0;
         int total=0;
         for (int i=1;i<=16;i++) {
@@ -44,7 +40,7 @@ public class StatisticSearchController {
             }
             System.out.println("-----------------------------------------------------------------");
             List<String> searchStudentIdList = statisticSearchService.searchStudentIdList(cohort,programFullCode);
-            totalStudentByProgramLists.put(programFullCode, searchStudentIdList.size());
+            programStatistic=  new LinkedHashMap<>();
             int dem=0;
             for (String mssv : searchStudentIdList) {
                 Program program = studentInfoService.getProgram(programFullCode);
@@ -59,14 +55,19 @@ public class StatisticSearchController {
                     dem+=1;
                 }
             }
-            graduatedStudentByProgramLists.put(programFullCode,dem);
+            programStatistic.put("name",programFullCode);
+            programStatistic.put("grad",String.valueOf(dem));
+            programStatistic.put("total", String.valueOf(searchStudentIdList.size()));
+            result.add(programStatistic);
             total_graduation+=dem;
             total+=searchStudentIdList.size();
+
         }
-        totalStudentByProgramLists.put("All",total);
-        graduatedStudentByProgramLists.put("All",total_graduation);
-        result.put("total",totalStudentByProgramLists);
-        result.put("graduated",graduatedStudentByProgramLists);
+        programStatistic =  new LinkedHashMap<>();
+        programStatistic.put("name","All");
+        programStatistic.put("grad",String.valueOf(total_graduation));
+        programStatistic.put("total",String.valueOf(total));
+        result.add(programStatistic);
         return result;
     }
 

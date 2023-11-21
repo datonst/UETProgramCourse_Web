@@ -64,7 +64,7 @@ public class StudentController {
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed({"ROLE_ADMIN"})
     public void putEditStudent(@RequestBody StudentDto studentDto) {
-         studentService.updateFromDto(studentDto);
+        studentService.updateFromDto(studentDto);
     }
 
     @DeleteMapping("/students/delete/{subjectid}")
