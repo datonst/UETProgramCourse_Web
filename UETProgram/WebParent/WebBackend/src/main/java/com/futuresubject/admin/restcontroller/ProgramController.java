@@ -26,7 +26,7 @@ public class ProgramController {
     @GetMapping("/programs")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
-    @RolesAllowed({"ROLE_ADMIN,ROLE_VIEWER"})
+    @RolesAllowed({"ROLE_ADMIN","ROLE_VIEWER"})
     public List<ProgramDto> getAllProgram() {
         return programService.findAll();
     }
