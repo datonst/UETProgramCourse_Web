@@ -25,10 +25,10 @@ public class SubjectController {
     @GetMapping("/subjects")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
-    @RolesAllowed({"ROLE_VIEWER,ROLE_ADMIN"})
+    @RolesAllowed({"ROLE_VIEWER","ROLE_ADMIN"})
 //    @RolesAllowed({"ROLE_VIEWER", "ROLE_ADMIN"})
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<SubjectDto> listStudents(
+    public List<SubjectDto> listSubjects(
             @RequestParam(value = "page", defaultValue = "0")  int page
             , @RequestParam(value = "size", defaultValue = "20") int size
     ) {

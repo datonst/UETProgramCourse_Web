@@ -9,6 +9,7 @@ import com.futuresubject.common.entity.Subject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,14 @@ public class SubjectService {
     private SubjectRepository subjectRepository;
 
     public List<SubjectDto> findAll(Pageable pagination) {
-        List<Subject> subjects = (List<Subject>) subjectRepository.findAll(pagination);
-        return SubjectMapper.INSTANCE.toDtoList(subjects);
+        List<SubjectDto> subjectDtos = new ArrayList<>();
+        Page<Subject> subjects = subjectRepository.findAll(pagination);
+
+        for (Subject subject : subjects) {
+            subjectDtos.add(SubjectMapper.INSTANCE.toDto(subject));
+        }
+        System.out.println("âhhahahahahaha");
+        return subjectDtos;
     }
 
     public SubjectDto get(String subjectid) throws NotFoundDataExeption {
