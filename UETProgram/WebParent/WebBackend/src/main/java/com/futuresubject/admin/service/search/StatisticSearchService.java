@@ -41,7 +41,7 @@ public class StatisticSearchService {
             }
             return "CN12-2022";
         }
-        if ((programCode.equals("CN10") ||programCode.equals("CN11")) && c<2019) {
+        if ((programCode.equals("CN10") || programCode.equals("CN11")) && c<2019) {
             return "-1";
         }
         if (c<=2018) {

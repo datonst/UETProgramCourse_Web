@@ -1,4 +1,4 @@
-package com.futuresubject.admin.configuration.mail;
+package com.futuresubject.admin.config.mail;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

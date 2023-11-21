@@ -11,6 +11,7 @@ import com.futuresubject.common.entity.Enum.LevelLanguage;
 import com.futuresubject.common.entity.Faculty;
 import com.futuresubject.common.entity.ObtainCert;
 import com.futuresubject.common.entity.Student;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,7 @@ public class ObtainCertController {
     @GetMapping("/obtaincerts")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
     public List<ObtainCertDto> getAllFaculty(
             @RequestParam(value = "page", defaultValue = "0")  int page
             , @RequestParam(value = "size", defaultValue = "20") int size
@@ -37,6 +39,7 @@ public class ObtainCertController {
         return obtainCertService.findAllObtainCert(pagination);
     }
     @GetMapping("/obtaincerts/new")
+    @RolesAllowed({"ROLE_ADMIN"})
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
     public ObtainCertDto createFaculty() {
@@ -49,6 +52,7 @@ public class ObtainCertController {
     @PostMapping("/obtaincerts/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
+    @RolesAllowed({"ROLE_ADMIN"})
     public ObtainCert saveFaculty(@RequestBody ObtainCertDto obtainCertDto) throws NotFoundDataExeption {
 //        if (facultyDto.getFacultyName() == null) {
 //            throw new NotFoundDataExeption("Not found - contain null");
@@ -59,6 +63,7 @@ public class ObtainCertController {
     @GetMapping("/obtaincerts/search")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
     public  List<ObtainCertDto> editObtainCerts(@Param("studentid")String studentid){
         List<ObtainCertDto> obtainCertDto = obtainCertService.getByStudentId(studentid);
         return  obtainCertDto;
@@ -67,6 +72,7 @@ public class ObtainCertController {
     @GetMapping("/obtaincerts/edit/{studentid}/{type}")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
     public ObtainCertDto editObtainCert(@PathVariable(name = "studentid") String studentId,
                             @PathVariable(name = "type") CertificateType certificateType){
         ObtainCertDto obtainCertDto = obtainCertService.getByStudentIdAndLevelLanguage(studentId,certificateType);
@@ -78,6 +84,7 @@ public class ObtainCertController {
     @PutMapping("/obtaincerts/edit/save")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RolesAllowed({"ROLE_ADMIN"})
     public void putEditObtainCert(@RequestBody ObtainCertDto obtainCertDto) {
         obtainCertService.updateFromDto(obtainCertDto);
     }
@@ -85,6 +92,7 @@ public class ObtainCertController {
     @DeleteMapping("/obtaincerts/delete/{element}")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RolesAllowed({"ROLE_ADMIN"})
     public void saveFaculty(@PathVariable(name = "element") String element){
         String[] arrOfStr = element.split("&", 2);
         String studentid = arrOfStr[0];

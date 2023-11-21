@@ -7,6 +7,7 @@ import com.futuresubject.admin.service.ProgramService;
 import com.futuresubject.common.entity.Enum.LevelLanguage;
 import com.futuresubject.common.entity.Program;
 import com.futuresubject.common.entity.Enum.ProgramType;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ public class ProgramController {
     @GetMapping("/programs")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN,ROLE_VIEWER"})
     public List<ProgramDto> getAllProgram() {
         return programService.findAll();
     }
@@ -33,6 +35,7 @@ public class ProgramController {
     @PostMapping("/programs/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
+    @RolesAllowed({"ROLE_ADMIN"})
     public Program saveProgram(@RequestBody ProgramDto programDto) throws NotFoundDataExeption {
 //        if (programDto == null ||programDto.getProgramCode() ==null||programDto.getProgramName()==null) {
 //            throw new NotFoundDataExeption("Not found - program contain null");
@@ -45,6 +48,7 @@ public class ProgramController {
     @GetMapping("/programs/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
     public ProgramDto createProgram() {
         ProgramDto programDto = new ProgramDto();
         programDto.setListOfFacultyName(facultyService.listOfFacultyName());
@@ -57,6 +61,7 @@ public class ProgramController {
     @GetMapping("/programs/edit/{programFullName}")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
     public ProgramDto getProgram(@PathVariable(name = "programFullName") String programFullName) throws NotFoundDataExeption {
         ProgramDto programDto = programService.get(programFullName);
         programDto.setListOfFacultyName(facultyService.listOfFacultyName());
@@ -67,6 +72,7 @@ public class ProgramController {
     @PutMapping("/programs/edit/{programFullName}")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
     public Program putEditProgram(@PathVariable(name = "programFullName") String programFullName,
                                       @RequestBody ProgramDto programDto) {
         return programService.updateFromDto(programDto);
@@ -75,6 +81,7 @@ public class ProgramController {
     @DeleteMapping("/programs/delete/{programFullCode}")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RolesAllowed({"ROLE_ADMIN"})
     public void deleteProgram(@PathVariable(name = "programFullCode") String programFullCode) {
         programService.deleteByProgramFullCode(programFullCode);
     }

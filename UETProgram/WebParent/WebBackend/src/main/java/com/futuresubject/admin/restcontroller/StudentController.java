@@ -7,6 +7,7 @@ import com.futuresubject.admin.service.ClassroomService;
 import com.futuresubject.admin.service.StudentService;
 import com.futuresubject.common.entity.Enum.GenderType;
 import com.futuresubject.common.entity.Student;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,7 @@ public class StudentController {
     @GetMapping("/students")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
     public List<StudentDto> listStudents(
             @RequestParam(value = "page", defaultValue = "0")  int page
             , @RequestParam(value = "size", defaultValue = "20") int size
@@ -40,6 +42,7 @@ public class StudentController {
     @GetMapping("/students/edit/{mssv}")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
     public StudentDto studentAccount(@PathVariable(name = "mssv") String mssv) {
         StudentDto studentDto = null;
         try {
@@ -59,6 +62,7 @@ public class StudentController {
     @PutMapping("/students/edit/save")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
     public void putEditStudent(@RequestBody StudentDto studentDto) {
          studentService.updateFromDto(studentDto);
     }
@@ -66,6 +70,7 @@ public class StudentController {
     @DeleteMapping("/students/delete/{subjectid}")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RolesAllowed({"ROLE_ADMIN"})
     public void deleteEditStudent(@PathVariable(name = "subjectid") String studentid) {
         try {
             studentService.deleteByStudentid(studentid);
@@ -73,26 +78,29 @@ public class StudentController {
             throw new RuntimeException(e);
         }
     }
-    @GetMapping("/student/{mssv}/{nameCourse}")
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.OK)
-    public String studySubjectList(@PathVariable(name = "mssv") String mssv,
-                                   Model model,
-                                   @PathVariable(name = "nameCourse") String nameCourse) {
-        return "";
+//    @GetMapping("/student/{mssv}/{nameCourse}")
+//    @ExceptionHandler
+//    @ResponseStatus(HttpStatus.OK)
+//    public String studySubjectList(@PathVariable(name = "mssv") String mssv,
+//                                   Model model,
+//                                   @PathVariable(name = "nameCourse") String nameCourse) {
+//        return "";
+//
+//    }
 
-    }
-
-    @GetMapping("/student/{mssv}/{nameCourse}?=")
-
-    public String getAllThisTypeSubject(@PathVariable(name = "mssv") String mssv,
-                                        Model model,
-                                        @PathVariable(name = "nameCourse") String nameCourse,
-                                        @Param("typeSubject") String typeSubject) {
-        return "";
-    }
+//    @GetMapping("/student/{mssv}/{nameCourse}?=")
+//
+//    public String getAllThisTypeSubject(@PathVariable(name = "mssv") String mssv,
+//                                        Model model,
+//                                        @PathVariable(name = "nameCourse") String nameCourse,
+//                                        @Param("typeSubject") String typeSubject) {
+//        return "";
+//    }
 
     @GetMapping("/students/new")
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
     public StudentDto createStudent() {
         StudentDto studentDto = new StudentDto();
         studentDto.setListOfClassroom(classroomService.listOfClassroom());
@@ -103,6 +111,7 @@ public class StudentController {
     @PostMapping("/students/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
+    @RolesAllowed({"ROLE_ADMIN"})
     public Student createSubject(@RequestBody StudentDto studentDto) throws NotFoundDataExeption {
 //        if (studentDto.getStudentId() == null) {
 //            throw new NotFoundDataExeption("Not found - student contain Null");

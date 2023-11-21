@@ -7,6 +7,7 @@ import com.futuresubject.admin.service.Program_SubjectService;
 import com.futuresubject.admin.service.SubjectService;
 import com.futuresubject.common.entity.Enum.RoleType;
 import com.futuresubject.common.entity.Program_Subject;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,9 @@ public class Program_SubjectController {
     private SubjectService subjectService;
 
     @GetMapping("/programsubjects/new")
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
     public Program_SubjectDto createProgramSubject() {
         Program_SubjectDto programSubjectDto = new Program_SubjectDto();
         programSubjectDto.setListRoleType(Arrays.asList(RoleType.values()));
@@ -35,6 +39,7 @@ public class Program_SubjectController {
     @PostMapping("/programsubjects/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
+    @RolesAllowed({"ROLE_ADMIN"})
     public Program_Subject saveProgramSubject(@RequestBody Program_SubjectDto programSubjectDto) throws NotFoundDataExeption {
 //        if (programSubjectDto.getSubjectId() == null ||
 //        programSubjectDto.getProgramFullCode() == null) {

@@ -14,7 +14,7 @@
     <!-- https://dev.to/jazzybruno/spring-boot-project-folder-structure-12oe -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>5.9.1</junit.version>
+<!--        <junit.version>5.9.3</junit.version>-->
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
     </properties>
 
@@ -40,39 +40,65 @@
         <!--            <artifactId>bootstrapfx-core</artifactId>-->
         <!--            <version>0.4.0</version>-->
         <!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.junit.jupiter</groupId>-->
+<!--            <artifactId>junit-jupiter-api</artifactId>-->
+<!--            <version>${junit.version}</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.junit.jupiter</groupId>-->
+<!--            <artifactId>junit-jupiter-engine</artifactId>-->
+<!--            <version>${junit.version}</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.0.2</version>
         </dependency>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.15.2</version>
         </dependency>
-
         <!--        <dependency>-->
-        <!--            <groupId>com.fasterxml.jackson.core</groupId>-->
-        <!--            <artifactId>jackson-annotations</artifactId>-->
-        <!--            <version>2.15.2</version>-->
+        <!--            <groupId>io.jsonwebtoken</groupId>-->
+        <!--            <artifactId>jjwt</artifactId>-->
+        <!--            <version>0.9.1</version>-->
         <!--        </dependency>-->
         <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>3.1.3</version>
         </dependency>
-
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>1.5.5.Final</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>javax.annotation</groupId>-->
+<!--            <artifactId>javax.annotation-api</artifactId>-->
+<!--            <version>1.3.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.hibernate</groupId>-->
+<!--            <artifactId>hibernate-core</artifactId>-->
+<!--            <version>6.2.13.Final</version>-->
+<!--            <type>pom</type>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.hibernate</groupId>-->
+<!--            <artifactId>hibernate-entitymanager</artifactId>-->
+<!--            <version>5.6.9.Final</version>-->
+<!--        </dependency>-->
+
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>1.3.2</version>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>6.1.2</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -80,21 +106,25 @@
             <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <version>3.1.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
-            <version>3.1.5</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.15.2</version>
-        </dependency>
+
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-maven-plugin</artifactId>-->
+        <!--            <version>3.1.3</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-mail</artifactId>-->
+        <!--            <version>3.1.3</version>-->
+        <!--        </dependency>-->
+
+
+        <!--        <dependency>-->
+        <!--            <groupId>jakarta.validation</groupId>-->
+        <!--            <artifactId>jakarta.validation-api</artifactId>-->
+        <!--            <version>3.0.2</version>-->
+        <!--        </dependency>-->
+
     </dependencies>
 
     <build>

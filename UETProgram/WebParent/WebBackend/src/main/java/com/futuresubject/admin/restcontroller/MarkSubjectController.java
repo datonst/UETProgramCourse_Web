@@ -8,10 +8,12 @@ import com.futuresubject.admin.service.StudentService;
 import com.futuresubject.admin.service.SubjectService;
 import com.futuresubject.common.entity.MarkSubject;
 import com.futuresubject.common.entity.Student;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -34,6 +36,8 @@ public class MarkSubjectController {
     @GetMapping("/marksubjects")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
+//    @PreAuthorize("hasRole('MODERATOR')")
     public List<MarkSubjectDto> getAllMarkSubject(
             @RequestParam(value = "page", defaultValue = "0")  int page
             , @RequestParam(value = "size", defaultValue = "20") int size
@@ -45,6 +49,7 @@ public class MarkSubjectController {
     @GetMapping("/marksubjects/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
     public MarkSubjectDto createMarkSubject() {
         MarkSubjectDto markSubjectDto = new MarkSubjectDto();
         markSubjectDto.setListOfStudentId(studentService.listOfStudentId());
@@ -55,6 +60,7 @@ public class MarkSubjectController {
     @GetMapping("/marksubjects/search/{studentId}")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
     public List<MarkSubjectDto> getAllMarkByStudentId(
             @PathVariable("studentId") String studentId) {
         return markSubjectService.findMarkSubjectByStudentId(studentId);
@@ -63,6 +69,7 @@ public class MarkSubjectController {
     @PostMapping("/marksubjects/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
+    @RolesAllowed({"ROLE_ADMIN"})
     public MarkSubject saveMarkSubject(@RequestBody MarkSubjectDto markSubjectDto) throws NotFoundDataExeption {
 //        if (markSubjectDto.getSubjectId() == null ||
 //        markSubjectDto.getStudentId() == null ||
@@ -75,6 +82,7 @@ public class MarkSubjectController {
     @GetMapping("/marksubjects/edit/{element}")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
     public MarkSubjectDto getEditMark(@PathVariable(name = "element")
                                           String element) throws NotFoundDataExeption {
         String[] arrOfStr = element.split("&", 2);
@@ -89,6 +97,7 @@ public class MarkSubjectController {
     @PutMapping("/marksubjects/edit/save")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
     public String putEditMark(@RequestBody MarkSubjectDto markSubjectDto) throws NotFoundDataExeption {
         String studentId = markSubjectDto.getStudentId();
         String subjectId = markSubjectDto.getSubjectId();
@@ -100,6 +109,7 @@ public class MarkSubjectController {
     @DeleteMapping("/marksubjects/delete/{element}")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RolesAllowed({"ROLE_ADMIN"})
     public void deleteEditStudent(@PathVariable(name = "element") String element) {
         String[] arrOfStr = element.split("&", 2);
         String studentid = arrOfStr[0];

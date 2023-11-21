@@ -8,6 +8,7 @@ import com.futuresubject.admin.service.ProgramService;
 import com.futuresubject.admin.service.StudentService;
 import com.futuresubject.common.entity.Attendance;
 import com.futuresubject.common.entity.MarkSubject;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +32,7 @@ public class AttendanceController {
 
 
     @GetMapping("/attendances/new")
+    @RolesAllowed({"ROLE_ADMIN"})
     public AttendanceDto getAttendanceDtoVal(){
         AttendanceDto attendanceDto = new AttendanceDto();
         attendanceDto.setListOfStudentId(studentService.listOfStudentId());
@@ -39,6 +41,7 @@ public class AttendanceController {
     }
 
     @PostMapping("/attendances/new")
+    @RolesAllowed({"ROLE_ADMIN"})
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
     public Attendance createAttendance(@RequestBody
@@ -52,6 +55,7 @@ public class AttendanceController {
         return attendanceService.insert(attendanceDto);
     }
     @GetMapping("/attendances")
+    @RolesAllowed({"ROLE_ADMIN"})
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
     public List<AttendanceDto> attendacesList(
@@ -64,6 +68,7 @@ public class AttendanceController {
     @GetMapping("/attendances/edit/{element}")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
     public AttendanceDto getEditAttendance(@PathVariable(name = "element") String element) throws NotFoundDataExeption {
         String[] arrOfStr = element.split("&", 2);
         String subjectId = arrOfStr[0];
@@ -76,6 +81,7 @@ public class AttendanceController {
     @PutMapping("/attendances/edit/save")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RolesAllowed({"ROLE_ADMIN"})
     public void putEditAttendance(@RequestBody AttendanceDto attendanceDto) {
         attendanceService.updateFromDto(attendanceDto);
     }
@@ -83,6 +89,7 @@ public class AttendanceController {
     @DeleteMapping("/attendances/delete/{element}")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RolesAllowed({"ROLE_ADMIN"})
     public void deleteEditAttendance(@PathVariable(name = "element") String element) throws NotFoundDataExeption {
         String[] arrOfStr = element.split("&", 2);
         String subjectId = arrOfStr[0];

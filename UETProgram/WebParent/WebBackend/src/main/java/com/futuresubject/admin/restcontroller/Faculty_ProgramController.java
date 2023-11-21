@@ -8,6 +8,7 @@ import com.futuresubject.admin.service.Faculty_ProgramService;
 import com.futuresubject.admin.service.ProgramService;
 import com.futuresubject.common.entity.Faculty;
 import com.futuresubject.common.entity.Faculty_Program;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ public class Faculty_ProgramController {
     @GetMapping("/facultyprograms/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
     public Faculty_ProgramDto createFacultyProgram() {
         Faculty_ProgramDto facultyProgramDto = new Faculty_ProgramDto();
         facultyProgramDto.setListOfFacultyName(facultyService.listOfFacultyName());
@@ -35,6 +37,7 @@ public class Faculty_ProgramController {
     @PostMapping("/facultyprograms/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
+    @RolesAllowed({"ROLE_ADMIN"})
     public Faculty_Program saveFacultyProgram(@RequestBody Faculty_ProgramDto facultyProgramDto) throws NotFoundDataExeption {
 //        if (facultyProgramDto.getProgramFullCode() == null
 //        || facultyProgramDto.getFacultyName() == null) {
