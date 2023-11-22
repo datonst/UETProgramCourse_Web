@@ -24,7 +24,7 @@ public class ObtainCertDto implements Serializable {
     String studentId;
     CertificateType certificateType;
     LevelLanguage levelLanguage;
-    LocalDate submissionDate;
+    String submissionDate;
     List<CertificateType> certificateTypeList;
     List<LevelLanguage> levelLanguageList;
 }

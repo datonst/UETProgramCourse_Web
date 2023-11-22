@@ -23,8 +23,8 @@ import java.util.List;
 public class AttendanceDto implements Serializable {
     String studentId;
     String programFullCode;
-    LocalDate startDate;
-    LocalDate endDate;
+    String startDate;
+    String endDate;
     List<String> listOfStudentId;
     List<String> listOfProgramFullCode;
 }
