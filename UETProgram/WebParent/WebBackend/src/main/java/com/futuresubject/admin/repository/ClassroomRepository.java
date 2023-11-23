@@ -24,4 +24,8 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Integer> {
 
     @Query("SELECT u.id  FROM Classroom AS u WHERE concat(u.cohort,'-',u.nameClass) = ?1 ")
     Integer findId(String classFullName);
+
+
+    @Query("SELECT DISTINCT u.cohort  FROM Classroom AS u")
+    List<String> findCohort ();
 }

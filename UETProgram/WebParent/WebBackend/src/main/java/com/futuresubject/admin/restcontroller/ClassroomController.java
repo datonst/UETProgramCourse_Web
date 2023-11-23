@@ -30,6 +30,15 @@ public class ClassroomController {
         return classroomService.findAll();
     }
 
+
+    @GetMapping("/classrooms/listCohort")
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"ROLE_ADMIN"})
+    public List<String> getAllCohort() {
+        return classroomService.findAllCohort();
+    }
+
     @PostMapping("/classrooms/new")
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)

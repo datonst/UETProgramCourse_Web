@@ -62,5 +62,7 @@ public class ClassroomService {
         return classroomRepository.findId(classFullName) != null;
     }
 
-
+    public List<String> findAllCohort() {
+        return classroomRepository.findCohort();
+    }
 }
