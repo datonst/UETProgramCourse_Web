@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject, String> {
@@ -16,6 +17,11 @@ public interface SubjectRepository extends JpaRepository<Subject, String> {
 
     public Long countBySubjectid(String subjectid); // count id -- Spring Data JPA làm sẵn công đoạn Query rồi ( gọi là  Derived Count Query )
 
+//    @Query("SELECT u.subjectid FROM Subject AS u " +
+//            " WHERE u.subjectName = ?1 ")
+//    List<Subject> findSubjectBySubjectName(String subjectName);
 
-
+    @Query("SELECT u.prerequisiteSubject FROM Subject AS u " +
+            " WHERE u.subjectName = ?1 ")
+    Set<Subject> findPrerequisiteSubjectBySubjectName(String subjectName);
 }

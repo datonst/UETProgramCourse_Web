@@ -70,13 +70,14 @@ public class MarkSubjectController {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CREATED)
     @RolesAllowed({"ROLE_ADMIN"})
-    public MarkSubject saveMarkSubject(@RequestBody MarkSubjectDto markSubjectDto) throws NotFoundDataExeption {
+    public void saveMarkSubject(@RequestBody MarkSubjectDto markSubjectDto) throws NotFoundDataExeption {
 //        if (markSubjectDto.getSubjectId() == null ||
 //        markSubjectDto.getStudentId() == null ||
 //        markSubjectDto.getMark() == null) {
 //            throw new NotFoundDataExeption("Not found - mark subject contain null");
 //        }
-        return markSubjectService.insert(markSubjectDto);
+         markSubjectService.insert(markSubjectDto);
+
     }
 
     @GetMapping("/marksubjects/edit/{element}")

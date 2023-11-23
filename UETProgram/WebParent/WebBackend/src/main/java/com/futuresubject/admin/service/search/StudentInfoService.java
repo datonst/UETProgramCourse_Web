@@ -22,10 +22,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,15 +41,26 @@ public class StudentInfoService {
     private ProgramRepository programRepository;
 
     @Autowired
+    private SubjectRepository subjectRepository;
+
+    @Autowired
     private ObtainCertRepository obtainCertRepository;
 
 
     public List<SubjectInfoDto> getAllSubject(String mssv, String programFullCode,RoleType roleType) {
         if (roleType == null) {
             List<SubjectInfoDto> subjectInfoDtoList = programSubjectRepository.findAllSubject(programFullCode);
+            for (SubjectInfoDto s : subjectInfoDtoList) {
+                Set<Subject> prerequisiteSubject = subjectRepository.findPrerequisiteSubjectBySubjectName(s.getSubjectName());
+                s.setPrerequisiteSubjectToArray(prerequisiteSubject);
+            }
             return subjectInfoDtoList;
         }
         List<SubjectInfoDto> subjectInfoDtoList = programSubjectRepository.findAllSubjectByRoleType(programFullCode,roleType);
+        for (SubjectInfoDto s : subjectInfoDtoList) {
+            Set<Subject> prerequisiteSubject = subjectRepository.findPrerequisiteSubjectBySubjectName(s.getSubjectName());
+            s.setPrerequisiteSubjectToArray(prerequisiteSubject);
+        }
         return subjectInfoDtoList;
 
     }
@@ -83,9 +91,18 @@ public class StudentInfoService {
     public List<SubjectInfoDto> getUnfinishedSubject(String mssv, String programFullCode, RoleType roleType) {
         List<SubjectInfoDto> subjectInfoDtoList = null;
         if (roleType != null) {
+
             subjectInfoDtoList = programSubjectRepository.findAllSubjectUnfinishedByRoleType(mssv, programFullCode, roleType);
+            for (SubjectInfoDto s : subjectInfoDtoList) {
+                Set<Subject> prerequisiteSubject = subjectRepository.findPrerequisiteSubjectBySubjectName(s.getSubjectName());
+                s.setPrerequisiteSubjectToArray(prerequisiteSubject);
+            }
         } else {
             subjectInfoDtoList = programSubjectRepository.findAllSubjectUnfinished(mssv, programFullCode);
+            for (SubjectInfoDto s : subjectInfoDtoList) {
+                Set<Subject> prerequisiteSubject = subjectRepository.findPrerequisiteSubjectBySubjectName(s.getSubjectName());
+                s.setPrerequisiteSubjectToArray(prerequisiteSubject);
+            }
         }
         return subjectInfoDtoList;
     }
@@ -228,6 +245,11 @@ public class StudentInfoService {
             } else {
                 totalCredit += subjectInfoDto.getCredit();
             }
+        }
+        if (totalCredit >= numberMax) {
+            enoughCredit.setEnough(true);
+        } else {
+            enoughCredit.setEnough(false);
         }
         enoughCredit.setContent((totalCredit)+ "/" + numberMax);
         return enoughCredit;

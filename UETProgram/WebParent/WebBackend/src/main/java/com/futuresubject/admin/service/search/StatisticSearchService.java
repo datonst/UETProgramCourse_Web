@@ -35,6 +35,7 @@ public class StatisticSearchService {
 
         int c = Integer.parseInt(cohort.substring(1)) + 1955;
         int period=0;
+
         if (programCode.equals("CN12")) {
             if (c<2019) {
                 return "-1";

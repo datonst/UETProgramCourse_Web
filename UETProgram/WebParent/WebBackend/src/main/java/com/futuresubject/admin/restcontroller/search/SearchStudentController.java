@@ -250,7 +250,7 @@ public class SearchStudentController {
             graduatedCondition.setGpaCondition("GPA: " + averageMark.getAverageMark() +" - " +
                     "Đủ điều kiện");
         }
-        if (enoughCert && program.getTotalCredits().equals(averageMark.getTotalCredit())
+        if (enoughCert && program.getTotalCredits().compareTo(averageMark.getTotalCredit())<=0
                 && totalMandatory.isEnough()
                 && totalOptional.isEnough()
                 && totalOptionalReinforcement.isEnough()

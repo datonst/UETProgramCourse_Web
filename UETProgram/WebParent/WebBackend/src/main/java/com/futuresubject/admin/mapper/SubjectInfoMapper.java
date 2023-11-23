@@ -11,7 +11,11 @@ import java.util.List;
 public interface SubjectInfoMapper {
     SubjectInfoMapper INSTANCE = Mappers.getMapper(SubjectInfoMapper.class);
 
+    @Mapping(target = "prerequisiteSubjectId",expression="java(subject.getPrerequisiteSubjectId())")
     SubjectInfoDto toDto(Subject subject);
+
+
+
     List<SubjectInfoDto> toDtoList(List<Subject> subjectList);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

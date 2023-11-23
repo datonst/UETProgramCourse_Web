@@ -30,7 +30,7 @@ public interface Program_SubjectRepository extends JpaRepository<Program_Subject
 
     @Query("SELECT " +
             "new com.futuresubject.admin.dto.search.SubjectInfoDto" +
-            "(u.subject.subjectName,u.subject.credit, u.roleType )  FROM Program_Subject AS u " +
+            "(u.subject.subjectName,u.subject.credit, u.roleType)  FROM Program_Subject AS u " +
             " WHERE concat(u.program.programCode,'-',u.program.period) =?2 AND u.roleType = ?3 " +
             " AND u.subject NOT IN (SELECT a.subject from MarkSubject AS a WHERE a.student.studentId= ?1 AND a.subject IS NOT NULL)")
     List<SubjectInfoDto> findAllSubjectUnfinishedByRoleType(String studentId, String programFullCode, RoleType roleType);

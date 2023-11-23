@@ -51,7 +51,7 @@ public class StatisticSearchController {
                 if (Double.compare(averageMark.getAverageMark(),2.0) <0) {
                     okGPA = false;
                 }
-                if (enoughCert && program.getTotalCredits().equals(averageMark.getTotalCredit()) && okGPA) {
+                if (enoughCert && program.getTotalCredits().compareTo(averageMark.getTotalCredit())<=0 && okGPA) {
                     dem+=1;
                 }
             }
