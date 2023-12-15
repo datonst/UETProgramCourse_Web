@@ -147,6 +147,7 @@ By doing so, any request to the API will redirect you to the default [login page
 ### Sample:
 
 **Register**
+
 ```bash
 
 curl --location 'http://localhost:8080/myprogram/register' \
@@ -161,7 +162,9 @@ curl --location 'http://localhost:8080/myprogram/register' \
 ```
 ![Register](register.png)
 
+
 **Login**
+
 ```bash
 
 curl --location 'http://localhost:8080/myprogram/login' \
