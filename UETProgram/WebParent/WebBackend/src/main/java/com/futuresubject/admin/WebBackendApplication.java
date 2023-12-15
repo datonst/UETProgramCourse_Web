@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 @EntityScan({"com.futuresubject.common.entity"})
 public class WebBackendApplication {
 
+
     public static void main(String[] args) {
         SpringApplication.run(WebBackendApplication.class, args);
     }
