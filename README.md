@@ -1,7 +1,8 @@
 # UETCourseProgram_Web
-Project helps students in UET to find subjects that need to study in semester
-## Backend - Spring
-
+Project helps students in UET to find subjects that need to study in semester.
+## Frontend - ReactJS.
+ My partner used my project to create a web interface following the [link](https://github.com/ndtuananh04/UET-PROGRAM-FRONTEND).
+## Backend - Spring 
 Server side components of the web application are using Java and Spring Framework with MySQL and Hibernate.
 
 __Technologies__
