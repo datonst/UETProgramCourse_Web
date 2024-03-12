@@ -1,0 +1,77 @@
+#cd "C:\Program Files\Docker\Docker"
+#./DockerCli.exe -SwitchLinuxEngine
+#  docker system prune -a
+# docker compose -p spring -f cp.yaml up -d --build
+# to insert data : docker exec -i $(docker-compose ps -q uetprogram) mysql -uroot -p12345678 name_db < ./uet_data.sql
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql:8.0.36
+    container_name: mysqldb
+#    restart: always
+    environment:
+#      MYSQL_DATABASE: uetprogram
+      MYSQL_ROOT_PASSWORD: &MYSQL_ROOT_PASSWORD 12345678
+      MYSQL_USER: &MYSQL_USER demo
+      MYSQL_PASSWORD: &MYSQL_PASSWORD start
+#      MYSQL_ROOT_HOST: localhost
+    volumes:
+      - db_data:/var/lib/mysql
+#      - container-volume:/var/lib/mysql
+
+#
+    ports:
+      - '3306:3306'
+#    expose:
+#      - 3306
+#      - 33060
+    networks:
+      - springnet
+
+  uetprogram_spring:
+    container_name: uetprogram_spring
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysqldb
+    environment:
+      DB_HOST: mysqldb
+      DB_PORT: 3306
+      DB_NAME: uetprogram
+      DB_USER: root
+      DB_PASSWORD: *MYSQL_ROOT_PASSWORD
+      # must root account --> cannot use other account
+    networks:
+      - springnet
+#    restart: on-failure
+
+
+
+networks:
+  springnet:
+    name: netspring
+    driver: bridge
+#volumes:
+#  db-volume:
+#    volumes:
+#      - ./web:/usr/share/nginx/html
+
+#    environment:
+#      args:
+
+
+volumes:
+  db_data:
+
+
+# how to import uet_data.sql
+# docker ps --> find docker id, example 699f18c593d1
+# docker cp ./uet_data.sql 699f18c593d1:/u.sql
+# docker exec -it 699f18c593d1 bin/bash --> login docker
+# ls -la --> check all file
+# mysql -u root -p {db_name}  <  {link sql} -->  mysql -u root -p uetprogram < ./u.sql
+# uetprogram < ./u.sql
