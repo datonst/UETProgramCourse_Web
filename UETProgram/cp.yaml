@@ -3,6 +3,7 @@
 #  docker system prune -a
 # docker compose -p spring -f cp.yaml up -d --build
 # to insert data : docker exec -i $(docker-compose ps -q uetprogram) mysql -uroot -p12345678 name_db < ./uet_data.sql
+# $(docker-compose ps -q uetprogram) --> container name or id
 version: '3.8'
 
 services:

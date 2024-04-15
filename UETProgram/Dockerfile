@@ -1,5 +1,7 @@
 # syntax=docker.io/docker/dockerfile:1
 # ### azul/zulu-openjdk:20.0.2 as builder
+#docker build -t sontran824/uet-program-spring:0.38.5
+# docker push sontran824/uet-program-spring:0.38.5
 FROM eclipse-temurin:17-jdk-jammy as builder
 #FROM maven:3.9.3-eclipse-temurin-17-alpine@sha256:1cbc71cb8e2f594338f4b4cbca897b9f9ed6183e361489f1f7db770d57efe839 AS builder
 #MAINTAINER uetprogram_systems
